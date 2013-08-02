@@ -395,7 +395,7 @@
         <dataSource2.password>212214</dataSource2.password>
 
         <!-- 数据源3   -->
-        <dataSource3.url>jdbc:oracle:thin:@//192.168.1.105:1521/orcl
+        <dataSource3.url>jdbc:oracle:thin:@//10.1.168.50:1521/orcl
         </dataSource3.url>
         <dataSource3.username>sep3</dataSource3.username>
         <dataSource3.password>GhtnTechby3885580</dataSource3.password>

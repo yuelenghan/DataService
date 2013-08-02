@@ -51,7 +51,7 @@ public class SummaryManagerTest extends BaseTestCase {
 
     @Test
     public void testZbdbld() {
-//        summaryManager.getZbdbldSummaryOracleDataSource3("2013-08-11");
+        summaryManager.getZbdbldSummaryOracleDataSource3("2013-08-01", "2013-08-02", 0, 15);
     }
 
     @Test

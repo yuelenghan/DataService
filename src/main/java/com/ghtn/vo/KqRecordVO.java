@@ -18,6 +18,7 @@ public class KqRecordVO {
     private Integer datafrom;   //数据来源
     private String datafromDesc;    //数据来源描述
     private String kqdept;  //归属单位
+    private String deptDesc; //单位描述
     private Integer worktime; //工作时间(分), 可能为空
 
     public int getRjid() {
@@ -122,5 +123,13 @@ public class KqRecordVO {
 
     public void setWorktime(Integer worktime) {
         this.worktime = worktime;
+    }
+
+    public String getDeptDesc() {
+        return deptDesc;
+    }
+
+    public void setDeptDesc(String deptDesc) {
+        this.deptDesc = deptDesc;
     }
 }

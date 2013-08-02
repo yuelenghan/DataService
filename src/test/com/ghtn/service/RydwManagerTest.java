@@ -22,7 +22,7 @@ public class RydwManagerTest extends BaseTestCase {
 
     @Test
     public void testGetInMinePeople() throws SQLException {
-        rydwManager.getInMinePeopleSqlServerDataSource4("2013-08-01 09:53:35");
+//        rydwManager.getInMinePeopleSqlServerDataSource4("2013-08-01 09:53:35");
     }
 
 }

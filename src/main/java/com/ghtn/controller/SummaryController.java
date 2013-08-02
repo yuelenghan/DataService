@@ -28,12 +28,12 @@ public class SummaryController extends BaseController {
         this.summaryManager = summaryManager;
     }
 
-    @RequestMapping("/rjxx/startDate/{startDate}/endDate/{endDate}/name/{name}/start/{start}/limit/{limit}")
+    @RequestMapping("/rjxx/startDate/{startDate}/endDate/{endDate}/dept/{dept}/start/{start}/limit/{limit}")
     @ResponseBody
     public JSONPObject getRjxxSummary(@PathVariable String startDate, @PathVariable String endDate,
-                                      @PathVariable String name, @PathVariable Integer start, @PathVariable Integer limit,
+                                      @PathVariable String dept, @PathVariable Integer start, @PathVariable Integer limit,
                                       @RequestParam String callback) throws SQLException {
-        return new JSONPObject(callback, summaryManager.getRjxxSummaryOracleDataSource3(startDate, endDate, name, start, limit));
+        return new JSONPObject(callback, summaryManager.getRjxxSummaryOracleDataSource3(startDate, endDate, dept, start, limit));
     }
 
     @RequestMapping("/dbjhb/date/{date}/banci/{banci}/name/{name}/start/{start}/limit/{limit}")
@@ -58,12 +58,10 @@ public class SummaryController extends BaseController {
         return new JSONPObject(callback, summaryManager.getFswxxSummaryOracleDataSource3(startDate, endDate, name, start, limit));
     }
 
-    @RequestMapping("/zbdbld/date/{date}/start/{start}/limit/{limit}")
+    @RequestMapping("/zbdbld/date/{date}")
     @ResponseBody
-    public JSONPObject getZbdbldSummary(@PathVariable String date,
-                                        @PathVariable Integer start, @PathVariable Integer limit,
-                                        @RequestParam String callback) {
-        return new JSONPObject(callback, summaryManager.getZbdbldSummaryOracleDataSource3(date, start, limit));
+    public JSONPObject getZbdbldSummary(@PathVariable String date, @RequestParam String callback) {
+        return new JSONPObject(callback, summaryManager.getZbdbldSummaryOracleDataSource3(date));
     }
 
     @RequestMapping("/ydyhhz/date/{date}/start/{start}/limit/{limit}")
@@ -83,12 +81,12 @@ public class SummaryController extends BaseController {
         return new JSONPObject(callback, summaryManager.getLdxjdbSummaryOracleDataSource3(startDate, endDate, name, start, limit));
     }
 
-    @RequestMapping("/kzdkyh/date/{date}/start/{start}/limit/{limit}")
+    @RequestMapping("/kzdkyh/date/{date}/mine/{mine}/start/{start}/limit/{limit}")
     @ResponseBody
-    public JSONPObject getKzdkyhSummary(@PathVariable String date,
+    public JSONPObject getKzdkyhSummary(@PathVariable String date, @PathVariable String mine,
                                         @PathVariable Integer start, @PathVariable Integer limit,
                                         @RequestParam String callback) {
-        return new JSONPObject(callback, summaryManager.getKzdkyhSummaryOracleDataSource3(date, start, limit));
+        return new JSONPObject(callback, summaryManager.getKzdkyhSummaryOracleDataSource3(date, mine, start, limit));
     }
 
     @RequestMapping("/ydswgphz/date/{date}/start/{start}/limit/{limit}")
@@ -99,13 +97,13 @@ public class SummaryController extends BaseController {
         return new JSONPObject(callback, summaryManager.getYdswgphzSummaryOracleDataSource3(date, start, limit));
     }
 
-    @RequestMapping("/swxx/startDate/{startDate}/endDate/{endDate}/name/{name}/start/{start}/limit/{limit}")
+    @RequestMapping("/swxx/startDate/{startDate}/endDate/{endDate}/dept/{dept}/start/{start}/limit/{limit}")
     @ResponseBody
     public JSONPObject getSwxxSummary(@PathVariable String startDate, @PathVariable String endDate,
-                                      @PathVariable String name,
+                                      @PathVariable String dept,
                                       @PathVariable Integer start, @PathVariable Integer limit,
                                       @RequestParam String callback) throws SQLException, ParseException {
-        return new JSONPObject(callback, summaryManager.getSwxxSummaryOracleDataSource3(startDate, endDate, name, start, limit));
+        return new JSONPObject(callback, summaryManager.getSwxxSummaryOracleDataSource3(startDate, endDate, dept, start, limit));
     }
 
     @RequestMapping("/yhfltjcx/startDate/{startDate}/endDate/{endDate}/unit/{unit}/start/{start}/limit/{limit}")
@@ -117,13 +115,13 @@ public class SummaryController extends BaseController {
         return new JSONPObject(callback, summaryManager.getYhfltjcxSummaryOracleDataSource3(startDate, endDate, unit, start, limit));
     }
 
-    @RequestMapping("/yhxxzhcx/startDate/{startDate}/endDate/{endDate}/unit/{unit}/banci/{banci}/start/{start}/limit/{limit}")
+    @RequestMapping("/yhxxzhcx/startDate/{startDate}/endDate/{endDate}/unit/{unit}/start/{start}/limit/{limit}")
     @ResponseBody
     public JSONPObject getYhxxzhcxSummary(@PathVariable String startDate, @PathVariable String endDate,
-                                          @PathVariable String unit, @PathVariable String banci,
+                                          @PathVariable String unit,
                                           @PathVariable Integer start, @PathVariable Integer limit,
                                           @RequestParam String callback) throws SQLException, ParseException {
-        return new JSONPObject(callback, summaryManager.getYhxxzhcxSummaryOracleDataSource3(startDate, endDate, unit, banci, start, limit));
+        return new JSONPObject(callback, summaryManager.getYhxxzhcxSummaryOracleDataSource3(startDate, endDate, unit, start, limit));
     }
 
     @RequestMapping("/gsxx/startDate/{startDate}/endDate/{endDate}/unit/{unit}/level/{level}/name/{name}/start/{start}/limit/{limit}")

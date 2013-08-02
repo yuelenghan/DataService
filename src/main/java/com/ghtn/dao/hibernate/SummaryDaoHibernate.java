@@ -60,7 +60,7 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
     }
 
     @Override
-    public List<Object[]> getRjxxSummary(String startDate, String endDate, String name, Integer start, Integer limit) {
+    public List<Object[]> getRjxxSummary(String startDate, String endDate, String dept, Integer start, Integer limit) {
         String sql = "select D.DEPTNAME ,p.name, k.downtime";
         sql += " from department d, person p, kq_record k";
         sql += " where k.KQPNUMBER=p.PERSONNUMBER and k.KQDEPT=d.DEPTNUMBER";
@@ -71,8 +71,8 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
         if (!StringUtil.isNullStr(endDate)) {
             sql += " and k.downtime <= to_date('" + endDate + "', 'yyyy-mm-dd')";
         }
-        if (!StringUtil.isNullStr(name)) {
-            sql += " and p.name like '%" + name + "%'";
+        if (!StringUtil.isNullStr(dept)) {
+            sql += " and d.deptname like '%" + dept + "%'";
         }
 
         return querySql(sql, start, limit);
@@ -169,7 +169,7 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
     }
 
     @Override
-    public List<Object[]> getZbdbldSummary(String date, Integer start, Integer limit) {
+    public List<Object[]> getZbdbldSummary(String date) {
         String sql = "SELECT nvl(x.DEPTNAME,y.CREATEDEPT) DEPTNAME,x.DETAIL,y.YB,y.ZB,y.ZHB ";
         sql += " FROM ";
         sql += " (SELECT t.DUTYDATE,WMSYS.WM_CONCAT(t.PNAME) DETAIL,t.MIANDEPT,d.DEPTNAME ";
@@ -193,7 +193,7 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
         sql += " GROUP BY a.CREATEDEPT,a.DEPTNUMBER) y ON x.MIANDEPT=y.DEPTNUMBER INNER JOIN VIEW_DEPARTMENT zz ON nvl(x.MIANDEPT,y.DEPTNUMBER)=zz.DEPTNUMBER ";
         sql += " ORDER BY zz.DLEVEL,zz.DSORT";
 
-        return querySql(sql, start, limit);
+        return querySql(sql);
     }
 
     @Override
@@ -266,13 +266,13 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
     }
 
     @Override
-    public List<Object[]> getKzdkyhSummary(String date, Integer start, Integer limit) {
+    public List<Object[]> getKzdkyhSummary(String date, String mine, Integer start, Integer limit) {
         String sql = "SELECT ny.MAINDEPTID,d.deptname,ny.zrdeptname,count(ny.YHPUTINID) YHALL,sum(decode(ny.LEVELID,42,1,0)) YHA,";
         sql += " sum(decode(ny.LEVELID,43,1,0)) YHB,sum(decode(ny.LEVELID,44,1,0)) YHC,";
         sql += " sum(decode(ny.STATUS,'逾期未整改',1,0)) YHYQWZG,";
         sql += " sum(decode(ny.YQCS,0,0,1)) YHLSYQ,sum(decode(ny.STATUS,'现场整改',1,'复查通过',1,'隐患已整改',1,0)) YHYBH,";
         sql += " sum(decode(ny.STATUS,'隐患未整改',1,'复查不通过',1,0)) YHWBH FROM GETYHINPUT ny,Department d";
-        sql += " WHERE ny.MAINDEPTID='010116' and ny.PCTIME>=to_date('" + date + "','YYYY-MM-DD') and ny.STATUS not in ('新增','作废','提交审批') and ny.MAINDEPTID = d.deptnumber";
+        sql += " WHERE ny.MAINDEPTID='" + mine + "' and ny.PCTIME>=to_date('" + date + "','YYYY-MM-DD') and ny.STATUS not in ('新增','作废','提交审批') and ny.MAINDEPTID = d.deptnumber";
         sql += " GROUP BY ny.MAINDEPTID, D.deptname,ny.zrdeptname";
         return querySql(sql, start, limit);
     }
@@ -298,7 +298,7 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
     }
 
     @Override
-    public List<Object[]> getSwxxSummary(String startDate, String endDate, String name, Integer start, Integer limit) {
+    public List<Object[]> getSwxxSummary(String startDate, String endDate, String dept, Integer start, Integer limit) {
         String sql = " select g.MAINDEPTNAME, g.ZRKQNAME, g.SWPNAME, g.PCTIME, g.LEVELNAME from GETSWINPUT g where 1=1";
 
         if (!StringUtil.isNullStr(startDate)) {
@@ -307,8 +307,8 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
         if (!StringUtil.isNullStr(endDate)) {
             sql += " AND g.pctime <= to_date('" + endDate + "','YYYY-MM-DD')";
         }
-        if (!StringUtil.isNullStr(name)) {
-            sql += " AND g.SWPNAME like '%" + name + "%'";
+        if (!StringUtil.isNullStr(dept)) {
+            sql += " AND g.maindeptname like '%" + dept + "%'";
         }
 
         return querySql(sql, start, limit);
@@ -338,7 +338,7 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
     }
 
     @Override
-    public List<Object[]> getYhxxzhcxSummary(String startDate, String endDate, String unit, String banci, Integer start, Integer limit) {
+    public List<Object[]> getYhxxzhcxSummary(String startDate, String endDate, String unit, Integer start, Integer limit) {
         String sql = "select zrdeptname,banci,pctime,levelname,typename, status";
         sql += " from getyhinput";
         sql += " where 1=1";
@@ -351,9 +351,6 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
         }
         if (!StringUtil.isNullStr(unit)) {
             sql += " and zrdeptname like '%" + unit + "%'";
-        }
-        if (!StringUtil.isNullStr(banci)) {
-            sql += " and banci = '" + banci + "'";
         }
 
         return querySql(sql, start, limit);

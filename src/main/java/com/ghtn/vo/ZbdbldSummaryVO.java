@@ -13,6 +13,11 @@ public class ZbdbldSummaryVO {
     private String zb;
     private String zhb;
 
+    private String nextDetail;
+    private String nextYb;
+    private String nextZb;
+    private String nextZhb;
+
     public String getDeptName() {
         return deptName;
     }
@@ -51,5 +56,37 @@ public class ZbdbldSummaryVO {
 
     public void setZhb(String zhb) {
         this.zhb = zhb;
+    }
+
+    public String getNextDetail() {
+        return nextDetail;
+    }
+
+    public void setNextDetail(String nextDetail) {
+        this.nextDetail = nextDetail;
+    }
+
+    public String getNextYb() {
+        return nextYb;
+    }
+
+    public void setNextYb(String nextYb) {
+        this.nextYb = nextYb;
+    }
+
+    public String getNextZb() {
+        return nextZb;
+    }
+
+    public void setNextZb(String nextZb) {
+        this.nextZb = nextZb;
+    }
+
+    public String getNextZhb() {
+        return nextZhb;
+    }
+
+    public void setNextZhb(String nextZhb) {
+        this.nextZhb = nextZhb;
     }
 }

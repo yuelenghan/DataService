@@ -105,6 +105,7 @@ public class KqRecordManagerImpl extends GenericManagerImpl<KqRecord, Integer>
         kqRecordVO.setKqdept(kqRecord.getKqdept());
         kqRecordVO.setWorktime(kqRecord.getWorktime());
         kqRecordVO.setKqpname(obj[1].toString());
+        kqRecordVO.setDeptDesc(obj[2].toString());
 
         return kqRecordVO;
     }
