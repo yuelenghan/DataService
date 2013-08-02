@@ -217,16 +217,14 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<YdyhhzSummaryVO> getYdyhhzSummaryOracleDataSource3(String date, Integer start, Integer limit) {
+    public List<YdyhhzSummaryVO> getYdyhhzSummaryOracleDataSource3(String date) {
         if (!StringUtil.isNullStr(date)) {
-            if (start == null || start <= 0) {
-                start = 0;
-            }
-            if (limit == null || limit <= 0) {
-                limit = ConstantUtil.PAGE_SIZE;
-            }
+            String[] s = date.split("-");
+            String startDate = s[0] + "-" + s[1] + "-" + "01";
+            String endDate = s[0] + "-" + s[1] + "-" + DateUtil.getLastDayOfMonth(Integer.parseInt(s[0]), Integer.parseInt(s[1]));
 
-            List<Object[]> list = summaryDao.getYdyhhzSummary(date, start, limit);
+
+            List<Object[]> list = summaryDao.getYdyhhzSummary(startDate, endDate);
             if (list != null && list.size() > 0) {
                 List<YdyhhzSummaryVO> resultList = new ArrayList<>();
 
@@ -333,16 +331,13 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<YdswgphzSummaryVO> getYdswgphzSummaryOracleDataSource3(String date, Integer start, Integer limit) {
+    public List<YdswgphzSummaryVO> getYdswgphzSummaryOracleDataSource3(String date, String type) {
         if (!StringUtil.isNullStr(date)) {
-            if (start == null || start <= 0) {
-                start = 0;
-            }
-            if (limit == null || limit <= 0) {
-                limit = ConstantUtil.PAGE_SIZE;
-            }
+            String[] s = date.split("-");
+            String startDate = s[0] + "-" + s[1] + "-" + "01";
+            String endDate = s[0] + "-" + s[1] + "-" + DateUtil.getLastDayOfMonth(Integer.parseInt(s[0]), Integer.parseInt(s[1]));
+            /*List<Object[]> list = summaryDao.getYdswgphzSummary(startDate, endDate);
 
-            List<Object[]> list = summaryDao.getYdswgphzSummary(date, start, limit);
             if (list != null && list.size() > 0) {
                 List<YdswgphzSummaryVO> resultList = new ArrayList<>();
                 for (Object[] o : list) {
@@ -361,10 +356,48 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
                 }
 
                 return resultList;
+            }*/
+            List<Object[]> list;
+            List<YdswgphzSummaryVO> resultList = new ArrayList<>();
+            if (type.equals("sw")) {
+                list = summaryDao.getYdswhzSummary(startDate, endDate);
+                if (list != null && list.size() > 0) {
+                    resultList = new ArrayList<>();
+                    for (Object[] o : list) {
+                        YdswgphzSummaryVO vo = new YdswgphzSummaryVO();
+
+                        vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[1])));
+                        vo.setSwAll(StringUtil.processNullStr(String.valueOf(o[2])));
+                        vo.setSwYz(StringUtil.processNullStr(String.valueOf(o[3])));
+                        vo.setSwJyz(StringUtil.processNullStr(String.valueOf(o[4])));
+                        vo.setSwYb(StringUtil.processNullStr(String.valueOf(o[5])));
+
+                        resultList.add(vo);
+                    }
+                }
             }
+            if (type.equals("gp")) {
+                list = summaryDao.getYdgphzSummary(startDate, endDate);
+                if (list != null && list.size() > 0) {
+                    resultList = new ArrayList<>();
+                    for (Object[] o : list) {
+                        YdswgphzSummaryVO vo = new YdswgphzSummaryVO();
+
+                        vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[1])));
+                        vo.setGpAll(StringUtil.processNullStr(String.valueOf(o[2])));
+                        vo.setGpYz(StringUtil.processNullStr(String.valueOf(o[3])));
+                        vo.setGpWz(StringUtil.processNullStr(String.valueOf(o[4])));
+
+                        resultList.add(vo);
+                    }
+                }
+            }
+
+            return resultList;
         }
         return null;
     }
+
 
     @Override
     public List<SwxxSummaryVO> getSwxxSummaryOracleDataSource3(String startDate, String endDate, String dept, Integer start, Integer limit) throws ParseException {

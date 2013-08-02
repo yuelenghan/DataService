@@ -64,12 +64,10 @@ public class SummaryController extends BaseController {
         return new JSONPObject(callback, summaryManager.getZbdbldSummaryOracleDataSource3(date));
     }
 
-    @RequestMapping("/ydyhhz/date/{date}/start/{start}/limit/{limit}")
+    @RequestMapping("/ydyhhz/date/{date}")
     @ResponseBody
-    public JSONPObject getYdyhhzSummary(@PathVariable String date,
-                                        @PathVariable Integer start, @PathVariable Integer limit,
-                                        @RequestParam String callback) {
-        return new JSONPObject(callback, summaryManager.getYdyhhzSummaryOracleDataSource3(date, start, limit));
+    public JSONPObject getYdyhhzSummary(@PathVariable String date, @RequestParam String callback) {
+        return new JSONPObject(callback, summaryManager.getYdyhhzSummaryOracleDataSource3(date));
     }
 
     @RequestMapping("/ldxjdb/startDate/{startDate}/endDate/{endDate}/name/{name}/start/{start}/limit/{limit}")
@@ -89,12 +87,10 @@ public class SummaryController extends BaseController {
         return new JSONPObject(callback, summaryManager.getKzdkyhSummaryOracleDataSource3(date, mine, start, limit));
     }
 
-    @RequestMapping("/ydswgphz/date/{date}/start/{start}/limit/{limit}")
+    @RequestMapping("/ydswgphz/date/{date}/type/{type}")
     @ResponseBody
-    public JSONPObject getYdswgphzSummary(@PathVariable String date,
-                                          @PathVariable Integer start, @PathVariable Integer limit,
-                                          @RequestParam String callback) {
-        return new JSONPObject(callback, summaryManager.getYdswgphzSummaryOracleDataSource3(date, start, limit));
+    public JSONPObject getYdswgphzSummary(@PathVariable String date, @PathVariable String type, @RequestParam String callback) {
+        return new JSONPObject(callback, summaryManager.getYdswgphzSummaryOracleDataSource3(date, type));
     }
 
     @RequestMapping("/swxx/startDate/{startDate}/endDate/{endDate}/dept/{dept}/start/{start}/limit/{limit}")

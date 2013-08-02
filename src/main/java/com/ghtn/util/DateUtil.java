@@ -2,6 +2,7 @@ package com.ghtn.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
@@ -38,4 +39,19 @@ public class DateUtil {
         java.sql.Date date = new java.sql.Date(createUtilDate(dateStr, format).getTime());
         return date;
     }
+
+    /**
+     * 得到指定年月的最后一天
+     *
+     * @param year  年
+     * @param month 月
+     * @return 指定年月的最后一天
+     */
+    public static int getLastDayOfMonth(int year, int month) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month - 1);
+        return c.getActualMaximum(Calendar.DAY_OF_MONTH);
+    }
+
 }

@@ -24,13 +24,13 @@ public interface SummaryManager extends GenericManager {
 
     List<ZbdbldSummaryVO> getZbdbldSummaryOracleDataSource3(String date);
 
-    List<YdyhhzSummaryVO> getYdyhhzSummaryOracleDataSource3(String date, Integer start, Integer limit);
+    List<YdyhhzSummaryVO> getYdyhhzSummaryOracleDataSource3(String date);
 
     List<LdxjdbSummaryVO> getLdxjdbSummaryOracleDataSource3(String startDate, String endDate, String name, Integer start, Integer limit);
 
     List<KzdkyhSummaryVO> getKzdkyhSummaryOracleDataSource3(String date, String mine, Integer start, Integer limit);
 
-    List<YdswgphzSummaryVO> getYdswgphzSummaryOracleDataSource3(String date, Integer start, Integer limit);
+    List<YdswgphzSummaryVO> getYdswgphzSummaryOracleDataSource3(String date, String type);
 
     List<SwxxSummaryVO> getSwxxSummaryOracleDataSource3(String startDate, String endDate, String dept, Integer start, Integer limit) throws ParseException;
 

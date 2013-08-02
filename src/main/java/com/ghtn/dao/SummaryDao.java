@@ -29,13 +29,17 @@ public interface SummaryDao extends GenericDao {
 
     List<Object[]> getZbdbldSummary(String date);
 
-    List<Object[]> getYdyhhzSummary(String date, Integer start, Integer limit);
+    List<Object[]> getYdyhhzSummary(String startDate, String endDate);
 
     List<Object[]> getLdxjdbSummary(String startDate, String endDate, String name, Integer start, Integer limit);
 
     List<Object[]> getKzdkyhSummary(String date, String mine, Integer start, Integer limit);
 
-    List<Object[]> getYdswgphzSummary(String date, Integer start, Integer limit);
+    List<Object[]> getYdswgphzSummary(String startDate, String endDate);
+
+    List<Object[]> getYdswhzSummary(String startDate, String endDate);
+
+    List<Object[]> getYdgphzSummary(String startDate, String endDate);
 
     List<Object[]> getSwxxSummary(String startDate, String endDate, String dept, Integer start, Integer limit);
 

@@ -46,7 +46,7 @@ public class SummaryDaoTest extends BaseTestCase {
 
     @Test
     public void testGetYdswgphz() {
-//        summaryDao.getYdswgphzSummary("2013-01-01");
+        summaryDao.getYdswgphzSummary("2013-08-01", "2013-08-31");
     }
 
     @Test

@@ -37,9 +37,12 @@ public class RydwManagerImpl extends GenericManagerImpl implements RydwManager {
     public List<RydwVO> getInMinePeopleSqlServerDataSource4(String date, HttpSession session, Integer start, Integer limit) throws SQLException {
         // 缓存标识符
         String sessionStr = "inMinePeople$" + date;
-
+        List<RydwVO> cacheList = null;
         // 得到session中的totalList缓存
-        List<RydwVO> cacheList = (List<RydwVO>) session.getAttribute(sessionStr);
+        if (session != null) {
+            cacheList = (List<RydwVO>) session.getAttribute(sessionStr);
+        }
+
         if (cacheList != null && cacheList.size() > 0) {
             if (cacheList.size() > start + limit) {
                 return cacheList.subList(start, start + limit);
@@ -80,7 +83,10 @@ public class RydwManagerImpl extends GenericManagerImpl implements RydwManager {
                 }
 
                 // 把totalList放到session中缓存起来
-                session.setAttribute(sessionStr, totalList);
+                if (session != null) {
+                    session.setAttribute(sessionStr, totalList);
+                }
+
 
                 List<RydwVO> resultList = null;
 

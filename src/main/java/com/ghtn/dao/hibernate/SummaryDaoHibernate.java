@@ -105,7 +105,7 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
     public List<Object[]> getGsxxSummary(String startDate, String endDate, String unit, String level, String name, Integer start, Integer limit) {
         String sql = "select D.DEPTNAME, p.name, c.infoname, w.happendate";
         sql += " from WORKINJURY w,CS_BASEINFOSET c, PERSON p, DEPARTMENT d";
-        sql += " where w.GS_LEVELID=c.INFOID(+) and w.PERSONNUMBER=p.PERSONNUMBER(+) and w.DEPTNUMBER=d.DEPTNUMBER(+)";
+        sql += " where w.GS_LEVELID=c.INFOID and w.PERSONNUMBER=p.PERSONNUMBER and trim(w.MAINDEPTID)=trim(d.DEPTNUMBER)";
 
         if (!StringUtil.isNullStr(startDate)) {
             sql += " and w.happendate >= to_date('" + startDate + "','yyyy-mm-dd')";
@@ -197,15 +197,16 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
     }
 
     @Override
-    public List<Object[]> getYdyhhzSummary(String date, Integer start, Integer limit) {
+    public List<Object[]> getYdyhhzSummary(String startDate, String endDate) {
         String sql = "SELECT ny.MAINDEPTID,d.deptname,count(ny.YHPUTINID) YHALL,sum(decode(ny.LEVELID,42,1,0)) YHA,";
         sql += " sum(decode(ny.LEVELID,43,1,0)) YHB,sum(decode(ny.LEVELID,44,1,0)) YHC,";
         sql += " sum(decode(ny.STATUS,'逾期未整改',1,0)) YHYQWZG,";
         sql += " sum(decode(ny.YQCS,0,0,1)) YHLSYQ,sum(decode(ny.STATUS,'现场整改',1,'复查通过',1,'隐患已整改',1,0)) YHYBH,";
         sql += " sum(decode(ny.STATUS,'隐患未整改',1,'复查不通过',1,0)) YHWBH FROM GETYHINPUT ny,Department d";
-        sql += " WHERE ny.PCTIME>=to_date('" + date + "','YYYY-MM-DD') and ny.STATUS not in ('新增','作废','提交审批') and ny.MAINDEPTID = d.deptnumber";
+        sql += " WHERE ny.PCTIME between to_date('" + startDate + "','YYYY-MM-DD') and to_date('" + endDate + "','YYYY-MM-DD')";
+        sql += " and ny.STATUS not in ('新增','作废','提交审批') and ny.MAINDEPTID = d.deptnumber";
         sql += " GROUP BY ny.MAINDEPTID, D.deptname";
-        return querySql(sql, start, limit);
+        return querySql(sql);
     }
 
     @Override
@@ -278,7 +279,7 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
     }
 
     @Override
-    public List<Object[]> getYdswgphzSummary(String date, Integer start, Integer limit) {
+    public List<Object[]> getYdswgphzSummary(String startDate, String endDate) {
         String sql = "SELECT ns.MAINDEPTID,";
         sql += " d.deptname,";
         sql += " COUNT (ns.SWINPUTID) SWALL,";
@@ -289,12 +290,32 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
         sql += " SUM (DECODE (h.HTSTATUS, 3, 1, 0)) GPYZ,";
         sql += " SUM (DECODE (h.HTSTATUS, 2, 1, 0)) GPWZ";
         sql += " FROM NSWINPUT ns, department d, HANGTAG h";
-        sql += " WHERE     ns.PCTIME >= TO_DATE ('" + date + "', 'YYYY-MM-DD')";
+        sql += " WHERE  ns.PCTIME between TO_DATE ('" + startDate + "', 'YYYY-MM-DD') and TO_DATE ('" + endDate + "', 'YYYY-MM-DD')";
         sql += " AND ns.STATUS = '已发布'";
         sql += " AND ns.LEVELID != 88";
         sql += " and ns.MAINDEPTID = d.deptnumber";
         sql += " GROUP BY ns.MAINDEPTID, d.deptname";
-        return querySql(sql, start, limit);
+        return querySql(sql);
+    }
+
+    @Override
+    public List<Object[]> getYdswhzSummary(String startDate, String endDate) {
+        String sql = "SELECT ns.MAINDEPTID,d.deptname,count(ns.SWINPUTID) SWALL,";
+        sql += " sum(decode(ns.LEVELID,89,1,0)) SWYZ,sum(decode(ns.LEVELID,47,1,0)) SWJYZ,sum(decode(ns.LEVELID,48,1,0)) SWYB";
+        sql += " FROM NSWINPUT ns, department d";
+        sql += " WHERE ns.PCTIME between to_date('" + startDate + "','YYYY-MM-DD') and to_date('" + endDate + "','YYYY-MM-DD')";
+        sql += "  and ns.STATUS='已发布' and ns.MAINDEPTID = d.deptnumber and ns.LEVELID!=88 GROUP BY ns.MAINDEPTID, d.deptname ";
+        return querySql(sql);
+    }
+
+    @Override
+    public List<Object[]> getYdgphzSummary(String startDate, String endDate) {
+        String sql = "SELECT h.MAINDEPT,d.deptname, count(h.RECORDTIME) GPALL,";
+        sql += " sum(decode(h.HTSTATUS,3,1,0)) GPYZ,sum(decode(h.HTSTATUS,2,1,0)) GPWZ";
+        sql += " FROM HANGTAG h, department d";
+        sql += " WHERE h.GPDATE between to_date('" + startDate + "','YYYY-MM-DD') and to_date('" + endDate + "','YYYY-MM-DD') and h.maindept = d.deptnumber ";
+        sql += " AND h.HTSTATUS in(2,3) GROUP BY h.MAINDEPT, d.deptname";
+        return querySql(sql);
     }
 
     @Override
