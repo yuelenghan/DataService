@@ -43,7 +43,6 @@ public class UserManagerTest extends BaseTestCase {
 
         user.setName("数据源222");
         userManager.saveUserMysqlDataSource2(user);*/
-
     }
 
     @Test
