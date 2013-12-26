@@ -187,6 +187,14 @@
             <version>${mysqlDriver.version}</version>
         </dependency>
 
+        <!-- oracle driver -->
+        <dependency>
+            <groupId>ojdbc</groupId>
+            <artifactId>ojdbc</artifactId>
+            <version>${oracleDriver.version}</version>
+        </dependency>
+
+
         <!-- junit -->
         <dependency>
             <groupId>junit</groupId>
@@ -346,6 +354,7 @@
         <log4j.version>1.2.17</log4j.version>
         <slf4j.version>1.7.5</slf4j.version>
         <mysqlDriver.version>5.1.26</mysqlDriver.version>
+        <oracleDriver.version>7</oracleDriver.version>
         <junit.version>4.11</junit.version>
         <servletAPI.version>7.0.47</servletAPI.version>
         <json.version>20090211</json.version>
@@ -362,6 +371,8 @@
 
         <mysql.driverClassName>com.mysql.jdbc.Driver</mysql.driverClassName>
 
+        <oracle.driverClassName>oracle.jdbc.OracleDriver</oracle.driverClassName>
+
         <!-- 数据源1   -->
         <dataSource1.url>jdbc:mysql://localhost:3306/test1?useUnicode=true&amp;amp;characterEncoding=UTF-8
         </dataSource1.url>
@@ -375,10 +386,10 @@
         <dataSource2.password>212214</dataSource2.password>
 
         <!-- 数据源3   -->
-        <dataSource3.url>jdbc:mysql://localhost:3306/test3?useUnicode=true&amp;amp;characterEncoding=UTF-8
+        <dataSource3.url>jdbc:oracle:thin:@//192.168.1.205:1521/orcl
         </dataSource3.url>
-        <dataSource3.username>root</dataSource3.username>
-        <dataSource3.password>212214</dataSource3.password>
+        <dataSource3.username>sep3</dataSource3.username>
+        <dataSource3.password>GhtnTechby3885580</dataSource3.password>
 
         <!-- 数据源4 -->
         <dataSource4.url>jdbc:mysql://localhost:3306/test4?useUnicode=true&amp;amp;characterEncoding=UTF-8
@@ -390,15 +401,15 @@
         <hibernate.mysql.dialect>org.hibernate.dialect.MySQL5Dialect</hibernate.mysql.dialect>
 
         <!-- oracle 9i -->
-        <hibernate.oracle.dialect>org.hibernate.dialect.Oracle9iDialect</hibernate.oracle.dialect>
+        <hibernate.oracle9i.dialect>org.hibernate.dialect.Oracle9iDialect</hibernate.oracle9i.dialect>
 
         <!-- oracle 10g -->
-        <hibernate.oracle.dialect>org.hibernate.dialect.Oracle10gDialect</hibernate.oracle.dialect>
+        <hibernate.oracle10g.dialect>org.hibernate.dialect.Oracle10gDialect</hibernate.oracle10g.dialect>
 
         <!-- db2 -->
         <hibernate.oracle.dialect>org.hibernate.dialect.DB2Dialect</hibernate.oracle.dialect>
 
-        <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+        <hibernate.hbm2ddl.auto>none</hibernate.hbm2ddl.auto>
         <hibernate.show_sql>true</hibernate.show_sql>
         <hibernate.format_sql>false</hibernate.format_sql>
         <hibernate.query.substitutions>true 1, false 0</hibernate.query.substitutions>

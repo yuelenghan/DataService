@@ -47,8 +47,8 @@ public class UserManagerTest extends BaseTestCase {
 
     @Test
     public void testGet() {
-        System.out.println(userManager.getUserMysqlDataSource1(45L).getName());
-        System.out.println(userManager.getUserMysqlDataSource2(13L).getName());
+        System.out.println(userManager.getUserMysqlDataSource1(66L).getName());
+        System.out.println(userManager.getUserMysqlDataSource2(29L).getName());
     }
 
     @Test
@@ -61,4 +61,5 @@ public class UserManagerTest extends BaseTestCase {
         userManager.saveUserMysqlDataSource2(user);
 
     }
+
 }
