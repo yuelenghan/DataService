@@ -2,6 +2,8 @@ package com.ghtn.service;
 
 import com.ghtn.model.mysql.User;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Administrator
@@ -22,4 +24,6 @@ public interface UserManager extends GenericManager<User, Long> {
     User getUserMysqlDataSource1(Long id);
 
     User getUserMysqlDataSource2(Long id);
+
+    List<User> listUserMysqlDataSource1();
 }

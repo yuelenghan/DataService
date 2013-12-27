@@ -1,5 +1,8 @@
 package com.ghtn.model.oracle.fxyk;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -11,6 +14,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "CS_BASEINFOSET", schema = "SEP3", catalog = "")
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class CsBaseinfoset {
     private int infoid;
     private String infocode;

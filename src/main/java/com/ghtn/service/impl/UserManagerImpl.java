@@ -6,6 +6,8 @@ import com.ghtn.service.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Administrator
@@ -52,5 +54,10 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
     @Override
     public User getUserMysqlDataSource2(Long id) {
         return userDao.get(id);
+    }
+
+    @Override
+    public List<User> listUserMysqlDataSource1() {
+        return userDao.getAll();
     }
 }

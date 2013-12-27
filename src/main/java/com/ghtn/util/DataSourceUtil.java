@@ -1,6 +1,6 @@
 package com.ghtn.util;
 
-import com.ghtn.context.ContextHolder;
+import com.ghtn.context.DataSourceContextHolder;
 import com.ghtn.context.DataSourceType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,19 +20,19 @@ public class DataSourceUtil {
 
         if (methodName.toUpperCase().contains("DATASOURCE1")) {
             log.info("切换到数据源 : dataSource1");
-            ContextHolder.setDataSourceType(DataSourceType.dataSource1);
+            DataSourceContextHolder.setType(DataSourceType.dataSource1);
         }
         if (methodName.toUpperCase().contains("DATASOURCE2")) {
             log.info("切换到数据源 : dataSource2");
-            ContextHolder.setDataSourceType(DataSourceType.dataSource2);
+            DataSourceContextHolder.setType(DataSourceType.dataSource2);
         }
         if (methodName.toUpperCase().contains("DATASOURCE3")) {
             log.info("切换到数据源 : dataSource3");
-            ContextHolder.setDataSourceType(DataSourceType.dataSource3);
+            DataSourceContextHolder.setType(DataSourceType.dataSource3);
         }
         if (methodName.toUpperCase().contains("DATASOURCE4")) {
             log.info("切换到数据源 : dataSource4");
-            ContextHolder.setDataSourceType(DataSourceType.dataSource4);
+            DataSourceContextHolder.setType(DataSourceType.dataSource3);
         }
     }
 }

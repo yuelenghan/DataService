@@ -1,6 +1,6 @@
 package com.ghtn.util;
 
-import com.ghtn.context.ContextHolder;
+import com.ghtn.context.SessionFactoryContextHolder;
 import com.ghtn.context.SessionFactoryType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,18 +12,18 @@ import org.aspectj.lang.JoinPoint;
  * Time: 下午3:13
  */
 public class SessionFactoryUtil {
-    private static Log log = LogFactory.getLog(DataSourceUtil.class);
+    private static Log log = LogFactory.getLog(SessionFactoryUtil.class);
 
     public void before(JoinPoint joinPoint) {
         String methodName = joinPoint.getSignature().getName();
 
         if (methodName.toUpperCase().contains("MYSQL")) {
             log.info("切换到sessionFactory : mysql");
-            ContextHolder.setSessionFactoryType(SessionFactoryType.mysql);
+            SessionFactoryContextHolder.setType(SessionFactoryType.mysql);
         }
         if (methodName.toUpperCase().contains("ORACLE")) {
             log.info("切换到sessionFactory : oracle");
-            ContextHolder.setSessionFactoryType(SessionFactoryType.oracle);
+            SessionFactoryContextHolder.setType(SessionFactoryType.oracle);
         }
     }
 }

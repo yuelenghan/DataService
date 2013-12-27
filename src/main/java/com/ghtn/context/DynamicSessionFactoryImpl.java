@@ -33,10 +33,10 @@ public class DynamicSessionFactoryImpl implements DynamicSessionFactory {
 
     @Override
     public SessionFactory getHibernateSessionFactory() {
-        if (ContextHolder.getSessionFactoryType() == null) {
+        if (SessionFactoryContextHolder.getType() == null) {
             return defaultTargetSessionFactory;
         }
-        SessionFactory targetSessionFactory = targetSessionFactorys.get(ContextHolder.getSessionFactoryType().toString());
+        SessionFactory targetSessionFactory = targetSessionFactorys.get(SessionFactoryContextHolder.getType().toString());
         if (targetSessionFactory != null) {
             return targetSessionFactory;
         } else if (defaultTargetSessionFactory != null) {

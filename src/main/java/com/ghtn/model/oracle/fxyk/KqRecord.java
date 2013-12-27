@@ -1,16 +1,20 @@
 package com.ghtn.model.oracle.fxyk;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.*;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 
 /**
  * User: Administrator
- * Date: 13-12-26
- * Time: 上午10:55
+ * Date: 13-12-27
+ * Time: 下午4:28
  */
 @Entity
 @Table(name = "KQ_RECORD", schema = "SEP3", catalog = "")
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class KqRecord {
     private int rjid;
     private String kqpnumber;

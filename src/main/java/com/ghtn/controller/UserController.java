@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,7 +19,7 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 @Controller
-@RequestMapping("/user/")
+@RequestMapping("/user")
 public class UserController extends BaseController {
 
     private static Logger logger = Logger.getLogger(UserController.class);
@@ -29,10 +30,16 @@ public class UserController extends BaseController {
         this.userManager = userManager;
     }
 
-    @RequestMapping("addUser")
+    @RequestMapping("/addUser")
     @ResponseBody
     public Map<String, Object> addUser(User user) {
         userManager.save(user);
         return operationSuccess();
+    }
+
+    @RequestMapping
+    @ResponseBody
+    public List<User> listUser() {
+        return userManager.listUserMysqlDataSource1();
     }
 }

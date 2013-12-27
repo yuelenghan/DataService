@@ -8,6 +8,9 @@
         <property name="connection.driver_class">oracle.jdbc.OracleDriver</property>
         <property name="connection.username">sep3</property>
         <property name="connection.password">GhtnTechby3885580</property>
+        <mapping class="com.ghtn.model.oracle.fxyk.Getswinput"/>
+        <mapping class="com.ghtn.model.oracle.fxyk.KqRecord"/>
+        <mapping class="com.ghtn.model.oracle.fxyk.Person"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>

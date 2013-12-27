@@ -6,8 +6,8 @@ import java.sql.Timestamp;
 
 /**
  * User: Administrator
- * Date: 13-12-26
- * Time: 上午10:56
+ * Date: 13-12-27
+ * Time: 上午11:52
  */
 @Entity
 @Table(name = "NYHINPUT_MORE", schema = "SEP3", catalog = "")

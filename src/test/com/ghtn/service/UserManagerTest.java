@@ -29,20 +29,6 @@ public class UserManagerTest extends BaseTestCase {
         User user = new User();
         user.setName("数据源111");
         user.setAge(20);
-
-        /*log.info("切换到数据源 : mysqlDataSource1");
-        ContextHolder.setDbType(DataSourceType.mysqlDataSource1);
-        userManager.save(user);
-
-        user.setName("数据源222");
-        log.info("切换到数据源 : mysqlDataSource1");
-        ContextHolder.setDbType(DataSourceType.mysqlDataSource2);
-        userManager.save(user);*/
-
-       /* userManager.saveUserMysqlDataSource1(user);
-
-        user.setName("数据源222");
-        userManager.saveUserMysqlDataSource2(user);*/
     }
 
     @Test
