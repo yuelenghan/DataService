@@ -2,6 +2,8 @@ package com.ghtn.dao;
 
 import com.ghtn.model.mysql.User;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: lh
@@ -11,7 +13,6 @@ import com.ghtn.model.mysql.User;
  */
 public interface UserDao extends GenericDao<User, Long> {
 
-  /*  User saveUserMysqlDataSource1(User user);
+    List<User> listUser();
 
-    User saveUserMysqlDataSource2(User user);*/
 }

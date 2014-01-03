@@ -20,7 +20,12 @@ public class BaseInfoDaoHibernate extends GenericDaoHibernate<CsBaseinfoset, Int
 
     @Override
     public List<CsBaseinfoset> listBaseInfo() {
+        return getSession().createCriteria(CsBaseinfoset.class).setCacheable(true).list();
+    }
+
+    @Override
+    public List<CsBaseinfoset> listBaseInfoByFid(Integer fid) {
         return getSession().createCriteria(CsBaseinfoset.class).setCacheable(true)
-                .add(Restrictions.eq("fid", 1)).list();
+                .add(Restrictions.eq("fid", fid)).list();
     }
 }

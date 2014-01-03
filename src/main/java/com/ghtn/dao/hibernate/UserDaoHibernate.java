@@ -4,6 +4,8 @@ import com.ghtn.dao.UserDao;
 import com.ghtn.model.mysql.User;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Administrator
@@ -17,13 +19,8 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
         super(User.class);
     }
 
-   /* @Override
-    public User saveUserMysqlDataSource1(User user) {
-        return save(user);
-    }
-
     @Override
-    public User saveUserMysqlDataSource2(User user) {
-        return save(user);
-    }*/
+    public List<User> listUser() {
+        return getSession().createCriteria(User.class).setCacheable(true).list();
+    }
 }

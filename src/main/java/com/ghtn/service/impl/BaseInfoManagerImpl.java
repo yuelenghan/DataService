@@ -41,6 +41,20 @@ public class BaseInfoManagerImpl extends GenericManagerImpl<CsBaseinfoset, Integ
         return returnList;
     }
 
+    @Override
+    public List<BaseInfoVO> listBaseInfoByFidOracleDataSource3(Integer fid) {
+        List<CsBaseinfoset> list = baseInfoDao.listBaseInfoByFid(fid);
+        List<BaseInfoVO> returnList = new ArrayList<>();
+
+        if (list != null && list.size() > 0) {
+            for (CsBaseinfoset csBaseinfoset : list) {
+                returnList.add(transformToVO(csBaseinfoset));
+            }
+        }
+
+        return returnList;
+    }
+
     /**
      * 把实体类转换为VO
      *

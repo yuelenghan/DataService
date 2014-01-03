@@ -58,6 +58,6 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
 
     @Override
     public List<User> listUserMysqlDataSource1() {
-        return userDao.getAll();
+        return userDao.listUser();
     }
 }

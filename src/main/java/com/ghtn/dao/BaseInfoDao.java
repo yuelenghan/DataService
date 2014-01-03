@@ -14,4 +14,6 @@ import java.util.List;
 public interface BaseInfoDao extends GenericDao<CsBaseinfoset, Integer> {
 
     List<CsBaseinfoset> listBaseInfo();
+
+    List<CsBaseinfoset> listBaseInfoByFid(Integer fid);
 }

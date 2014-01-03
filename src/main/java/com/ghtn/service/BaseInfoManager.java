@@ -16,4 +16,5 @@ public interface BaseInfoManager extends GenericManager<CsBaseinfoset, Integer> 
 
     List<BaseInfoVO> listBaseInfoOracleDataSource3();
 
+    List<BaseInfoVO> listBaseInfoByFidOracleDataSource3(Integer fid);
 }

@@ -1,6 +1,8 @@
 package com.ghtn.model.mysql;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.search.annotations.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -18,6 +20,7 @@ import java.io.Serializable;
  */
 @Entity
 @Indexed
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class User implements Serializable {
     private Long id;
     private String name;

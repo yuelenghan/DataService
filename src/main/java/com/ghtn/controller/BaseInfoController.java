@@ -3,6 +3,7 @@ package com.ghtn.controller;
 import com.ghtn.service.BaseInfoManager;
 import com.ghtn.vo.BaseInfoVO;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -29,5 +30,11 @@ public class BaseInfoController {
     @ResponseBody
     public List<BaseInfoVO> listBaseInfo() {
         return baseInfoManager.listBaseInfoOracleDataSource3();
+    }
+
+    @RequestMapping("/{fid}")
+    @ResponseBody
+    public List<BaseInfoVO> listBaseInfoByFid(@PathVariable Integer fid) {
+        return baseInfoManager.listBaseInfoByFidOracleDataSource3(fid);
     }
 }

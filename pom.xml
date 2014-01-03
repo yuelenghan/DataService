@@ -432,8 +432,8 @@
         <memoryStoreEvictionPolicy>LRU</memoryStoreEvictionPolicy>
         <maxElementsOnDisk>10000000</maxElementsOnDisk>
         <diskExpiryThreadIntervalSeconds>600</diskExpiryThreadIntervalSeconds>
-        <timeToIdleSeconds>3600</timeToIdleSeconds>
-        <timeToLiveSeconds>100000</timeToLiveSeconds>
+        <timeToIdleSeconds>600</timeToIdleSeconds>
+        <timeToLiveSeconds>3600</timeToLiveSeconds>
         <diskPersistent>false</diskPersistent>
 
         <encoding>utf-8</encoding>
