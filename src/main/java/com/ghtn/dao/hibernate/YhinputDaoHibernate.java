@@ -20,9 +20,11 @@ public class YhinputDaoHibernate extends GenericDaoHibernate<Getyhinput, Integer
     }
 
     @Override
-    public List<Getyhinput> listYhinput(Integer typeId) {
+    public List<Getyhinput> listYhinput(Integer typeId, Integer start, Integer limit) {
         return getSession().createCriteria(Getyhinput.class).setCacheable(true)
                 .add(Restrictions.eq("typeid", typeId))
-                .addOrder(Order.desc("pctime")).list();
+                .addOrder(Order.desc("intime"))
+                .setFirstResult(start).setMaxResults(limit).list();
     }
+
 }

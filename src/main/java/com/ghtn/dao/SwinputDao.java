@@ -13,5 +13,5 @@ import java.util.List;
  */
 public interface SwinputDao extends GenericDao<Getswinput, Integer> {
 
-    List<Getswinput> listSwinput(Integer typeId);
+    List<Getswinput> listSwinput(Integer typeId, Integer start, Integer limit);
 }

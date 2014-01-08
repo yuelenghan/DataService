@@ -14,6 +14,6 @@ import java.util.List;
  */
 public interface KqRecordManager extends GenericManager<KqRecord, Integer> {
 
-    List<KqRecordVO> listKqRecordOracleDataSource3(Integer typeId);
+    List<KqRecordVO> listKqRecordOracleDataSource3(Integer typeId, Integer start, Integer limit);
 
 }

@@ -1,14 +1,14 @@
 package com.ghtn.controller;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.ghtn.service.SwinputManager;
-import com.ghtn.vo.SwinputVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * User: Administrator
@@ -26,9 +26,12 @@ public class SwinputController extends BaseController {
         this.swinputManager = swinputManager;
     }
 
-    @RequestMapping("/typeId/{typeId}")
+    @RequestMapping("/typeId/{typeId}/start/{start}/limit/{limit}")
     @ResponseBody
-    public List<SwinputVO> listSwinput(@PathVariable("typeId") Integer typeId) {
-        return swinputManager.listSwinputOracleDataSource3(typeId);
+    public JSONPObject listSwinput(@PathVariable("typeId") Integer typeId,
+                                   @PathVariable("start") Integer start,
+                                   @PathVariable("limit") Integer limit,
+                                   @RequestParam String callback) {
+        return new JSONPObject(callback, swinputManager.listSwinputOracleDataSource3(typeId, start, limit));
     }
 }

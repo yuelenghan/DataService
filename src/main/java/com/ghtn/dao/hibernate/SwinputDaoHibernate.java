@@ -20,9 +20,10 @@ public class SwinputDaoHibernate extends GenericDaoHibernate<Getswinput, Integer
     }
 
     @Override
-    public List<Getswinput> listSwinput(Integer typeId) {
+    public List<Getswinput> listSwinput(Integer typeId, Integer start, Integer limit) {
         return getSession().createCriteria(Getswinput.class).setCacheable(true)
                 .add(Restrictions.eq("typeid", typeId))
-                .addOrder(Order.desc("pctime")).list();
+                .addOrder(Order.desc("intime"))
+                .setFirstResult(start).setMaxResults(limit).list();
     }
 }

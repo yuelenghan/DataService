@@ -23,7 +23,7 @@ public class YhinputManagerTest extends BaseTestCase {
 
     @Test
     public void testGet() throws Exception {
-        List<YhinputVO> list = yhinputManager.listYhinputOracleDataSource3(146);
+        List<YhinputVO> list = yhinputManager.listYhinputOracleDataSource3(146, 0, 15);
         if (list != null && list.size() > 0) {
             System.out.println(list.size());
         }

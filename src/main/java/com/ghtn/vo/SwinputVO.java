@@ -10,6 +10,7 @@ public class SwinputVO {
     private int swinputid;  //三违id
     private String remarks; //描述
     private String pctime;  //排查时间
+    private String intime;
     private String banci;   //排查班次
     private Integer jctype; //检查类型
     private String jctypeDesc; //检查描述
@@ -177,5 +178,13 @@ public class SwinputVO {
 
     public void setPcpnameNow(String pcpnameNow) {
         this.pcpnameNow = pcpnameNow;
+    }
+
+    public String getIntime() {
+        return intime;
+    }
+
+    public void setIntime(String intime) {
+        this.intime = intime;
     }
 }

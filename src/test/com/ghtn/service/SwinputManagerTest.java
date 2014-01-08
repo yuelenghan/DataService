@@ -23,7 +23,7 @@ public class SwinputManagerTest extends BaseTestCase {
 
     @Test
     public void testGet() throws Exception {
-        List<SwinputVO> list = swinputManager.listSwinputOracleDataSource3(103);
+        List<SwinputVO> list = swinputManager.listSwinputOracleDataSource3(103, 0, 15);
         if (list != null && list.size() > 0) {
             System.out.println(list.size());
         }

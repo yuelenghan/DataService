@@ -14,6 +14,6 @@ import java.util.List;
  */
 public interface YhinputManager extends GenericManager<Getyhinput, Integer> {
 
-    List<YhinputVO> listYhinputOracleDataSource3(Integer typeId);
+    List<YhinputVO> listYhinputOracleDataSource3(Integer typeId, Integer start, Integer limit);
 
 }

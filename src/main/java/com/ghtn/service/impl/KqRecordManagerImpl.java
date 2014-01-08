@@ -29,8 +29,8 @@ public class KqRecordManagerImpl extends GenericManagerImpl<KqRecord, Integer>
     }
 
     @Override
-    public List<KqRecordVO> listKqRecordOracleDataSource3(Integer typeId) {
-        List<Object[]> list = kqRecordDao.listKqRecord(typeId);
+    public List<KqRecordVO> listKqRecordOracleDataSource3(Integer typeId, Integer start, Integer limit) {
+        List<Object[]> list = kqRecordDao.listKqRecord(typeId, start, limit);
         List<KqRecordVO> returnList = new ArrayList<>();
 
         if (list != null && list.size() > 0) {

@@ -10,6 +10,7 @@ public class YhinputVO {
     private int yhputinid; //隐患编号
     private String banci;   //排查班次
     private String pctime;  //排查时间
+    private String intime; //具体时间
     private String remarks; //隐患描述
     private String status;  //状态
     private Integer jctype; //检查类型
@@ -168,5 +169,13 @@ public class YhinputVO {
 
     public void setIsfine(String isfine) {
         this.isfine = isfine;
+    }
+
+    public String getIntime() {
+        return intime;
+    }
+
+    public void setIntime(String intime) {
+        this.intime = intime;
     }
 }

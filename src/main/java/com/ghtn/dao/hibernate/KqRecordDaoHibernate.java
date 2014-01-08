@@ -18,10 +18,11 @@ public class KqRecordDaoHibernate extends GenericDaoHibernate<KqRecord, Integer>
     }
 
     @Override
-    public List<Object[]> listKqRecord(Integer typeId) {
+    public List<Object[]> listKqRecord(Integer typeId, Integer start, Integer limit) {
         String hql = " select r, p.name from KqRecord r, Person p"
                 + " where r.kqpnumber = p.personnumber and r.kqtype = " + typeId
                 + " order by r.downtime desc ";
-        return getSession().createQuery(hql).setCacheable(true).list();
+        return getSession().createQuery(hql).setCacheable(true)
+                .setFirstResult(start).setMaxResults(limit).list();
     }
 }

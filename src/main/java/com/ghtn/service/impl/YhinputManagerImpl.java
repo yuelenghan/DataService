@@ -29,8 +29,11 @@ public class YhinputManagerImpl extends GenericManagerImpl<Getyhinput, Integer>
     }
 
     @Override
-    public List<YhinputVO> listYhinputOracleDataSource3(Integer typeId) {
-        List<Getyhinput> list = yhinputDao.listYhinput(typeId);
+    public List<YhinputVO> listYhinputOracleDataSource3(Integer typeId, Integer start, Integer limit) {
+        if (start == null) start = 0;
+        if (limit == null) limit = 15;
+
+        List<Getyhinput> list = yhinputDao.listYhinput(typeId, start, limit);
         List<YhinputVO> returnList = new ArrayList<>();
 
         if (list != null && list.size() > 0) {
@@ -54,7 +57,9 @@ public class YhinputManagerImpl extends GenericManagerImpl<Getyhinput, Integer>
         yhinputVO.setBanci(getyhinput.getBanci());
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         yhinputVO.setPctime(getyhinput.getPctime() == null ? "" : sdf.format(getyhinput.getPctime()));
+        yhinputVO.setIntime(getyhinput.getIntime() == null ? "" : sdf2.format(getyhinput.getIntime()));
 
         yhinputVO.setRemarks(getyhinput.getRemarks());
         yhinputVO.setStatus(getyhinput.getStatus());

@@ -13,5 +13,6 @@ import java.util.List;
  */
 public interface YhinputDao extends GenericDao<Getyhinput, Integer> {
 
-    List<Getyhinput> listYhinput(Integer typeId);
+    List<Getyhinput> listYhinput(Integer typeId, Integer start, Integer limit);
+
 }

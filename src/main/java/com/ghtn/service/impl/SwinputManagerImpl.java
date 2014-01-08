@@ -29,8 +29,11 @@ public class SwinputManagerImpl extends GenericManagerImpl<Getswinput, Integer>
     }
 
     @Override
-    public List<SwinputVO> listSwinputOracleDataSource3(Integer typeId) {
-        List<Getswinput> list = swinputDao.listSwinput(typeId);
+    public List<SwinputVO> listSwinputOracleDataSource3(Integer typeId, Integer start, Integer limit) {
+        if (start == null) start = 0;
+        if (limit == null) limit = 15;
+
+        List<Getswinput> list = swinputDao.listSwinput(typeId, start, limit);
         List<SwinputVO> returnList = new ArrayList<>();
 
         if (list != null && list.size() > 0) {
@@ -55,7 +58,9 @@ public class SwinputManagerImpl extends GenericManagerImpl<Getswinput, Integer>
         swinputVO.setRemarks(getswinput.getRemarks());
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         swinputVO.setPctime(getswinput.getPctime() == null ? "" : sdf.format(getswinput.getPctime()));
+        swinputVO.setIntime(getswinput.getIntime() == null ? "" : sdf2.format(getswinput.getIntime()));
 
         swinputVO.setBanci(getswinput.getBanci());
 
