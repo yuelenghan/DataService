@@ -1,14 +1,14 @@
 package com.ghtn.controller;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.ghtn.service.KqRecordManager;
+import com.ghtn.vo.KqRecordVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * User: Administrator
@@ -28,10 +28,9 @@ public class KqRecordController extends BaseController {
 
     @RequestMapping("/typeId/{typeId}/start/{start}/limit/{limit}")
     @ResponseBody
-    public JSONPObject listKqRecord(@PathVariable("typeId") Integer typeId,
-                                    @PathVariable("start") Integer start,
-                                    @PathVariable("limit") Integer limit,
-                                    @RequestParam String callback) {
-        return new JSONPObject(callback, kqRecordManager.listKqRecordOracleDataSource3(typeId, start, limit));
+    public List<KqRecordVO> listKqRecord(@PathVariable("typeId") Integer typeId,
+                                         @PathVariable("start") Integer start,
+                                         @PathVariable("limit") Integer limit) {
+        return kqRecordManager.listKqRecordOracleDataSource3(typeId, start, limit);
     }
 }
