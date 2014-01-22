@@ -45,6 +45,14 @@ public class SwinputManagerImpl extends GenericManagerImpl<Getswinput, Integer>
         return returnList;
     }
 
+    @Override
+    public SwinputVO getSwinputOracleDataSource3(Integer id) {
+        if (id != null && id > 0) {
+            return transformToVO(get(id));
+        }
+        return null;
+    }
+
     /**
      * 把实体类转换为VO
      *

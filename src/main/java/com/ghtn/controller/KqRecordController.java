@@ -33,4 +33,10 @@ public class KqRecordController extends BaseController {
                                          @PathVariable("limit") Integer limit) {
         return kqRecordManager.listKqRecordOracleDataSource3(typeId, start, limit);
     }
+
+    @RequestMapping("/{id}")
+    @ResponseBody
+    public KqRecordVO getKqRecord(@PathVariable("id") Integer id) {
+        return kqRecordManager.getKqRecordOracleDataSource3(id);
+    }
 }

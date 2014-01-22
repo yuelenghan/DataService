@@ -16,4 +16,6 @@ public interface YhinputManager extends GenericManager<Getyhinput, Integer> {
 
     List<YhinputVO> listYhinputOracleDataSource3(Integer typeId, Integer start, Integer limit);
 
+    YhinputVO getYhinputOracleDataSource3(Integer id);
+
 }

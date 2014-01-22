@@ -16,4 +16,5 @@ public interface KqRecordManager extends GenericManager<KqRecord, Integer> {
 
     List<KqRecordVO> listKqRecordOracleDataSource3(Integer typeId, Integer start, Integer limit);
 
+    KqRecordVO getKqRecordOracleDataSource3(Integer id);
 }

@@ -42,6 +42,14 @@ public class KqRecordManagerImpl extends GenericManagerImpl<KqRecord, Integer>
         return returnList;
     }
 
+    @Override
+    public KqRecordVO getKqRecordOracleDataSource3(Integer id) {
+        if (id != null && id > 0) {
+            return transformToVO(kqRecordDao.getKqRecord(id));
+        }
+        return null;
+    }
+
     /**
      * 把实体类转换为VO
      *

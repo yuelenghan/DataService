@@ -34,4 +34,10 @@ public class YhinputController extends BaseController {
         return yhinputManager.listYhinputOracleDataSource3(typeId, start, limit);
     }
 
+    @RequestMapping("/{id}")
+    @ResponseBody
+    public YhinputVO getYhinput(@PathVariable("id") Integer id) {
+        return yhinputManager.getYhinputOracleDataSource3(id);
+    }
+
 }

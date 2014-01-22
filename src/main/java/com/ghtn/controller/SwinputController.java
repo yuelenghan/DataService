@@ -33,4 +33,10 @@ public class SwinputController extends BaseController {
                                        @PathVariable("limit") Integer limit) {
         return swinputManager.listSwinputOracleDataSource3(typeId, start, limit);
     }
+
+    @RequestMapping("/{id}")
+    @ResponseBody
+    public SwinputVO getSwinput(@PathVariable("id") Integer id) {
+        return swinputManager.getSwinputOracleDataSource3(id);
+    }
 }
