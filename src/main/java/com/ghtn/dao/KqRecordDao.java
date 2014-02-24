@@ -14,4 +14,6 @@ import java.util.List;
 public interface KqRecordDao extends GenericDao<KqRecord, Integer> {
 
     List<Object[]> listKqRecord(Integer typeId, Integer start, Integer limit);
+
+    Object[] getKqRecord(Integer id);
 }

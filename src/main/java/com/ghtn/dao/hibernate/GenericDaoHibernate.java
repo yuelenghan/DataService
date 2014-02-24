@@ -37,6 +37,11 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
 
     private Analyzer defaultAnalyzer;
 
+    public GenericDaoHibernate() {
+    }
+
+    ;
+
     public GenericDaoHibernate(final Class<T> persistentClass) {
         this.persistentClass = persistentClass;
         defaultAnalyzer = new StandardAnalyzer(Version.LUCENE_36);

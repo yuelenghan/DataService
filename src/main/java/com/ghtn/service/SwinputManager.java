@@ -16,4 +16,5 @@ public interface SwinputManager extends GenericManager<Getswinput, Integer> {
 
     List<SwinputVO> listSwinputOracleDataSource3(Integer typeId, Integer start, Integer limit);
 
+    SwinputVO getSwinputOracleDataSource3(Integer id);
 }

@@ -45,6 +45,14 @@ public class YhinputManagerImpl extends GenericManagerImpl<Getyhinput, Integer>
         return returnList;
     }
 
+    @Override
+    public YhinputVO getYhinputOracleDataSource3(Integer id) {
+        if (id != null && id > 0) {
+            return transformToVO(yhinputDao.get(id));
+        }
+        return null;
+    }
+
     /**
      * 把实体类转换为VO
      *

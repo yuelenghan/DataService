@@ -34,4 +34,10 @@ public class SwinputController extends BaseController {
                                    @RequestParam String callback) {
         return new JSONPObject(callback, swinputManager.listSwinputOracleDataSource3(typeId, start, limit));
     }
+
+    @RequestMapping("/{id}")
+    @ResponseBody
+    public JSONPObject getSwinput(@PathVariable("id") Integer id, @RequestParam String callback) {
+        return new JSONPObject(callback, swinputManager.getSwinputOracleDataSource3(id));
+    }
 }

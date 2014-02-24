@@ -35,4 +35,9 @@ public class YhinputController extends BaseController {
         return new JSONPObject(callback, yhinputManager.listYhinputOracleDataSource3(typeId, start, limit));
     }
 
+    @RequestMapping("/{id}")
+    @ResponseBody
+    public JSONPObject getYhinput(@PathVariable("id") Integer id, @RequestParam String callback) {
+        return new JSONPObject(callback, yhinputManager.getYhinputOracleDataSource3(id));
+    }
 }

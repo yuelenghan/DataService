@@ -2,6 +2,7 @@ package com.ghtn.controller;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.ghtn.service.KqRecordManager;
+import com.ghtn.vo.KqRecordVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,5 +34,11 @@ public class KqRecordController extends BaseController {
                                     @PathVariable("limit") Integer limit,
                                     @RequestParam String callback) {
         return new JSONPObject(callback, kqRecordManager.listKqRecordOracleDataSource3(typeId, start, limit));
+    }
+
+    @RequestMapping("/{id}")
+    @ResponseBody
+    public KqRecordVO getKqRecord(@PathVariable("id") Integer id) {
+        return kqRecordManager.getKqRecordOracleDataSource3(id);
     }
 }
