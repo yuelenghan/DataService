@@ -35,12 +35,28 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
             while (resultSet.next()) {
                 RjxxSummaryVO vo = new RjxxSummaryVO();
 
-                // TODO : 处理resultSet中的数据
+                vo.setMainDeptId(resultSet.getString("MAINDEPTID"));
+                vo.setDeptName(resultSet.getString("DEPTNAME"));
+                vo.setPersonNumber(resultSet.getString("PERSONNUMBER"));
+                vo.setName(resultSet.getString("NAME"));
+                vo.setPosName(resultSet.getString("POSNAME"));
+                vo.setNeedFreq(resultSet.getInt("NEEDFREQ") + "");
+                vo.setRjAll(resultSet.getInt("RJALL") + "");
+                vo.setYb(resultSet.getInt("YB") + "");
+                vo.setZb(resultSet.getInt("ZB") + "");
+                vo.setZhb(resultSet.getInt("ZHB") + "");
+                vo.setPlanFreq(resultSet.getInt("PLANFREQ") + "");
+                vo.setDbrj(resultSet.getInt("DBRJ") + "");
+                vo.setNeedHour(resultSet.getInt("NEEDHOUR") + "");
+                vo.setRjsj(resultSet.getString("RJSJ"));
+                vo.setPjsj(resultSet.getString("PJSJ"));
+                vo.setYhAll(resultSet.getInt("YHALL") + "");
+                vo.setSwAll(resultSet.getInt("SWALL") + "");
 
                 resultList.add(vo);
 
             }
-
+            resultSet.close();
             return resultList;
         }
         return null;

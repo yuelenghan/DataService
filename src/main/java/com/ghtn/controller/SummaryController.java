@@ -1,15 +1,15 @@
 package com.ghtn.controller;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.ghtn.service.SummaryManager;
-import com.ghtn.vo.RjxxSummaryVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  * User: Administrator
@@ -29,9 +29,10 @@ public class SummaryController extends BaseController {
 
     @RequestMapping("/rjxx/beginDate/{beginDate}/endDate/{endDate}/dwid/{dwid}/zwjb/{zwjb}")
     @ResponseBody
-    public List<RjxxSummaryVO> getRjxxSummary(@PathVariable String beginDate, @PathVariable String endDate,
-                                              @PathVariable String dwid, @PathVariable String zwjb) throws SQLException {
-        return summaryManager.getRjxxSummaryOracleDataSource3(beginDate, endDate, dwid, zwjb);
+    public JSONPObject getRjxxSummary(@PathVariable String beginDate, @PathVariable String endDate,
+                                      @PathVariable String dwid, @PathVariable String zwjb,
+                                      @RequestParam String callback) throws SQLException {
+        return new JSONPObject(callback, summaryManager.getRjxxSummaryOracleDataSource3(beginDate, endDate, dwid, zwjb));
     }
 
 }
