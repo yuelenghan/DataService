@@ -32,4 +32,6 @@ public interface GenericDao<T, PK extends Serializable> {
     void reindexAll(boolean async);
 
     List<T> queryHql(String hql);
+
+    List<Object[]> querySql(String sql);
 }

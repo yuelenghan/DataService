@@ -13,4 +13,43 @@ public class DbjhbSummaryVO {
     private String changePerson;
     private String realPerson;
 
+    public String getMineDate() {
+        return mineDate;
+    }
+
+    public void setMineDate(String mineDate) {
+        this.mineDate = mineDate;
+    }
+
+    public String getBanci() {
+        return banci;
+    }
+
+    public void setBanci(String banci) {
+        this.banci = banci;
+    }
+
+    public String getPerson() {
+        return person;
+    }
+
+    public void setPerson(String person) {
+        this.person = person;
+    }
+
+    public String getChangePerson() {
+        return changePerson;
+    }
+
+    public void setChangePerson(String changePerson) {
+        this.changePerson = changePerson;
+    }
+
+    public String getRealPerson() {
+        return realPerson;
+    }
+
+    public void setRealPerson(String realPerson) {
+        this.realPerson = realPerson;
+    }
 }

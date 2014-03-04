@@ -5,7 +5,6 @@ import com.ghtn.model.mysql.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
@@ -16,7 +15,6 @@ import javax.annotation.Resource;
  * Time: 下午3:40
  * To change this template use File | Settings | File Templates.
  */
-@Component
 public class UserManagerTest extends BaseTestCase {
 
     @Resource

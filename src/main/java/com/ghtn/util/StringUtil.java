@@ -9,6 +9,13 @@ public class StringUtil {
         return false;
     }
 
+    public static String processNullStr(String s) {
+        if (isNullStr(s)) {
+            return "";
+        }
+        return s;
+    }
+
 /*
     public static void main(String[] args) {
         System.out.println(processDateStr("2014-02-01"));
@@ -22,9 +29,13 @@ public class StringUtil {
      * @return
      */
     public static String processDateStr(String dateStr) {
-        String[] ss = dateStr.split("-");
-        int month = Integer.parseInt(ss[1]);
-        int day = Integer.parseInt(ss[2]);
-        return ss[0] + "-" + month + "-" + day;
+        if (!isNullStr(dateStr)) {
+            String[] ss = dateStr.split("-");
+            int month = Integer.parseInt(ss[1]);
+            int day = Integer.parseInt(ss[2]);
+            return ss[0] + "-" + month + "-" + day;
+        }
+
+        return "";
     }
 }

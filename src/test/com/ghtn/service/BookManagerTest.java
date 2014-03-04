@@ -3,7 +3,6 @@ package com.ghtn.service;
 import com.ghtn.BaseTestCase;
 import com.ghtn.model.oracle.Book;
 import org.junit.Test;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
@@ -14,7 +13,6 @@ import javax.annotation.Resource;
  * Time: 下午4:01
  * To change this template use File | Settings | File Templates.
  */
-@Component
 public class BookManagerTest extends BaseTestCase {
 
     private BookManager bookManager;

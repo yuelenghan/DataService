@@ -3,7 +3,6 @@ package com.ghtn.dao;
 import com.ghtn.BaseTestCase;
 import com.ghtn.model.oracle.Book;
 import org.junit.Test;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
@@ -14,7 +13,6 @@ import javax.annotation.Resource;
  * Time: 下午3:50
  * To change this template use File | Settings | File Templates.
  */
-@Component
 public class BookDaoTest extends BaseTestCase {
 
     private BookDao bookDao;

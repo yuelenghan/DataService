@@ -1,6 +1,7 @@
 package com.ghtn.dao;
 
 import java.sql.ResultSet;
+import java.util.List;
 
 /**
  * User: Administrator
@@ -16,4 +17,5 @@ public interface SummaryDao extends GenericDao {
      */
     ResultSet getRjxxSummary(String beginDate, String endDate, String dwid, String zwjb);
 
+    List<Object[]> getDbjdbSummary(String date, String banci, String name);
 }

@@ -1,11 +1,9 @@
 package com.ghtn.service;
 
 import com.ghtn.BaseTestCase;
-import com.ghtn.vo.KqRecordVO;
 import org.junit.Test;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * User: Administrator
@@ -23,11 +21,11 @@ public class KqRecordManagerTest extends BaseTestCase {
 
     @Test
     public void testGet() throws Exception {
-        List<KqRecordVO> list = kqRecordManager.listKqRecordOracleDataSource3(2);
+        /*List<KqRecordVO> list = kqRecordManager.listKqRecordOracleDataSource3(2);
         if (list != null && list.size() > 0) {
             for (KqRecordVO vo : list) {
                 System.out.println(vo.getKqpname());
             }
-        }
+        }*/
     }
 }

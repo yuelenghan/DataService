@@ -23,7 +23,13 @@ public class SummaryManagerTest extends BaseTestCase {
 
     @Test
     public void testRjxx() throws SQLException {
-        List list = summaryManager.getRjxxSummaryOracleDataSource3();
+        List list = summaryManager.getRjxxSummaryOracleDataSource3("", "", "", "");
     }
 
+    @Test
+    public void testDbjhb() throws Exception {
+        List list = summaryManager.getDbjhbSummaryOracleDataSource3("2013-8-1", "早班", "桂久超");
+        if (list != null && list.size() > 0)
+            System.out.println(list.size());
+    }
 }

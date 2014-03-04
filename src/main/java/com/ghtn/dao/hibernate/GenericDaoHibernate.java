@@ -180,4 +180,9 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
         Session sess = getSession();
         return sess.createQuery(hql).list();
     }
+
+    public List<Object[]> querySql(String sql) {
+        Session sess = getSession();
+        return sess.createSQLQuery(sql).list();
+    }
 }

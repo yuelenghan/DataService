@@ -2,6 +2,8 @@ package com.ghtn.service.impl;
 
 import com.ghtn.dao.SummaryDao;
 import com.ghtn.service.SummaryManager;
+import com.ghtn.util.StringUtil;
+import com.ghtn.vo.DbjhbSummaryVO;
 import com.ghtn.vo.RjxxSummaryVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,6 +59,43 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
 
             }
             resultSet.close();
+            return resultList;
+        }
+        return null;
+    }
+
+    @Override
+    public List<DbjhbSummaryVO> getDbjhbSummaryOracleDataSource3(String date, String banci, String name) throws Exception {
+        date = StringUtil.processDateStr(date);
+        if (banci.equals("all")) {
+            banci = "";
+        }
+        if (banci.equals("zb")) {
+            banci = "早班";
+        }
+        if (banci.equals("zhb")) {
+            banci = "中班";
+        }
+        if (banci.equals("yb")) {
+            banci = "夜班";
+        }
+
+        List<Object[]> list = summaryDao.getDbjdbSummary(date, banci, name);
+        if (list != null && list.size() > 0) {
+            List<DbjhbSummaryVO> resultList = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                Object[] o = list.get(i);
+                DbjhbSummaryVO vo = new DbjhbSummaryVO();
+
+                vo.setMineDate(StringUtil.processNullStr(String.valueOf(o[0])));
+                vo.setBanci(StringUtil.processNullStr(String.valueOf(o[1])));
+                vo.setPerson(StringUtil.processNullStr(String.valueOf(o[2])));
+                vo.setChangePerson(StringUtil.processNullStr(String.valueOf(o[3])));
+                vo.setRealPerson(StringUtil.processNullStr(String.valueOf(o[4])));
+
+                resultList.add(vo);
+            }
+
             return resultList;
         }
         return null;

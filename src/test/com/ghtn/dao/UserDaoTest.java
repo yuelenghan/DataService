@@ -3,7 +3,6 @@ package com.ghtn.dao;
 import com.ghtn.BaseTestCase;
 import com.ghtn.model.mysql.User;
 import org.junit.Test;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -15,7 +14,6 @@ import java.util.List;
  * Time: 上午11:32
  * To change this template use File | Settings | File Templates.
  */
-@Component
 public class UserDaoTest extends BaseTestCase {
 
 
