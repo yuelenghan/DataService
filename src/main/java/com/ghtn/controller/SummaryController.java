@@ -35,4 +35,8 @@ public class SummaryController extends BaseController {
         return new JSONPObject(callback, summaryManager.getRjxxSummaryOracleDataSource3(beginDate, endDate, dwid, zwjb));
     }
 
+    @RequestMapping("/dbjhb/date/{date}/banci/{banci}/name/{name}")
+    public JSONPObject getDbjhbSummary(@PathVariable String date, @PathVariable String banci, @PathVariable String name, @RequestParam String callback) {
+
+    }
 }
