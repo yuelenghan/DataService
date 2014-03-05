@@ -32,4 +32,16 @@ public class SummaryManagerTest extends BaseTestCase {
         if (list != null && list.size() > 0)
             System.out.println(list.size());
     }
+
+    @Test
+    public void testGpxx() {
+        List list = summaryManager.getGpxxSummaryOracleDataSource3();
+        if (list != null && list.size() > 0) {
+            System.out.println(list.size());
+        }
+        List list2 = summaryManager.getGpxxSummaryOracleDataSource3();
+        if (list2 != null && list2.size() > 0) {
+            System.out.println(list2.size());
+        }
+    }
 }

@@ -4,13 +4,17 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.url">jdbc:oracle:thin:@//192.168.1.205:1521/orcl</property>
+        <property name="connection.url">jdbc:oracle:thin:@//192.168.1.105:1521/orcl</property>
         <property name="connection.driver_class">oracle.jdbc.OracleDriver</property>
         <property name="connection.username">sep3</property>
         <property name="connection.password">GhtnTechby3885580</property>
         <mapping class="com.ghtn.model.oracle.fxyk.Getswinput"/>
         <mapping class="com.ghtn.model.oracle.fxyk.KqRecord"/>
         <mapping class="com.ghtn.model.oracle.fxyk.Person"/>
+        <mapping class="com.ghtn.model.oracle.fxyk.Department"/>
+        <mapping class="com.ghtn.model.oracle.fxyk.Place"/>
+        <mapping class="com.ghtn.model.oracle.fxyk.Workinjury"/>
+        <mapping class="com.ghtn.model.oracle.fxyk.Gethangtag"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>

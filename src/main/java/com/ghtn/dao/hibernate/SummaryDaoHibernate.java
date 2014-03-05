@@ -1,9 +1,12 @@
 package com.ghtn.dao.hibernate;
 
 import com.ghtn.dao.SummaryDao;
+import com.ghtn.model.oracle.fxyk.Gethangtag;
 import com.ghtn.util.DateUtil;
 import com.ghtn.util.StringUtil;
 import oracle.jdbc.OracleTypes;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.jdbc.Work;
 import org.springframework.stereotype.Repository;
 
@@ -69,8 +72,25 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
             sql += " and person like '%" + name + "%'";
         }
 
-        System.out.println("sql = " + sql);
+//        System.out.println("sql = " + sql);
 
         return querySql(sql);
     }
+
+    // TODO : 工伤信息无数据
+/*    public List<Object[]> getGsxxSummary() {
+        String hql = "select w from Workinjury w, CsBaseinfoset c, Person p, Department d, Place pl";
+        return getSession().createQuery(hql).setCacheable(true)
+                .list();
+    }*/
+
+
+    @Override
+    public List<Gethangtag> getGpxxSummary() {
+        return getSession().createCriteria(Gethangtag.class).setCacheable(true)
+                .add(Restrictions.or(Restrictions.eq("htstatus", 2), Restrictions.eq("htstatus", 3)))
+                .addOrder(Order.desc("recordtime"))
+                .list();
+    }
+
 }

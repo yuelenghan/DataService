@@ -41,4 +41,10 @@ public class SummaryController extends BaseController {
                                        @PathVariable String name, @RequestParam String callback) throws Exception {
         return new JSONPObject(callback, summaryManager.getDbjhbSummaryOracleDataSource3(date, banci, name));
     }
+
+    @RequestMapping("/gpxx")
+    @ResponseBody
+    public JSONPObject getGpxxSummary(@RequestParam String callback) {
+        return new JSONPObject(callback, summaryManager.getGpxxSummaryOracleDataSource3());
+    }
 }

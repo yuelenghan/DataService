@@ -1,15 +1,18 @@
 package com.ghtn.service.impl;
 
 import com.ghtn.dao.SummaryDao;
+import com.ghtn.model.oracle.fxyk.Gethangtag;
 import com.ghtn.service.SummaryManager;
 import com.ghtn.util.StringUtil;
 import com.ghtn.vo.DbjhbSummaryVO;
+import com.ghtn.vo.GpxxSummaryVO;
 import com.ghtn.vo.RjxxSummaryVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,6 +95,49 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
                 vo.setPerson(StringUtil.processNullStr(String.valueOf(o[2])));
                 vo.setChangePerson(StringUtil.processNullStr(String.valueOf(o[3])));
                 vo.setRealPerson(StringUtil.processNullStr(String.valueOf(o[4])));
+
+                resultList.add(vo);
+            }
+
+            return resultList;
+        }
+        return null;
+    }
+
+    @Override
+    public List<GpxxSummaryVO> getGpxxSummaryOracleDataSource3() {
+        List<Gethangtag> list = summaryDao.getGpxxSummary();
+        if (list != null && list.size() > 0) {
+            List<GpxxSummaryVO> resultList = new ArrayList<>();
+            for (Gethangtag t : list) {
+                GpxxSummaryVO vo = new GpxxSummaryVO();
+                vo.setMaindeptname(t.getMaindeptname());
+                vo.setZrpersonname(t.getZrpersonname());
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                vo.setGpdate(t.getGpdate() == null ? "" : sdf.format(t.getGpdate()));
+
+                vo.setGpbanci(t.getGpbanci());
+                vo.setHttype(t.getHttype() + "");
+
+                // 设置挂牌类型
+                switch (t.getHttype()) {
+                    case 1:
+                        vo.setHttypeDesc("采掘");
+                        break;
+                    case 2:
+                        vo.setHttypeDesc("机电运输");
+                        break;
+                    case 3:
+                        vo.setHttypeDesc("一通三防");
+                        break;
+                    case 4:
+                        vo.setHttypeDesc("地测防治水");
+                        break;
+                    case 5:
+                        vo.setHttypeDesc("其他");
+                        break;
+                }
 
                 resultList.add(vo);
             }
