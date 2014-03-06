@@ -1,8 +1,6 @@
 package com.ghtn.service;
 
-import com.ghtn.vo.DbjhbSummaryVO;
-import com.ghtn.vo.GpxxSummaryVO;
-import com.ghtn.vo.RjxxSummaryVO;
+import com.ghtn.vo.*;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -20,4 +18,10 @@ public interface SummaryManager extends GenericManager {
     List<DbjhbSummaryVO> getDbjhbSummaryOracleDataSource3(String date, String banci, String name) throws Exception;
 
     List<GpxxSummaryVO> getGpxxSummaryOracleDataSource3();
+
+    List<FswxxSummaryVO> getFswxxSummaryOracleDataSource3(String startDate, String endDate, String name);
+
+    List<ZbdbldSummaryVO> getZbdbldSummaryOracleDataSource3(String date);
+
+    List<YdyhhzSummaryVO> getYdyhhzSummaryOracleDataSource3(String date);
 }

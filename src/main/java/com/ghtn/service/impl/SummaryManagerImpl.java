@@ -4,9 +4,7 @@ import com.ghtn.dao.SummaryDao;
 import com.ghtn.model.oracle.fxyk.Gethangtag;
 import com.ghtn.service.SummaryManager;
 import com.ghtn.util.StringUtil;
-import com.ghtn.vo.DbjhbSummaryVO;
-import com.ghtn.vo.GpxxSummaryVO;
-import com.ghtn.vo.RjxxSummaryVO;
+import com.ghtn.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -143,6 +141,89 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
             }
 
             return resultList;
+        }
+        return null;
+    }
+
+    @Override
+    public List<FswxxSummaryVO> getFswxxSummaryOracleDataSource3(String startDate, String endDate, String name) {
+        List<Object[]> list = summaryDao.getFswxxSummary(startDate, endDate, name);
+
+        if (list != null && list.size() > 0) {
+
+            List<FswxxSummaryVO> resultList = new ArrayList<>();
+
+            for (Object[] o : list) {
+                FswxxSummaryVO vo = new FswxxSummaryVO();
+
+                vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[0])));
+                vo.setName(StringUtil.processNullStr(String.valueOf(o[1])));
+                vo.setYbsw(StringUtil.processNullStr(String.valueOf(o[2])));
+                vo.setJyzsw(StringUtil.processNullStr(String.valueOf(o[3])));
+                vo.setYzsw(StringUtil.processNullStr(String.valueOf(o[4])));
+
+                resultList.add(vo);
+            }
+
+            return resultList;
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<ZbdbldSummaryVO> getZbdbldSummaryOracleDataSource3(String date) {
+        if (!StringUtil.isNullStr(date)) {
+            List<Object[]> list = summaryDao.getZbdbldSummary(date);
+            if (list != null && list.size() > 0) {
+
+                List<ZbdbldSummaryVO> resultList = new ArrayList<>();
+
+                for (Object[] o : list) {
+                    ZbdbldSummaryVO vo = new ZbdbldSummaryVO();
+
+                    vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[0])));
+                    vo.setDetail(StringUtil.processNullStr(String.valueOf(o[1])));
+                    vo.setYb(StringUtil.processNullStr(String.valueOf(o[2])));
+                    vo.setZb(StringUtil.processNullStr(String.valueOf(o[3])));
+                    vo.setZhb(StringUtil.processNullStr(String.valueOf(o[4])));
+
+                    resultList.add(vo);
+                }
+
+                return resultList;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<YdyhhzSummaryVO> getYdyhhzSummaryOracleDataSource3(String date) {
+        if (!StringUtil.isNullStr(date)) {
+            List<Object[]> list = summaryDao.getYdyhhzSummary(date);
+            if (list != null && list.size() > 0) {
+                List<YdyhhzSummaryVO> resultList = new ArrayList<>();
+
+                for (Object[] o : list) {
+                    YdyhhzSummaryVO vo = new YdyhhzSummaryVO();
+
+                    vo.setMainDeptId(StringUtil.processNullStr(String.valueOf(o[0])));
+                    vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[1])));
+                    vo.setYhAll(StringUtil.processNullStr(String.valueOf(o[2])));
+                    vo.setYhA(StringUtil.processNullStr(String.valueOf(o[3])));
+                    vo.setYhB(StringUtil.processNullStr(String.valueOf(o[4])));
+                    vo.setYhC(StringUtil.processNullStr(String.valueOf(o[5])));
+                    vo.setYhYqwzg(StringUtil.processNullStr(String.valueOf(o[6])));
+                    vo.setYhLsyq(StringUtil.processNullStr(String.valueOf(o[7])));
+                    vo.setYhYbh(StringUtil.processNullStr(String.valueOf(o[8])));
+                    vo.setYhWbh(StringUtil.processNullStr(String.valueOf(o[9])));
+
+                    resultList.add(vo);
+                }
+
+                return resultList;
+            }
         }
         return null;
     }

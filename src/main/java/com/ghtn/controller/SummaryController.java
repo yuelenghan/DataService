@@ -47,4 +47,23 @@ public class SummaryController extends BaseController {
     public JSONPObject getGpxxSummary(@RequestParam String callback) {
         return new JSONPObject(callback, summaryManager.getGpxxSummaryOracleDataSource3());
     }
+
+    @RequestMapping("/fswxx/startDate/{startDate}/endDate/{endDate}/name/{name}")
+    @ResponseBody
+    public JSONPObject getFswxxSummary(@PathVariable String startDate, @PathVariable String endDate,
+                                       @PathVariable String name, @RequestParam String callback) {
+        return new JSONPObject(callback, summaryManager.getFswxxSummaryOracleDataSource3(startDate, endDate, name));
+    }
+
+    @RequestMapping("/zbdbld/date/{date}")
+    @ResponseBody
+    public JSONPObject getZbdbldSummary(@PathVariable String date, @RequestParam String callback) {
+        return new JSONPObject(callback, summaryManager.getZbdbldSummaryOracleDataSource3(date));
+    }
+
+    @RequestMapping("/ydyhhz/date/{date}")
+    @ResponseBody
+    public JSONPObject getYdyhhzSummary(@PathVariable String date, @RequestParam String callback) {
+        return new JSONPObject(callback, summaryManager.getYdyhhzSummaryOracleDataSource3(date));
+    }
 }

@@ -23,4 +23,19 @@ public class SummaryDaoTest extends BaseTestCase {
     public void testGet() {
 
     }
+
+    @Test
+    public void testGetFswxx() {
+        summaryDao.getFswxxSummary("2013-01-01", "2013-04-01", "姚尚东");
+    }
+
+    @Test
+    public void testGetZbdbld() {
+        summaryDao.getZbdbldSummary("2013-08-11");
+    }
+
+    @Test
+    public void testGetYdyhhz() {
+        summaryDao.getYdyhhzSummary("2013-01-01");
+    }
 }

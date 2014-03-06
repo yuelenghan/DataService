@@ -22,4 +22,10 @@ public interface SummaryDao extends GenericDao {
     List<Object[]> getDbjdbSummary(String date, String banci, String name);
 
     List<Gethangtag> getGpxxSummary();
+
+    List<Object[]> getFswxxSummary(String startDate, String endDate, String name);
+
+    List<Object[]> getZbdbldSummary(String date);
+
+    List<Object[]> getYdyhhzSummary(String date);
 }

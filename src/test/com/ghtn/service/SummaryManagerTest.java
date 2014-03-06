@@ -44,4 +44,19 @@ public class SummaryManagerTest extends BaseTestCase {
             System.out.println(list2.size());
         }
     }
+
+    @Test
+    public void testFswxx() {
+        summaryManager.getFswxxSummaryOracleDataSource3("", "", "");
+    }
+
+    @Test
+    public void testZbdbld() {
+        summaryManager.getZbdbldSummaryOracleDataSource3("2013-08-11");
+    }
+
+    @Test
+    public void testYdyhhz() {
+        summaryManager.getYdyhhzSummaryOracleDataSource3("2013-01-01");
+    }
 }
