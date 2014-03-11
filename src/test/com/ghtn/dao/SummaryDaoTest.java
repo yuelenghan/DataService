@@ -38,4 +38,39 @@ public class SummaryDaoTest extends BaseTestCase {
     public void testGetYdyhhz() {
         summaryDao.getYdyhhzSummary("2013-01-01");
     }
+
+    @Test
+    public void testGetLdxjdb() {
+        summaryDao.getLdxjdbSummary("2013-01-01", "2014-01-01", "李");
+    }
+
+    @Test
+    public void testGetYdswgphz() {
+        summaryDao.getYdswgphzSummary("2013-01-01");
+    }
+
+    @Test
+    public void testGetRjxx() {
+        summaryDao.getRjxxSummary("2013-01-01", "2014-01-01", null);
+    }
+
+    @Test
+    public void testGetSwxx() {
+        summaryDao.getSwxxSummary("2013-01-01", "2014-01-01", "刘");
+    }
+
+    @Test
+    public void testGetYhfltj() {
+        summaryDao.getYhfltjcxSummary("2013-01-01", "2014-01-01", "掘进");
+    }
+
+    @Test
+    public void testGetYhxxzhcx() {
+        summaryDao.getYhxxzhcxSummary("2013-01-01", "2014-01-01", "", "早班");
+    }
+
+    @Test
+    public void testGetGsxx() {
+        summaryDao.getGsxxSummary("2014-01-01", "2014-03-01", "", "轻伤");
+    }
 }

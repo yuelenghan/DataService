@@ -37,4 +37,16 @@ public class BaseInfoController {
     public JSONPObject listBaseInfoByFid(@PathVariable Integer fid, @RequestParam String callback) {
         return new JSONPObject(callback, baseInfoManager.listBaseInfoByFidOracleDataSource3(fid));
     }
+
+    @RequestMapping("/title")
+    @ResponseBody
+    public JSONPObject listTitle(@RequestParam String callback) {
+        return new JSONPObject(callback, baseInfoManager.listTitleOracleDataSource3());
+    }
+
+    @RequestMapping("/gsLevel")
+    @ResponseBody
+    public JSONPObject listGsLevel(@RequestParam String callback) {
+        return new JSONPObject(callback, baseInfoManager.listGslevelOracleDataSource3());
+    }
 }

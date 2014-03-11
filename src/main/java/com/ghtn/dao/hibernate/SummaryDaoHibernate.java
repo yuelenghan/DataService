@@ -60,6 +60,25 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
     }
 
     @Override
+    public List<Object[]> getRjxxSummary(String startDate, String endDate, String name) {
+        String sql = "select D.DEPTNAME ,p.name, k.downtime";
+        sql += " from department d, person p, kq_record k";
+        sql += " where k.KQPNUMBER=p.PERSONNUMBER and k.KQDEPT=d.DEPTNUMBER";
+
+        if (!StringUtil.isNullStr(startDate)) {
+            sql += " and k.downtime >= to_date('" + startDate + "', 'yyyy-mm-dd')";
+        }
+        if (!StringUtil.isNullStr(endDate)) {
+            sql += " and k.downtime <= to_date('" + endDate + "', 'yyyy-mm-dd')";
+        }
+        if (!StringUtil.isNullStr(name)) {
+            sql += " and p.name like '%" + name + "%'";
+        }
+
+        return querySql(sql);
+    }
+
+    @Override
     public List<Object[]> getDbjdbSummary(String date, String banci, String name) {
         String sql = "select cast(minedate as varchar2(23)), cast(banci as varchar2(10)), cast(person as varchar2(4000))," +
                 "cast(changeperson as varchar2(4000)), cast(realperson as varchar2(4000)) from v_tpplan";
@@ -82,12 +101,30 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
         return querySql(sql);
     }
 
-    // TODO : 工伤信息无数据
-/*    public List<Object[]> getGsxxSummary() {
-        String hql = "select w from Workinjury w, CsBaseinfoset c, Person p, Department d, Place pl";
-        return getSession().createQuery(hql).setCacheable(true)
-                .list();
-    }*/
+    @Override
+    public List<Object[]> getGsxxSummary(String startDate, String endDate, String unit, String level, String name) {
+        String sql = "select D.DEPTNAME, p.name, c.infoname, w.happendate";
+        sql += " from WORKINJURY w,CS_BASEINFOSET c, PERSON p, DEPARTMENT d";
+        sql += " where w.GS_LEVELID=c.INFOID(+) and w.PERSONNUMBER=p.PERSONNUMBER(+) and w.DEPTNUMBER=d.DEPTNUMBER(+)";
+
+        if (!StringUtil.isNullStr(startDate)) {
+            sql += " and w.happendate >= to_date('" + startDate + "','yyyy-mm-dd')";
+        }
+        if (!StringUtil.isNullStr(endDate)) {
+            sql += " and w.happendate <= to_date('" + endDate + "','yyyy-mm-dd')";
+        }
+        if (!StringUtil.isNullStr(unit)) {
+            sql += " and D.DEPTNAME like '%" + unit + "%'";
+        }
+        if (!StringUtil.isNullStr(level)) {
+            sql += " and c.infoname = '" + level + "'";
+        }
+        if (!StringUtil.isNullStr(name)) {
+            sql += " and p.name like '%" + name + "%'";
+        }
+
+        return querySql(sql);
+    }
 
 
     @Override
@@ -167,6 +204,157 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
         sql += " sum(decode(ny.STATUS,'隐患未整改',1,'复查不通过',1,0)) YHWBH FROM GETYHINPUT ny,Department d";
         sql += " WHERE ny.PCTIME>=to_date('" + date + "','YYYY-MM-DD') and ny.STATUS not in ('新增','作废','提交审批') and ny.MAINDEPTID = d.deptnumber";
         sql += " GROUP BY ny.MAINDEPTID, D.deptname";
+        return querySql(sql);
+    }
+
+    @Override
+    public List<Object[]> getLdxjdbSummary(String startDate, String endDate, String name) {
+        String sql = "SELECT a.MAINDEPTID,d.DEPTNAME,a.PERSONNUMBER,a.NAME,a.POSNAME,s.NEEDFREQ,a.RJALL,a.YB,a.ZB,a.ZHB,s.PLANFREQ,a.DBRJ,s.NEEDHOUR,";
+        sql += " floor(a.RJSJ/60)||'时'||MOD(a.RJSJ,60)||'分' RJSJ,floor(a.RJSJ/a.RJALL/60)||'时'||MOD(floor(a.RJSJ/a.RJALL),60)||'分' PJSJ,";
+        sql += " b.YHALL,c.SWALL FROM (SELECT nvl(p.USINGDEPT,p.MAINDEPTID) MAINDEPTID,p.PERSONNUMBER,p.NAME,po.POSNAME,p.ZWLEVEL,po.PSORT,";
+        sql += " count(r.RJID) rjall,sum(decode(r.KQTYPE,2,1,0)) dbrj,sum(decode(r.KQBENCI,'夜班',1,0)) yb,sum(decode(r.KQBENCI,'早班',1,0)) zb,";
+        sql += " sum(decode(r.KQBENCI,'中班',1,0)) zhb,sum(round(to_number(r.UPTIME-r.DOWNTIME)*1440)) rjsj ";
+        sql += " FROM V_PERSON p";
+        sql += " LEFT JOIN POSITION po ON p.POSID=po.POSID ";
+        sql += " LEFT JOIN KQ_RECORD r ON (p.PERSONNUMBER=r.KQPNUMBER AND r.DOWNTIME IS NOT NULL AND r.UPTIME IS NOT NULL) ";
+        sql += " WHERE p.ZWLEVEL<=4";
+
+        if (!StringUtil.isNullStr(startDate)) {
+            sql += " AND r.KQTIME >= to_date('" + startDate + "','YYYY-MM-DD')";
+        }
+        if (!StringUtil.isNullStr(endDate)) {
+            sql += " AND r.KQTIME <= to_date('" + endDate + "','YYYY-MM-DD')";
+        }
+        if (!StringUtil.isNullStr(name)) {
+            sql += " AND p.NAME LIKE '%" + name + "%'";
+        }
+
+        sql += " GROUP BY nvl(p.USINGDEPT,p.MAINDEPTID),p.PERSONNUMBER,p.NAME,po.POSNAME,p.ZWLEVEL,po.PSORT) a ";
+        sql += " INNER JOIN DEPARTMENT d ON a.MAINDEPTID=d.DEPTNUMBER ";
+        sql += " LEFT JOIN DEPARTMENT_EX dx ON d.DEPTNUMBER=dx.DEPTNUMBER";
+        sql += " LEFT JOIN";
+        sql += " (SELECT nm.PERSONID,count(gy.YHPUTINID) yhall ";
+        sql += " FROM GETYHINPUT gy";
+        sql += " INNER JOIN NYHINPUT_MORE nm ON gy.YHPUTINID=nm.YHPUTINID ";
+        sql += " WHERE gy.STATUS NOT IN ('新增','作废') ";
+
+        if (!StringUtil.isNullStr(startDate)) {
+            sql += " AND gy.PCTIME >= to_date('" + startDate + "','YYYY-MM-DD')";
+        }
+        if (!StringUtil.isNullStr(endDate)) {
+            sql += " AND gy.PCTIME <= to_date('" + endDate + "','YYYY-MM-DD')";
+        }
+
+        sql += " GROUP BY nm.PERSONID) b ON a.PERSONNUMBER=b.PERSONID ";
+        sql += " LEFT JOIN ";
+        sql += " (SELECT ns.PCPNUMBER,count(ns.SWINPUTID) swall ";
+        sql += " FROM NSWINPUT ns WHERE ns.STATUS='已发布' ";
+
+        if (!StringUtil.isNullStr(startDate)) {
+            sql += " AND ns.PCTIME >= to_date('" + startDate + "','YYYY-MM-DD')";
+        }
+        if (!StringUtil.isNullStr(endDate)) {
+            sql += " AND ns.PCTIME <= to_date('" + endDate + "','YYYY-MM-DD')";
+        }
+
+        sql += " GROUP BY ns.PCPNUMBER) c ON a.PERSONNUMBER=c.PCPNUMBER ";
+        sql += " LEFT JOIN TP_SCHEDULE s ON (a.PERSONNUMBER=s.PERSONID AND s.STATUS IS NULL OR s.STATUS='') ";
+        sql += " ORDER BY dx.DLEVEL,dx.DSORT,d.DEPTNUMBER,a.ZWLEVEL,a.PSORT";
+
+        return querySql(sql);
+    }
+
+    @Override
+    public List<Object[]> getKzdkyhSummary(String date) {
+        String sql = "SELECT ny.MAINDEPTID,d.deptname,ny.zrdeptname,count(ny.YHPUTINID) YHALL,sum(decode(ny.LEVELID,42,1,0)) YHA,";
+        sql += " sum(decode(ny.LEVELID,43,1,0)) YHB,sum(decode(ny.LEVELID,44,1,0)) YHC,";
+        sql += " sum(decode(ny.STATUS,'逾期未整改',1,0)) YHYQWZG,";
+        sql += " sum(decode(ny.YQCS,0,0,1)) YHLSYQ,sum(decode(ny.STATUS,'现场整改',1,'复查通过',1,'隐患已整改',1,0)) YHYBH,";
+        sql += " sum(decode(ny.STATUS,'隐患未整改',1,'复查不通过',1,0)) YHWBH FROM GETYHINPUT ny,Department d";
+        sql += " WHERE ny.MAINDEPTID='010116' and ny.PCTIME>=to_date('" + date + "','YYYY-MM-DD') and ny.STATUS not in ('新增','作废','提交审批') and ny.MAINDEPTID = d.deptnumber";
+        sql += " GROUP BY ny.MAINDEPTID, D.deptname,ny.zrdeptname";
+        return querySql(sql);
+    }
+
+    @Override
+    public List<Object[]> getYdswgphzSummary(String date) {
+        String sql = "SELECT ns.MAINDEPTID,";
+        sql += " d.deptname,";
+        sql += " COUNT (ns.SWINPUTID) SWALL,";
+        sql += " SUM (DECODE (ns.LEVELID, 89, 1, 0)) SWYZ,";
+        sql += " SUM (DECODE (ns.LEVELID, 47, 1, 0)) SWJYZ,";
+        sql += " SUM (DECODE (ns.LEVELID, 48, 1, 0)) SWYB,";
+        sql += " COUNT (h.RECORDTIME) GPALL,";
+        sql += " SUM (DECODE (h.HTSTATUS, 3, 1, 0)) GPYZ,";
+        sql += " SUM (DECODE (h.HTSTATUS, 2, 1, 0)) GPWZ";
+        sql += " FROM NSWINPUT ns, department d, HANGTAG h";
+        sql += " WHERE     ns.PCTIME >= TO_DATE ('" + date + "', 'YYYY-MM-DD')";
+        sql += " AND ns.STATUS = '已发布'";
+        sql += " AND ns.LEVELID != 88";
+        sql += " and ns.MAINDEPTID = d.deptnumber";
+        sql += " GROUP BY ns.MAINDEPTID, d.deptname";
+        return querySql(sql);
+    }
+
+    @Override
+    public List<Object[]> getSwxxSummary(String startDate, String endDate, String name) {
+        String sql = " select g.MAINDEPTNAME, g.ZRKQNAME, g.SWPNAME, g.PCTIME, g.LEVELNAME from GETSWINPUT g where 1=1";
+
+        if (!StringUtil.isNullStr(startDate)) {
+            sql += " AND g.pctime >= to_date('" + startDate + "','YYYY-MM-DD')";
+        }
+        if (!StringUtil.isNullStr(endDate)) {
+            sql += " AND g.pctime <= to_date('" + endDate + "','YYYY-MM-DD')";
+        }
+        if (!StringUtil.isNullStr(name)) {
+            sql += " AND g.SWPNAME like '%" + name + "%'";
+        }
+
+        return querySql(sql);
+    }
+
+    @Override
+    public List<Object[]> getYhfltjcxSummary(String startDate, String endDate, String unit) {
+        String sql = "SELECT ny.MAINDEPTID,d.deptname, NY.ZRDEPTNAME,count(ny.YHPUTINID) YHALL,sum(decode(ny.LEVELID,42,1,0)) YHA,";
+        sql += " sum(decode(ny.LEVELID,43,1,0)) YHB,sum(decode(ny.LEVELID,44,1,0)) YHC,";
+        sql += " sum(decode(ny.STATUS,'逾期未整改',1,0)) YHYQWZG,";
+        sql += " sum(decode(ny.YQCS,0,0,1)) YHLSYQ,sum(decode(ny.STATUS,'现场整改',1,'复查通过',1,'隐患已整改',1,0)) YHYBH,";
+        sql += " sum(decode(ny.STATUS,'隐患未整改',1,'复查不通过',1,0)) YHWBH FROM GETYHINPUT ny,Department d";
+        sql += " where ny.MAINDEPTID = d.deptnumber and ny.STATUS not in ('新增','作废','提交审批') ";
+
+        if (!StringUtil.isNullStr(startDate)) {
+            sql += " and ny.PCTIME >= to_date('" + startDate + "','YYYY-MM-DD')";
+        }
+        if (!StringUtil.isNullStr(endDate)) {
+            sql += " and ny.PCTIME <= to_date('" + endDate + "','YYYY-MM-DD')";
+        }
+        if (!StringUtil.isNullStr(unit)) {
+            sql += " and ny.ZRDEPTNAME like '%" + unit + "%'";
+        }
+
+        sql += " GROUP BY ny.MAINDEPTID, D.deptname, NY.ZRDEPTNAME";
+        return querySql(sql);
+    }
+
+    @Override
+    public List<Object[]> getYhxxzhcxSummary(String startDate, String endDate, String unit, String banci) {
+        String sql = "select zrdeptname,banci,pctime,levelname,typename, status";
+        sql += " from getyhinput";
+        sql += " where 1=1";
+
+        if (!StringUtil.isNullStr(startDate)) {
+            sql += " and pctime >= to_date('" + startDate + "','yyyy-mm-dd')";
+        }
+        if (!StringUtil.isNullStr(endDate)) {
+            sql += " and pctime <= to_date('" + endDate + "','yyyy-mm-dd')";
+        }
+        if (!StringUtil.isNullStr(unit)) {
+            sql += " and zrdeptname like '%" + unit + "%'";
+        }
+        if (!StringUtil.isNullStr(banci)) {
+            sql += " and banci = '" + banci + "'";
+        }
+
         return querySql(sql);
     }
 

@@ -16,4 +16,18 @@ public interface BaseInfoDao extends GenericDao<CsBaseinfoset, Integer> {
     List<CsBaseinfoset> listBaseInfo();
 
     List<CsBaseinfoset> listBaseInfoByFid(Integer fid);
+
+    /**
+     * 职务级别
+     *
+     * @return
+     */
+    List<CsBaseinfoset> listTitle();
+
+    /**
+     * 工伤等级
+     *
+     * @return
+     */
+    List<CsBaseinfoset> listGsLevel();
 }

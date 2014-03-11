@@ -17,4 +17,18 @@ public interface BaseInfoManager extends GenericManager<CsBaseinfoset, Integer> 
     List<BaseInfoVO> listBaseInfoOracleDataSource3();
 
     List<BaseInfoVO> listBaseInfoByFidOracleDataSource3(Integer fid);
+
+    /**
+     * 职务级别
+     *
+     * @return
+     */
+    List<BaseInfoVO> listTitleOracleDataSource3();
+
+    /**
+     * 工伤等级
+     *
+     * @return
+     */
+    List<BaseInfoVO> listGslevelOracleDataSource3();
 }

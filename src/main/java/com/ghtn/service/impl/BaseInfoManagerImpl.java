@@ -55,6 +55,34 @@ public class BaseInfoManagerImpl extends GenericManagerImpl<CsBaseinfoset, Integ
         return returnList;
     }
 
+    @Override
+    public List<BaseInfoVO> listTitleOracleDataSource3() {
+        List<CsBaseinfoset> list = baseInfoDao.listTitle();
+        if (list != null && list.size() > 0) {
+            List<BaseInfoVO> resultList = new ArrayList<>();
+            for (CsBaseinfoset csBaseinfoset : list) {
+                resultList.add(transformToVO(csBaseinfoset));
+            }
+
+            return resultList;
+        }
+        return null;
+    }
+
+    @Override
+    public List<BaseInfoVO> listGslevelOracleDataSource3() {
+        List<CsBaseinfoset> list = baseInfoDao.listGsLevel();
+        if (list != null && list.size() > 0) {
+            List<BaseInfoVO> resultList = new ArrayList<>();
+            for (CsBaseinfoset csBaseinfoset : list) {
+                resultList.add(transformToVO(csBaseinfoset));
+            }
+
+            return resultList;
+        }
+        return null;
+    }
+
     /**
      * 把实体类转换为VO
      *

@@ -3,13 +3,14 @@ package com.ghtn.service.impl;
 import com.ghtn.dao.SummaryDao;
 import com.ghtn.model.oracle.fxyk.Gethangtag;
 import com.ghtn.service.SummaryManager;
+import com.ghtn.util.DateUtil;
 import com.ghtn.util.StringUtil;
 import com.ghtn.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,35 +32,21 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<RjxxSummaryVO> getRjxxSummaryOracleDataSource3(String beginDate, String endDate, String dwid, String zwjb) throws SQLException {
-        ResultSet resultSet = summaryDao.getRjxxSummary(beginDate, endDate, dwid, zwjb);
-        if (resultSet != null) {
+    public List<RjxxSummaryVO> getRjxxSummaryOracleDataSource3(String startDate, String endDate, String name) throws SQLException {
+        List<Object[]> list = summaryDao.getRjxxSummary(startDate, endDate, name);
+        if (list != null && list.size() > 0) {
             List<RjxxSummaryVO> resultList = new ArrayList<>();
-            while (resultSet.next()) {
+
+            for (Object[] o : list) {
                 RjxxSummaryVO vo = new RjxxSummaryVO();
 
-                vo.setMainDeptId(resultSet.getString("MAINDEPTID"));
-                vo.setDeptName(resultSet.getString("DEPTNAME"));
-                vo.setPersonNumber(resultSet.getString("PERSONNUMBER"));
-                vo.setName(resultSet.getString("NAME"));
-                vo.setPosName(resultSet.getString("POSNAME"));
-                vo.setNeedFreq(resultSet.getInt("NEEDFREQ") + "");
-                vo.setRjAll(resultSet.getInt("RJALL") + "");
-                vo.setYb(resultSet.getInt("YB") + "");
-                vo.setZb(resultSet.getInt("ZB") + "");
-                vo.setZhb(resultSet.getInt("ZHB") + "");
-                vo.setPlanFreq(resultSet.getInt("PLANFREQ") + "");
-                vo.setDbrj(resultSet.getInt("DBRJ") + "");
-                vo.setNeedHour(resultSet.getInt("NEEDHOUR") + "");
-                vo.setRjsj(resultSet.getString("RJSJ"));
-                vo.setPjsj(resultSet.getString("PJSJ"));
-                vo.setYhAll(resultSet.getInt("YHALL") + "");
-                vo.setSwAll(resultSet.getInt("SWALL") + "");
+                vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[0])));
+                vo.setName(StringUtil.processNullStr(String.valueOf(o[1])));
+                vo.setDownTime(StringUtil.processNullStr(String.valueOf(o[2])));
 
                 resultList.add(vo);
-
             }
-            resultSet.close();
+
             return resultList;
         }
         return null;
@@ -224,6 +211,198 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
 
                 return resultList;
             }
+        }
+        return null;
+    }
+
+    @Override
+    public List<LdxjdbSummaryVO> getLdxjdbSummaryOracleDataSource3(String startDate, String endDate, String name) {
+        List<Object[]> list = summaryDao.getLdxjdbSummary(startDate, endDate, name);
+        if (list != null && list.size() > 0) {
+            List<LdxjdbSummaryVO> resultList = new ArrayList<>();
+            for (Object[] o : list) {
+                LdxjdbSummaryVO vo = new LdxjdbSummaryVO();
+
+                vo.setMainDeptId(StringUtil.processNullStr(String.valueOf(o[0])));
+                vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[1])));
+                vo.setPersonNumber(StringUtil.processNullStr(String.valueOf(o[2])));
+                vo.setName(StringUtil.processNullStr(String.valueOf(o[3])));
+                vo.setPosName(StringUtil.processNullStr(String.valueOf(o[4])));
+                vo.setNeedFreq(StringUtil.processNullStr(String.valueOf(o[5])));
+                vo.setRjAll(StringUtil.processNullStr(String.valueOf(o[6])));
+                vo.setYb(StringUtil.processNullStr(String.valueOf(o[7])));
+                vo.setZb(StringUtil.processNullStr(String.valueOf(o[8])));
+                vo.setZhb(StringUtil.processNullStr(String.valueOf(o[9])));
+                vo.setPlanFreq(StringUtil.processNullStr(String.valueOf(o[10])));
+                vo.setDbrj(StringUtil.processNullStr(String.valueOf(o[11])));
+                vo.setNeedHour(StringUtil.processNullStr(String.valueOf(o[12])));
+                vo.setRjsj(StringUtil.processNullStr(String.valueOf(o[13])));
+                vo.setPjsj(StringUtil.processNullStr(String.valueOf(o[14])));
+                vo.setYhAll(StringUtil.processNullStr(String.valueOf(o[15])));
+                vo.setSwAll(StringUtil.processNullStr(String.valueOf(o[16])));
+
+                resultList.add(vo);
+            }
+
+            return resultList;
+        }
+        return null;
+    }
+
+    @Override
+    public List<KzdkyhSummaryVO> getKzdkyhSummaryOracleDataSource3(String date) {
+        if (!StringUtil.isNullStr(date)) {
+            List<Object[]> list = summaryDao.getKzdkyhSummary(date);
+            if (list != null && list.size() > 0) {
+                List<KzdkyhSummaryVO> resultList = new ArrayList<>();
+
+                for (Object[] o : list) {
+                    KzdkyhSummaryVO vo = new KzdkyhSummaryVO();
+
+                    vo.setMainDeptId(StringUtil.processNullStr(String.valueOf(o[0])));
+                    vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[1])));
+                    vo.setZrDeptName(StringUtil.processNullStr(String.valueOf(o[2])));
+                    vo.setYhAll(StringUtil.processNullStr(String.valueOf(o[3])));
+                    vo.setYhA(StringUtil.processNullStr(String.valueOf(o[4])));
+                    vo.setYhB(StringUtil.processNullStr(String.valueOf(o[5])));
+                    vo.setYhC(StringUtil.processNullStr(String.valueOf(o[6])));
+                    vo.setYhYqwzg(StringUtil.processNullStr(String.valueOf(o[7])));
+                    vo.setYhLsyq(StringUtil.processNullStr(String.valueOf(o[8])));
+                    vo.setYhYbh(StringUtil.processNullStr(String.valueOf(o[9])));
+                    vo.setYhWbh(StringUtil.processNullStr(String.valueOf(o[10])));
+
+                    resultList.add(vo);
+                }
+
+                return resultList;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<YdswgphzSummaryVO> getYdswgphzSummaryOracleDataSource3(String date) {
+        if (!StringUtil.isNullStr(date)) {
+            List<Object[]> list = summaryDao.getYdswgphzSummary(date);
+            if (list != null && list.size() > 0) {
+                List<YdswgphzSummaryVO> resultList = new ArrayList<>();
+                for (Object[] o : list) {
+                    YdswgphzSummaryVO vo = new YdswgphzSummaryVO();
+
+                    vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[1])));
+                    vo.setSwAll(StringUtil.processNullStr(String.valueOf(o[2])));
+                    vo.setSwYz(StringUtil.processNullStr(String.valueOf(o[3])));
+                    vo.setSwJyz(StringUtil.processNullStr(String.valueOf(o[4])));
+                    vo.setSwYb(StringUtil.processNullStr(String.valueOf(o[5])));
+                    vo.setGpAll(StringUtil.processNullStr(String.valueOf(o[6])));
+                    vo.setGpYz(StringUtil.processNullStr(String.valueOf(o[7])));
+                    vo.setGpWz(StringUtil.processNullStr(String.valueOf(o[8])));
+
+                    resultList.add(vo);
+                }
+
+                return resultList;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<SwxxSummaryVO> getSwxxSummaryOracleDataSource3(String startDate, String endDate, String name) throws ParseException {
+        List<Object[]> list = summaryDao.getSwxxSummary(startDate, endDate, name);
+        if (list != null && list.size() > 0) {
+            List<SwxxSummaryVO> resultList = new ArrayList<>();
+
+            for (Object[] o : list) {
+                SwxxSummaryVO vo = new SwxxSummaryVO();
+
+                vo.setMainDeptName(StringUtil.processNullStr(String.valueOf(o[0])));
+                vo.setZrkqName(StringUtil.processNullStr(String.valueOf(o[1])));
+                vo.setSwpName(StringUtil.processNullStr(String.valueOf(o[2])));
+                vo.setPctime(DateUtil.dateToString(DateUtil.stringToDate(String.valueOf(o[3]), "yyyy-MM-dd"), "yyyy-MM-dd"));
+                vo.setLevelName(StringUtil.processNullStr(String.valueOf(o[4])));
+
+                resultList.add(vo);
+            }
+
+            return resultList;
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<YhfltjcxSummaryVO> getYhfltjcxSummaryOracleDataSource3(String startDate, String endDate, String unit) {
+        List<Object[]> list = summaryDao.getYhfltjcxSummary(startDate, endDate, unit);
+        if (list != null && list.size() > 0) {
+            List<YhfltjcxSummaryVO> resultList = new ArrayList<>();
+
+            for (Object[] o : list) {
+                YhfltjcxSummaryVO vo = new YhfltjcxSummaryVO();
+
+                vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[1])));
+                vo.setZrDeptName(StringUtil.processNullStr(String.valueOf(o[2])));
+                vo.setYhAll(StringUtil.processNullStr(String.valueOf(o[3])));
+                vo.setYhA(StringUtil.processNullStr(String.valueOf(o[4])));
+                vo.setYhB(StringUtil.processNullStr(String.valueOf(o[5])));
+                vo.setYhC(StringUtil.processNullStr(String.valueOf(o[6])));
+                vo.setYhYqwzg(StringUtil.processNullStr(String.valueOf(o[7])));
+                vo.setYhLsyq(StringUtil.processNullStr(String.valueOf(o[8])));
+                vo.setYhYbh(StringUtil.processNullStr(String.valueOf(o[9])));
+                vo.setYhWbh(StringUtil.processNullStr(String.valueOf(o[10])));
+
+                resultList.add(vo);
+            }
+
+            return resultList;
+        }
+        return null;
+    }
+
+    @Override
+    public List<YhxxzhcxSummaryVO> getYhxxzhcxSummaryOracleDataSource3(String startDate, String endDate, String unit, String banci) throws ParseException {
+        List<Object[]> list = summaryDao.getYhxxzhcxSummary(startDate, endDate, unit, banci);
+        if (list != null && list.size() > 0) {
+            List<YhxxzhcxSummaryVO> resultList = new ArrayList<>();
+
+            for (Object[] o : list) {
+                YhxxzhcxSummaryVO vo = new YhxxzhcxSummaryVO();
+
+                vo.setZrDeptName(StringUtil.processNullStr(String.valueOf(o[0])));
+                vo.setBanci(StringUtil.processNullStr(String.valueOf(o[1])));
+                vo.setPcTime(DateUtil.dateToString(DateUtil.stringToDate(String.valueOf(o[2]), "yyyy-MM-dd"), "yyyy-MM-dd"));
+                vo.setLevelName(StringUtil.processNullStr(String.valueOf(o[3])));
+                vo.setTypeName(StringUtil.processNullStr(String.valueOf(o[4])));
+                vo.setStatus(StringUtil.processNullStr(String.valueOf(o[5])));
+
+                resultList.add(vo);
+            }
+
+            return resultList;
+        }
+
+
+        return null;
+    }
+
+    @Override
+    public List<GsxxSummaryVO> getGsxxSummaryOracleDataSource3(String startDate, String endDate, String unit, String level, String name) throws ParseException {
+        List<Object[]> list = summaryDao.getGsxxSummary(startDate, endDate, unit, level, name);
+        if (list != null && list.size() > 0) {
+            List<GsxxSummaryVO> resultList = new ArrayList<>();
+
+            for (Object[] o : list) {
+                GsxxSummaryVO vo = new GsxxSummaryVO();
+
+                vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[0])));
+                vo.setName(StringUtil.processNullStr(String.valueOf(o[1])));
+                vo.setLevel(StringUtil.processNullStr(String.valueOf(o[2])));
+                vo.setHappenDate(DateUtil.dateToString(DateUtil.stringToDate(String.valueOf(o[3]), "yyyy-MM-dd"), "yyyy-MM-dd"));
+
+                resultList.add(vo);
+            }
+
+            return resultList;
         }
         return null;
     }

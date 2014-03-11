@@ -7,8 +7,21 @@ import java.util.Date;
 public class DateUtil {
 
     public static String dateToString(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateToString(date, "yyyy-MM-dd HH:mm:ss");
+    }
+
+    public static String dateToString(Date date, String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(date);
+    }
+
+    public static Date stringToDate(String dateStr) throws ParseException {
+        return stringToDate(dateStr, "yyyy-MM-dd HH:mm:ss");
+    }
+
+    public static Date stringToDate(String dateStr, String format) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.parse(dateStr);
     }
 
     public static java.util.Date createUtilDate(String dateStr, String format) {

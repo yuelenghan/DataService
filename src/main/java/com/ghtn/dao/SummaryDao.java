@@ -19,6 +19,8 @@ public interface SummaryDao extends GenericDao {
      */
     ResultSet getRjxxSummary(String beginDate, String endDate, String dwid, String zwjb);
 
+    List<Object[]> getRjxxSummary(String startDate, String endDate, String name);
+
     List<Object[]> getDbjdbSummary(String date, String banci, String name);
 
     List<Gethangtag> getGpxxSummary();
@@ -28,4 +30,19 @@ public interface SummaryDao extends GenericDao {
     List<Object[]> getZbdbldSummary(String date);
 
     List<Object[]> getYdyhhzSummary(String date);
+
+    List<Object[]> getLdxjdbSummary(String startDate, String endDate, String name);
+
+    List<Object[]> getKzdkyhSummary(String date);
+
+    List<Object[]> getYdswgphzSummary(String date);
+
+    List<Object[]> getSwxxSummary(String startDate, String endDate, String name);
+
+    List<Object[]> getYhfltjcxSummary(String startDate, String endDate, String unit);
+
+    List<Object[]> getYhxxzhcxSummary(String startDate, String endDate, String unit, String banci);
+
+    List<Object[]> getGsxxSummary(String startDate, String endDate, String unit, String level, String name);
+
 }

@@ -2,6 +2,7 @@ package com.ghtn.dao.hibernate;
 
 import com.ghtn.dao.BaseInfoDao;
 import com.ghtn.model.oracle.fxyk.CsBaseinfoset;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -27,5 +28,17 @@ public class BaseInfoDaoHibernate extends GenericDaoHibernate<CsBaseinfoset, Int
     public List<CsBaseinfoset> listBaseInfoByFid(Integer fid) {
         return getSession().createCriteria(CsBaseinfoset.class).setCacheable(true)
                 .add(Restrictions.eq("fid", fid)).list();
+    }
+
+    @Override
+    public List<CsBaseinfoset> listTitle() {
+        return getSession().createCriteria(CsBaseinfoset.class).setCacheable(true)
+                .add(Restrictions.eq("fid", 152)).addOrder(Order.asc("infocode")).list();
+    }
+
+    @Override
+    public List<CsBaseinfoset> listGsLevel() {
+        return getSession().createCriteria(CsBaseinfoset.class).setCacheable(true)
+                .add(Restrictions.eq("fid", 59)).addOrder(Order.desc("infocode")).list();
     }
 }

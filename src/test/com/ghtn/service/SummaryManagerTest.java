@@ -23,7 +23,7 @@ public class SummaryManagerTest extends BaseTestCase {
 
     @Test
     public void testRjxx() throws SQLException {
-        List list = summaryManager.getRjxxSummaryOracleDataSource3("", "", "", "");
+//        List list = summaryManager.getRjxxSummaryOracleDataSource3("", "", "", "");
     }
 
     @Test
@@ -58,5 +58,10 @@ public class SummaryManagerTest extends BaseTestCase {
     @Test
     public void testYdyhhz() {
         summaryManager.getYdyhhzSummaryOracleDataSource3("2013-01-01");
+    }
+
+    @Test
+    public void testLdxjdb() {
+        summaryManager.getLdxjdbSummaryOracleDataSource3("2013-01-01", "2014-01-01", "");
     }
 }
