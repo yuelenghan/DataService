@@ -14,6 +14,8 @@ import java.util.Properties;
 public class ConstantUtil {
     public static String INDEX_BASE;
 
+    public static final Integer PAGE_SIZE = 15;
+
     static {
         InputStream in = ConstantUtil.class.getResourceAsStream("/constant.properties");
         Properties prop = new Properties();

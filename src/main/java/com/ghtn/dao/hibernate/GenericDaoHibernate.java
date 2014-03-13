@@ -185,4 +185,10 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
         Session sess = getSession();
         return sess.createSQLQuery(sql).list();
     }
+
+    @Override
+    public List<Object[]> querySql(String sql, Integer start, Integer limit) {
+        Session sess = getSession();
+        return sess.createSQLQuery(sql).setFirstResult(start).setMaxResults(limit).list();
+    }
 }

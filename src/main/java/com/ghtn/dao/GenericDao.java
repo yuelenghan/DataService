@@ -34,4 +34,6 @@ public interface GenericDao<T, PK extends Serializable> {
     List<T> queryHql(String hql);
 
     List<Object[]> querySql(String sql);
+
+    List<Object[]> querySql(String sql, Integer start, Integer limit);
 }

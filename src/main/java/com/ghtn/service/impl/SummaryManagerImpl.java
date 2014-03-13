@@ -3,6 +3,7 @@ package com.ghtn.service.impl;
 import com.ghtn.dao.SummaryDao;
 import com.ghtn.model.oracle.fxyk.Gethangtag;
 import com.ghtn.service.SummaryManager;
+import com.ghtn.util.ConstantUtil;
 import com.ghtn.util.DateUtil;
 import com.ghtn.util.StringUtil;
 import com.ghtn.vo.*;
@@ -32,8 +33,15 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<RjxxSummaryVO> getRjxxSummaryOracleDataSource3(String startDate, String endDate, String name) throws SQLException {
-        List<Object[]> list = summaryDao.getRjxxSummary(startDate, endDate, name);
+    public List<RjxxSummaryVO> getRjxxSummaryOracleDataSource3(String startDate, String endDate, String name, Integer start, Integer limit) throws SQLException {
+        if (start == null || start <= 0) {
+            start = 0;
+        }
+        if (limit == null || limit <= 0) {
+            limit = ConstantUtil.PAGE_SIZE;
+        }
+
+        List<Object[]> list = summaryDao.getRjxxSummary(startDate, endDate, name, start, limit);
         if (list != null && list.size() > 0) {
             List<RjxxSummaryVO> resultList = new ArrayList<>();
 
@@ -53,7 +61,7 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<DbjhbSummaryVO> getDbjhbSummaryOracleDataSource3(String date, String banci, String name) throws Exception {
+    public List<DbjhbSummaryVO> getDbjhbSummaryOracleDataSource3(String date, String banci, String name, Integer start, Integer limit) throws Exception {
         date = StringUtil.processDateStr(date);
         if (banci.equals("all")) {
             banci = "";
@@ -68,7 +76,14 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
             banci = "夜班";
         }
 
-        List<Object[]> list = summaryDao.getDbjdbSummary(date, banci, name);
+        if (start == null || start <= 0) {
+            start = 0;
+        }
+        if (limit == null || limit <= 0) {
+            limit = ConstantUtil.PAGE_SIZE;
+        }
+
+        List<Object[]> list = summaryDao.getDbjdbSummary(date, banci, name, start, limit);
         if (list != null && list.size() > 0) {
             List<DbjhbSummaryVO> resultList = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
@@ -90,8 +105,15 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<GpxxSummaryVO> getGpxxSummaryOracleDataSource3() {
-        List<Gethangtag> list = summaryDao.getGpxxSummary();
+    public List<GpxxSummaryVO> getGpxxSummaryOracleDataSource3(Integer start, Integer limit) {
+        if (start == null || start <= 0) {
+            start = 0;
+        }
+        if (limit == null || limit <= 0) {
+            limit = ConstantUtil.PAGE_SIZE;
+        }
+
+        List<Gethangtag> list = summaryDao.getGpxxSummary(start, limit);
         if (list != null && list.size() > 0) {
             List<GpxxSummaryVO> resultList = new ArrayList<>();
             for (Gethangtag t : list) {
@@ -133,8 +155,15 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<FswxxSummaryVO> getFswxxSummaryOracleDataSource3(String startDate, String endDate, String name) {
-        List<Object[]> list = summaryDao.getFswxxSummary(startDate, endDate, name);
+    public List<FswxxSummaryVO> getFswxxSummaryOracleDataSource3(String startDate, String endDate, String name, Integer start, Integer limit) {
+        if (start == null || start <= 0) {
+            start = 0;
+        }
+        if (limit == null || limit <= 0) {
+            limit = ConstantUtil.PAGE_SIZE;
+        }
+
+        List<Object[]> list = summaryDao.getFswxxSummary(startDate, endDate, name, start, limit);
 
         if (list != null && list.size() > 0) {
 
@@ -159,9 +188,16 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<ZbdbldSummaryVO> getZbdbldSummaryOracleDataSource3(String date) {
+    public List<ZbdbldSummaryVO> getZbdbldSummaryOracleDataSource3(String date, Integer start, Integer limit) {
         if (!StringUtil.isNullStr(date)) {
-            List<Object[]> list = summaryDao.getZbdbldSummary(date);
+            if (start == null || start <= 0) {
+                start = 0;
+            }
+            if (limit == null || limit <= 0) {
+                limit = ConstantUtil.PAGE_SIZE;
+            }
+
+            List<Object[]> list = summaryDao.getZbdbldSummary(date, start, limit);
             if (list != null && list.size() > 0) {
 
                 List<ZbdbldSummaryVO> resultList = new ArrayList<>();
@@ -186,9 +222,16 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<YdyhhzSummaryVO> getYdyhhzSummaryOracleDataSource3(String date) {
+    public List<YdyhhzSummaryVO> getYdyhhzSummaryOracleDataSource3(String date, Integer start, Integer limit) {
         if (!StringUtil.isNullStr(date)) {
-            List<Object[]> list = summaryDao.getYdyhhzSummary(date);
+            if (start == null || start <= 0) {
+                start = 0;
+            }
+            if (limit == null || limit <= 0) {
+                limit = ConstantUtil.PAGE_SIZE;
+            }
+
+            List<Object[]> list = summaryDao.getYdyhhzSummary(date, start, limit);
             if (list != null && list.size() > 0) {
                 List<YdyhhzSummaryVO> resultList = new ArrayList<>();
 
@@ -216,8 +259,15 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<LdxjdbSummaryVO> getLdxjdbSummaryOracleDataSource3(String startDate, String endDate, String name) {
-        List<Object[]> list = summaryDao.getLdxjdbSummary(startDate, endDate, name);
+    public List<LdxjdbSummaryVO> getLdxjdbSummaryOracleDataSource3(String startDate, String endDate, String name, Integer start, Integer limit) {
+        if (start == null || start <= 0) {
+            start = 0;
+        }
+        if (limit == null || limit <= 0) {
+            limit = ConstantUtil.PAGE_SIZE;
+        }
+
+        List<Object[]> list = summaryDao.getLdxjdbSummary(startDate, endDate, name, start, limit);
         if (list != null && list.size() > 0) {
             List<LdxjdbSummaryVO> resultList = new ArrayList<>();
             for (Object[] o : list) {
@@ -250,9 +300,16 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<KzdkyhSummaryVO> getKzdkyhSummaryOracleDataSource3(String date) {
+    public List<KzdkyhSummaryVO> getKzdkyhSummaryOracleDataSource3(String date, Integer start, Integer limit) {
         if (!StringUtil.isNullStr(date)) {
-            List<Object[]> list = summaryDao.getKzdkyhSummary(date);
+            if (start == null || start <= 0) {
+                start = 0;
+            }
+            if (limit == null || limit <= 0) {
+                limit = ConstantUtil.PAGE_SIZE;
+            }
+
+            List<Object[]> list = summaryDao.getKzdkyhSummary(date, start, limit);
             if (list != null && list.size() > 0) {
                 List<KzdkyhSummaryVO> resultList = new ArrayList<>();
 
@@ -281,9 +338,16 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<YdswgphzSummaryVO> getYdswgphzSummaryOracleDataSource3(String date) {
+    public List<YdswgphzSummaryVO> getYdswgphzSummaryOracleDataSource3(String date, Integer start, Integer limit) {
         if (!StringUtil.isNullStr(date)) {
-            List<Object[]> list = summaryDao.getYdswgphzSummary(date);
+            if (start == null || start <= 0) {
+                start = 0;
+            }
+            if (limit == null || limit <= 0) {
+                limit = ConstantUtil.PAGE_SIZE;
+            }
+
+            List<Object[]> list = summaryDao.getYdswgphzSummary(date, start, limit);
             if (list != null && list.size() > 0) {
                 List<YdswgphzSummaryVO> resultList = new ArrayList<>();
                 for (Object[] o : list) {
@@ -308,8 +372,15 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<SwxxSummaryVO> getSwxxSummaryOracleDataSource3(String startDate, String endDate, String name) throws ParseException {
-        List<Object[]> list = summaryDao.getSwxxSummary(startDate, endDate, name);
+    public List<SwxxSummaryVO> getSwxxSummaryOracleDataSource3(String startDate, String endDate, String name, Integer start, Integer limit) throws ParseException {
+        if (start == null || start <= 0) {
+            start = 0;
+        }
+        if (limit == null || limit <= 0) {
+            limit = ConstantUtil.PAGE_SIZE;
+        }
+
+        List<Object[]> list = summaryDao.getSwxxSummary(startDate, endDate, name, start, limit);
         if (list != null && list.size() > 0) {
             List<SwxxSummaryVO> resultList = new ArrayList<>();
 
@@ -332,8 +403,15 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<YhfltjcxSummaryVO> getYhfltjcxSummaryOracleDataSource3(String startDate, String endDate, String unit) {
-        List<Object[]> list = summaryDao.getYhfltjcxSummary(startDate, endDate, unit);
+    public List<YhfltjcxSummaryVO> getYhfltjcxSummaryOracleDataSource3(String startDate, String endDate, String unit, Integer start, Integer limit) {
+        if (start == null || start <= 0) {
+            start = 0;
+        }
+        if (limit == null || limit <= 0) {
+            limit = ConstantUtil.PAGE_SIZE;
+        }
+
+        List<Object[]> list = summaryDao.getYhfltjcxSummary(startDate, endDate, unit, start, limit);
         if (list != null && list.size() > 0) {
             List<YhfltjcxSummaryVO> resultList = new ArrayList<>();
 
@@ -360,8 +438,15 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<YhxxzhcxSummaryVO> getYhxxzhcxSummaryOracleDataSource3(String startDate, String endDate, String unit, String banci) throws ParseException {
-        List<Object[]> list = summaryDao.getYhxxzhcxSummary(startDate, endDate, unit, banci);
+    public List<YhxxzhcxSummaryVO> getYhxxzhcxSummaryOracleDataSource3(String startDate, String endDate, String unit, String banci, Integer start, Integer limit) throws ParseException {
+        if (start == null || start <= 0) {
+            start = 0;
+        }
+        if (limit == null || limit <= 0) {
+            limit = ConstantUtil.PAGE_SIZE;
+        }
+
+        List<Object[]> list = summaryDao.getYhxxzhcxSummary(startDate, endDate, unit, banci, start, limit);
         if (list != null && list.size() > 0) {
             List<YhxxzhcxSummaryVO> resultList = new ArrayList<>();
 
@@ -386,8 +471,15 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<GsxxSummaryVO> getGsxxSummaryOracleDataSource3(String startDate, String endDate, String unit, String level, String name) throws ParseException {
-        List<Object[]> list = summaryDao.getGsxxSummary(startDate, endDate, unit, level, name);
+    public List<GsxxSummaryVO> getGsxxSummaryOracleDataSource3(String startDate, String endDate, String unit, String level, String name, Integer start, Integer limit) throws ParseException {
+        if (start == null || start <= 0) {
+            start = 0;
+        }
+        if (limit == null || limit <= 0) {
+            limit = ConstantUtil.PAGE_SIZE;
+        }
+
+        List<Object[]> list = summaryDao.getGsxxSummary(startDate, endDate, unit, level, name, start, limit);
         if (list != null && list.size() > 0) {
             List<GsxxSummaryVO> resultList = new ArrayList<>();
 
