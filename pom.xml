@@ -194,6 +194,13 @@
             <version>${oracleDriver.version}</version>
         </dependency>
 
+        <!-- sqlServer driver -->
+        <dependency>
+            <groupId>sqlServer</groupId>
+            <artifactId>sqljdbc4</artifactId>
+            <version>4</version>
+        </dependency>
+
 
         <!-- junit -->
         <dependency>
@@ -373,6 +380,8 @@
 
         <oracle.driverClassName>oracle.jdbc.OracleDriver</oracle.driverClassName>
 
+        <sqlServer.driverClassName>com.microsoft.sqlserver.jdbc.SQLServerDriver</sqlServer.driverClassName>
+
         <!-- 数据源1   -->
         <dataSource1.url>jdbc:mysql://localhost:3306/test1?useUnicode=true&amp;amp;characterEncoding=UTF-8
         </dataSource1.url>
@@ -392,10 +401,10 @@
         <dataSource3.password>GhtnTechby3885580</dataSource3.password>
 
         <!-- 数据源4 -->
-        <dataSource4.url>jdbc:mysql://localhost:3306/test4?useUnicode=true&amp;amp;characterEncoding=UTF-8
+        <dataSource4.url>jdbc:sqlserver://192.168.1.202:1433;databaseName=KJ07
         </dataSource4.url>
-        <dataSource4.username>root</dataSource4.username>
-        <dataSource4.password>212214</dataSource4.password>
+        <dataSource4.username>sa</dataSource4.username>
+        <dataSource4.password>ghtn123</dataSource4.password>
 
         <!-- mysql 5 -->
         <hibernate.mysql.dialect>org.hibernate.dialect.MySQL5Dialect</hibernate.mysql.dialect>
@@ -407,7 +416,10 @@
         <hibernate.oracle10g.dialect>org.hibernate.dialect.Oracle10gDialect</hibernate.oracle10g.dialect>
 
         <!-- db2 -->
-        <hibernate.oracle.dialect>org.hibernate.dialect.DB2Dialect</hibernate.oracle.dialect>
+        <hibernate.db2.dialect>org.hibernate.dialect.DB2Dialect</hibernate.db2.dialect>
+
+        <!-- sql server -->
+        <hibernate.sqlServer.dialect>org.hibernate.dialect.SQLServerDialect</hibernate.sqlServer.dialect>
 
         <hibernate.hbm2ddl.auto>none</hibernate.hbm2ddl.auto>
         <hibernate.show_sql>true</hibernate.show_sql>

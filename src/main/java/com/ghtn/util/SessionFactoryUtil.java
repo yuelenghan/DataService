@@ -25,5 +25,9 @@ public class SessionFactoryUtil {
             log.info("切换到sessionFactory : oracle");
             SessionFactoryContextHolder.setType(SessionFactoryType.oracle);
         }
+        if (methodName.toUpperCase().contains("SQLSERVER")) {
+            log.info("切换到sessionFactory : sqlServer");
+            SessionFactoryContextHolder.setType(SessionFactoryType.sqlServer);
+        }
     }
 }

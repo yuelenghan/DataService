@@ -1,6 +1,6 @@
 package com.ghtn.service;
 
-import com.ghtn.model.oracle.fxyk.KqRecord;
+import com.ghtn.model.oracle.KqRecord;
 import com.ghtn.vo.KqRecordVO;
 
 import java.util.List;

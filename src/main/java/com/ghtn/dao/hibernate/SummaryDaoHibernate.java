@@ -1,7 +1,7 @@
 package com.ghtn.dao.hibernate;
 
 import com.ghtn.dao.SummaryDao;
-import com.ghtn.model.oracle.fxyk.Gethangtag;
+import com.ghtn.model.oracle.Gethangtag;
 import com.ghtn.util.DateUtil;
 import com.ghtn.util.StringUtil;
 import oracle.jdbc.OracleTypes;

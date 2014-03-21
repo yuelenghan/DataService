@@ -1,7 +1,7 @@
 package com.ghtn.dao.hibernate;
 
 import com.ghtn.dao.BaseInfoDao;
-import com.ghtn.model.oracle.fxyk.CsBaseinfoset;
+import com.ghtn.model.oracle.CsBaseinfoset;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;

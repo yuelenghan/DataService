@@ -1,6 +1,6 @@
 package com.ghtn.dao;
 
-import com.ghtn.model.oracle.fxyk.Getyhinput;
+import com.ghtn.model.oracle.Getyhinput;
 
 import java.util.List;
 

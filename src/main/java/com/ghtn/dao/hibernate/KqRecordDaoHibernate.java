@@ -1,7 +1,7 @@
 package com.ghtn.dao.hibernate;
 
 import com.ghtn.dao.KqRecordDao;
-import com.ghtn.model.oracle.fxyk.KqRecord;
+import com.ghtn.model.oracle.KqRecord;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

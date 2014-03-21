@@ -1,4 +1,4 @@
-package com.ghtn.model.oracle.fxyk;
+package com.ghtn.model.oracle;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;

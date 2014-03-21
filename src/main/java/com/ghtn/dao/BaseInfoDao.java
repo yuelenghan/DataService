@@ -1,6 +1,6 @@
 package com.ghtn.dao;
 
-import com.ghtn.model.oracle.fxyk.CsBaseinfoset;
+import com.ghtn.model.oracle.CsBaseinfoset;
 
 import java.util.List;
 

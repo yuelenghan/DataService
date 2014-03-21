@@ -1,6 +1,6 @@
 package com.ghtn.service;
 
-import com.ghtn.model.oracle.fxyk.Getyhinput;
+import com.ghtn.model.oracle.Getyhinput;
 import com.ghtn.vo.YhinputVO;
 
 import java.util.List;

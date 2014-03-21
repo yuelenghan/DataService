@@ -1,7 +1,7 @@
 package com.ghtn.dao.hibernate;
 
 import com.ghtn.dao.YhinputDao;
-import com.ghtn.model.oracle.fxyk.Getyhinput;
+import com.ghtn.model.oracle.Getyhinput;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;

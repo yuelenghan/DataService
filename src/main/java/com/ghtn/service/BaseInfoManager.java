@@ -1,6 +1,6 @@
 package com.ghtn.service;
 
-import com.ghtn.model.oracle.fxyk.CsBaseinfoset;
+import com.ghtn.model.oracle.CsBaseinfoset;
 import com.ghtn.vo.BaseInfoVO;
 
 import java.util.List;

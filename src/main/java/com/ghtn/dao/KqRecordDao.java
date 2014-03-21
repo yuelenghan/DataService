@@ -1,6 +1,6 @@
 package com.ghtn.dao;
 
-import com.ghtn.model.oracle.fxyk.KqRecord;
+import com.ghtn.model.oracle.KqRecord;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.ghtn.model.oracle.fxyk;
+package com.ghtn.model.oracle;
 
 import javax.persistence.*;
 import java.math.BigInteger;

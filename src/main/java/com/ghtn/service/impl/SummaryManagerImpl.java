@@ -1,7 +1,7 @@
 package com.ghtn.service.impl;
 
 import com.ghtn.dao.SummaryDao;
-import com.ghtn.model.oracle.fxyk.Gethangtag;
+import com.ghtn.model.oracle.Gethangtag;
 import com.ghtn.service.SummaryManager;
 import com.ghtn.util.ConstantUtil;
 import com.ghtn.util.DateUtil;

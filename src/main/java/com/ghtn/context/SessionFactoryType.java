@@ -6,5 +6,5 @@ package com.ghtn.context;
  * Time: 上午11:23
  */
 public enum SessionFactoryType {
-    mysql, oracle;
+    mysql, oracle, sqlServer;
 }

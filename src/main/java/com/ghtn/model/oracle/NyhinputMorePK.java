@@ -1,4 +1,4 @@
-package com.ghtn.model.oracle.fxyk;
+package com.ghtn.model.oracle;
 
 import javax.persistence.Column;
 import javax.persistence.Id;

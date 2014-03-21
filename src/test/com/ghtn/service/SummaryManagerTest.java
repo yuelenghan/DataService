@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import javax.annotation.Resource;
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  * User: Administrator
@@ -28,40 +27,40 @@ public class SummaryManagerTest extends BaseTestCase {
 
     @Test
     public void testDbjhb() throws Exception {
-        List list = summaryManager.getDbjhbSummaryOracleDataSource3("2013-8-1", "早班", "桂久超");
+       /* List list = summaryManager.getDbjhbSummaryOracleDataSource3("2013-8-1", "早班", "桂久超");
         if (list != null && list.size() > 0)
-            System.out.println(list.size());
+            System.out.println(list.size());*/
     }
 
     @Test
     public void testGpxx() {
-        List list = summaryManager.getGpxxSummaryOracleDataSource3();
+        /*List list = summaryManager.getGpxxSummaryOracleDataSource3();
         if (list != null && list.size() > 0) {
             System.out.println(list.size());
         }
         List list2 = summaryManager.getGpxxSummaryOracleDataSource3();
         if (list2 != null && list2.size() > 0) {
             System.out.println(list2.size());
-        }
+        }*/
     }
 
     @Test
     public void testFswxx() {
-        summaryManager.getFswxxSummaryOracleDataSource3("", "", "");
+//        summaryManager.getFswxxSummaryOracleDataSource3("", "", "");
     }
 
     @Test
     public void testZbdbld() {
-        summaryManager.getZbdbldSummaryOracleDataSource3("2013-08-11");
+//        summaryManager.getZbdbldSummaryOracleDataSource3("2013-08-11");
     }
 
     @Test
     public void testYdyhhz() {
-        summaryManager.getYdyhhzSummaryOracleDataSource3("2013-01-01");
+//        summaryManager.getYdyhhzSummaryOracleDataSource3("2013-01-01");
     }
 
     @Test
     public void testLdxjdb() {
-        summaryManager.getLdxjdbSummaryOracleDataSource3("2013-01-01", "2014-01-01", "");
+//        summaryManager.getLdxjdbSummaryOracleDataSource3("2013-01-01", "2014-01-01", "");
     }
 }

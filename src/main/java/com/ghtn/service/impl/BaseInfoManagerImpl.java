@@ -1,7 +1,7 @@
 package com.ghtn.service.impl;
 
 import com.ghtn.dao.BaseInfoDao;
-import com.ghtn.model.oracle.fxyk.CsBaseinfoset;
+import com.ghtn.model.oracle.CsBaseinfoset;
 import com.ghtn.service.BaseInfoManager;
 import com.ghtn.vo.BaseInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.ghtn.dao;
 
-import com.ghtn.model.oracle.fxyk.Gethangtag;
+import com.ghtn.model.oracle.Gethangtag;
 
 import java.sql.ResultSet;
 import java.util.List;

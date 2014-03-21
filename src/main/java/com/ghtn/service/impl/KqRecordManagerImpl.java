@@ -1,7 +1,7 @@
 package com.ghtn.service.impl;
 
 import com.ghtn.dao.KqRecordDao;
-import com.ghtn.model.oracle.fxyk.KqRecord;
+import com.ghtn.model.oracle.KqRecord;
 import com.ghtn.service.KqRecordManager;
 import com.ghtn.vo.KqRecordVO;
 import org.springframework.beans.factory.annotation.Autowired;

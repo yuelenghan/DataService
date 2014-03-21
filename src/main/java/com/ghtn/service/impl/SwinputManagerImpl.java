@@ -1,7 +1,7 @@
 package com.ghtn.service.impl;
 
 import com.ghtn.dao.SwinputDao;
-import com.ghtn.model.oracle.fxyk.Getswinput;
+import com.ghtn.model.oracle.Getswinput;
 import com.ghtn.service.SwinputManager;
 import com.ghtn.vo.SwinputVO;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.ghtn.service.impl;
 
 import com.ghtn.dao.YhinputDao;
-import com.ghtn.model.oracle.fxyk.Getyhinput;
+import com.ghtn.model.oracle.Getyhinput;
 import com.ghtn.service.YhinputManager;
 import com.ghtn.vo.YhinputVO;
 import org.springframework.beans.factory.annotation.Autowired;
