@@ -33,7 +33,7 @@ public interface SummaryDao extends GenericDao {
 
     List<Object[]> getLdxjdbSummary(String startDate, String endDate, String name, Integer start, Integer limit);
 
-    List<Object[]> getKzdkyhSummary(String date, String mine, Integer start, Integer limit);
+    List<Object[]> getKzdkyhSummary(String startDate, String endDate, String mine, Integer start, Integer limit);
 
     List<Object[]> getYdswgphzSummary(String startDate, String endDate);
 

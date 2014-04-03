@@ -293,39 +293,37 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<KzdkyhSummaryVO> getKzdkyhSummaryOracleDataSource3(String date, String mine, Integer start, Integer limit) {
-        if (!StringUtil.isNullStr(date)) {
-            if (start == null || start <= 0) {
-                start = 0;
+    public List<KzdkyhSummaryVO> getKzdkyhSummaryOracleDataSource3(String startDate, String endDate, String mine, Integer start, Integer limit) {
+        if (start == null || start <= 0) {
+            start = 0;
+        }
+        if (limit == null || limit <= 0) {
+            limit = ConstantUtil.PAGE_SIZE;
+        }
+
+        List<Object[]> list = summaryDao.getKzdkyhSummary(startDate, endDate, mine, start, limit);
+        if (list != null && list.size() > 0) {
+            List<KzdkyhSummaryVO> resultList = new ArrayList<>();
+
+            for (Object[] o : list) {
+                KzdkyhSummaryVO vo = new KzdkyhSummaryVO();
+
+                vo.setMainDeptId(StringUtil.processNullStr(String.valueOf(o[0])));
+                vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[1])));
+                vo.setZrDeptName(StringUtil.processNullStr(String.valueOf(o[2])));
+                vo.setYhAll(StringUtil.processNullStr(String.valueOf(o[3])));
+                vo.setYhA(StringUtil.processNullStr(String.valueOf(o[4])));
+                vo.setYhB(StringUtil.processNullStr(String.valueOf(o[5])));
+                vo.setYhC(StringUtil.processNullStr(String.valueOf(o[6])));
+                vo.setYhYqwzg(StringUtil.processNullStr(String.valueOf(o[7])));
+                vo.setYhLsyq(StringUtil.processNullStr(String.valueOf(o[8])));
+                vo.setYhYbh(StringUtil.processNullStr(String.valueOf(o[9])));
+                vo.setYhWbh(StringUtil.processNullStr(String.valueOf(o[10])));
+
+                resultList.add(vo);
             }
-            if (limit == null || limit <= 0) {
-                limit = ConstantUtil.PAGE_SIZE;
-            }
 
-            List<Object[]> list = summaryDao.getKzdkyhSummary(date, mine, start, limit);
-            if (list != null && list.size() > 0) {
-                List<KzdkyhSummaryVO> resultList = new ArrayList<>();
-
-                for (Object[] o : list) {
-                    KzdkyhSummaryVO vo = new KzdkyhSummaryVO();
-
-                    vo.setMainDeptId(StringUtil.processNullStr(String.valueOf(o[0])));
-                    vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[1])));
-                    vo.setZrDeptName(StringUtil.processNullStr(String.valueOf(o[2])));
-                    vo.setYhAll(StringUtil.processNullStr(String.valueOf(o[3])));
-                    vo.setYhA(StringUtil.processNullStr(String.valueOf(o[4])));
-                    vo.setYhB(StringUtil.processNullStr(String.valueOf(o[5])));
-                    vo.setYhC(StringUtil.processNullStr(String.valueOf(o[6])));
-                    vo.setYhYqwzg(StringUtil.processNullStr(String.valueOf(o[7])));
-                    vo.setYhLsyq(StringUtil.processNullStr(String.valueOf(o[8])));
-                    vo.setYhYbh(StringUtil.processNullStr(String.valueOf(o[9])));
-                    vo.setYhWbh(StringUtil.processNullStr(String.valueOf(o[10])));
-
-                    resultList.add(vo);
-                }
-
-                return resultList;
-            }
+            return resultList;
         }
         return null;
     }

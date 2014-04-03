@@ -1,15 +1,16 @@
 package com.ghtn.controller;
 
-import com.ghtn.model.mysql.User;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.ghtn.service.UserManager;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpSession;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,16 +31,9 @@ public class UserController extends BaseController {
         this.userManager = userManager;
     }
 
-    @RequestMapping("/addUser")
+    @RequestMapping("/login/userName/{userName}/password/{password}")
     @ResponseBody
-    public Map<String, Object> addUser(User user) {
-        userManager.save(user);
-        return operationSuccess();
-    }
-
-    @RequestMapping
-    @ResponseBody
-    public List<User> listUser() {
-        return userManager.listUserMysqlDataSource1();
+    public JSONPObject login(@PathVariable String userName, @PathVariable String password, @RequestParam String callback, HttpSession session) {
+        return new JSONPObject(callback, userManager.loginOracleDataSource3(userName, password, session));
     }
 }

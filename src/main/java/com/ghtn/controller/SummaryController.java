@@ -79,12 +79,13 @@ public class SummaryController extends BaseController {
         return new JSONPObject(callback, summaryManager.getLdxjdbSummaryOracleDataSource3(startDate, endDate, name, start, limit));
     }
 
-    @RequestMapping("/kzdkyh/date/{date}/mine/{mine}/start/{start}/limit/{limit}")
+    @RequestMapping("/kzdkyh/startDate/{startDate}/endDate/{endDate}/mine/{mine}/start/{start}/limit/{limit}")
     @ResponseBody
-    public JSONPObject getKzdkyhSummary(@PathVariable String date, @PathVariable String mine,
+    public JSONPObject getKzdkyhSummary(@PathVariable String startDate, @PathVariable String endDate,
+                                        @PathVariable String mine,
                                         @PathVariable Integer start, @PathVariable Integer limit,
                                         @RequestParam String callback) {
-        return new JSONPObject(callback, summaryManager.getKzdkyhSummaryOracleDataSource3(date, mine, start, limit));
+        return new JSONPObject(callback, summaryManager.getKzdkyhSummaryOracleDataSource3(startDate, endDate, mine, start, limit));
     }
 
     @RequestMapping("/ydswgphz/date/{date}/type/{type}")

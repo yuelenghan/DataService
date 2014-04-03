@@ -1,9 +1,9 @@
 package com.ghtn.service;
 
 import com.ghtn.BaseTestCase;
-import com.ghtn.model.mysql.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.Assert;
 import org.junit.Test;
 
 import javax.annotation.Resource;
@@ -23,27 +23,7 @@ public class UserManagerTest extends BaseTestCase {
     private static Log log = LogFactory.getLog(UserManagerTest.class);
 
     @Test
-    public void testSave() {
-        User user = new User();
-        user.setName("数据源111");
-        user.setAge(20);
+    public void testLogin() {
+        Assert.assertEquals("success", userManager.loginOracleDataSource3("05337", "123456", null));
     }
-
-    @Test
-    public void testGet() {
-        System.out.println(userManager.getUserMysqlDataSource1(66L).getName());
-        System.out.println(userManager.getUserMysqlDataSource2(29L).getName());
-    }
-
-    @Test
-    public void testSave2() {
-        User user = new User();
-        user.setName("user1");
-        userManager.saveUserMysqlDataSource1(user);
-
-        user.setName("user2");
-        userManager.saveUserMysqlDataSource2(user);
-
-    }
-
 }

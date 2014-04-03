@@ -28,7 +28,7 @@ public interface SummaryManager extends GenericManager {
 
     List<LdxjdbSummaryVO> getLdxjdbSummaryOracleDataSource3(String startDate, String endDate, String name, Integer start, Integer limit);
 
-    List<KzdkyhSummaryVO> getKzdkyhSummaryOracleDataSource3(String date, String mine, Integer start, Integer limit);
+    List<KzdkyhSummaryVO> getKzdkyhSummaryOracleDataSource3(String startDate, String endDate, String mine, Integer start, Integer limit);
 
     List<YdswgphzSummaryVO> getYdswgphzSummaryOracleDataSource3(String date, String type);
 

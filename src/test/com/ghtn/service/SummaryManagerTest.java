@@ -73,7 +73,7 @@ public class SummaryManagerTest extends BaseTestCase {
 
     @Test
     public void testYdswgphz() {
-        List list1 = summaryManager.getYdswgphzSummaryOracleDataSource3("2013-08-01");
+        List list1 = summaryManager.getYdswgphzSummaryOracleDataSource3("2013-08-01", "sw");
     }
 
 

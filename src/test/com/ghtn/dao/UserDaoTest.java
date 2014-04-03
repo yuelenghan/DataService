@@ -1,11 +1,8 @@
 package com.ghtn.dao;
 
 import com.ghtn.BaseTestCase;
-import com.ghtn.model.mysql.User;
-import org.junit.Test;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,27 +21,4 @@ public class UserDaoTest extends BaseTestCase {
         this.userDao = userDao;
     }
 
-    @Test
-    public void testSave() {
-        User user = new User();
-        user.setName("test");
-        user.setAge(10);
-
-        userDao.save(user);
-
-    }
-
-    @Test
-    public void testSearch() {
-        String searchTerm = "test2";
-        List<User> list = userDao.search(searchTerm);
-        if (list != null && list.size() != 0) {
-            System.out.println("list.get(0).getName() = " + list.get(0).getName());
-        }
-    }
-
-    @Test
-    public void testReindex() {
-        userDao.reindexAll(false);
-    }
 }

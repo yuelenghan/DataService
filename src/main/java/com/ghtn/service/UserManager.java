@@ -1,8 +1,8 @@
 package com.ghtn.service;
 
-import com.ghtn.model.mysql.User;
+import com.ghtn.model.oracle.SfUser;
 
-import java.util.List;
+import javax.servlet.http.HttpSession;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,19 +11,7 @@ import java.util.List;
  * Time: 上午10:12
  * To change this template use File | Settings | File Templates.
  */
-public interface UserManager extends GenericManager<User, Long> {
+public interface UserManager extends GenericManager<SfUser, Long> {
 
-    User saveUserMysqlDataSource1(User user);
-
-    User saveUserMysqlDataSource2(User user);
-
-    User saveUserOracleDataSource3(User user);
-
-    User saveUserOracleDataSource4(User user);
-
-    User getUserMysqlDataSource1(Long id);
-
-    User getUserMysqlDataSource2(Long id);
-
-    List<User> listUserMysqlDataSource1();
+    String loginOracleDataSource3(String userName, String password, HttpSession session);
 }

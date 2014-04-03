@@ -1,8 +1,6 @@
 package com.ghtn.dao;
 
-import com.ghtn.model.mysql.User;
-
-import java.util.List;
+import com.ghtn.model.oracle.SfUser;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,8 +9,8 @@ import java.util.List;
  * Time: 上午10:10
  * To change this template use File | Settings | File Templates.
  */
-public interface UserDao extends GenericDao<User, Long> {
+public interface UserDao extends GenericDao<SfUser, Long> {
 
-    List<User> listUser();
+    SfUser getUserByName(String userName);
 
 }

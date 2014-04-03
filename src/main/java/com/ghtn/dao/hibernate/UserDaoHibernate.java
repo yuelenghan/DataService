@@ -1,10 +1,9 @@
 package com.ghtn.dao.hibernate;
 
 import com.ghtn.dao.UserDao;
-import com.ghtn.model.mysql.User;
+import com.ghtn.model.oracle.SfUser;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,13 +13,14 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Repository("userDao")
-public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements UserDao {
+public class UserDaoHibernate extends GenericDaoHibernate<SfUser, Long> implements UserDao {
     public UserDaoHibernate() {
-        super(User.class);
+        super(SfUser.class);
     }
 
     @Override
-    public List<User> listUser() {
-        return getSession().createCriteria(User.class).setCacheable(true).list();
+    public SfUser getUserByName(String userName) {
+        return (SfUser) getSession().createCriteria(SfUser.class)
+                .add(Restrictions.eq("username", userName)).uniqueResult();
     }
 }

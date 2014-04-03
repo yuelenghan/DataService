@@ -1,12 +1,18 @@
 package com.ghtn.service.impl;
 
+import com.ghtn.dao.PersonDao;
 import com.ghtn.dao.UserDao;
-import com.ghtn.model.mysql.User;
+import com.ghtn.model.oracle.SfUser;
 import com.ghtn.service.UserManager;
+import com.ghtn.util.KeyUtil;
+import com.ghtn.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,7 +22,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Service("userManager")
-public class UserManagerImpl extends GenericManagerImpl<User, Long> implements UserManager {
+public class UserManagerImpl extends GenericManagerImpl<SfUser, Long> implements UserManager {
 
     private UserDao userDao;
 
@@ -26,38 +32,27 @@ public class UserManagerImpl extends GenericManagerImpl<User, Long> implements U
         this.userDao = userDao;
     }
 
-    @Override
-    public User saveUserMysqlDataSource1(User user) {
-        return userDao.save(user);
+    private PersonDao personDao;
+
+    @Resource
+    public void setPersonDao(PersonDao personDao) {
+        this.personDao = personDao;
     }
 
     @Override
-    public User saveUserMysqlDataSource2(User user) {
-        return userDao.save(user);
-    }
+    public String loginOracleDataSource3(String userName, String password, HttpSession session) {
+        if (!StringUtil.isNullStr(userName) && !StringUtil.isNullStr(password)) {
+            SfUser user = userDao.getUserByName(userName);
+            if (user != null && user.getPassword().equals(KeyUtil.encryptByMD5(password))) {
+                String name = personDao.getPersonName(userName);
+                Map<String, String> userMap = new HashMap<>();
+                userMap.put("personNumber", userName);
+                userMap.put("personName", name);
+                session.setAttribute("user", userMap);
+                return "success";
+            }
+        }
 
-    @Override
-    public User saveUserOracleDataSource3(User user) {
-        return userDao.save(user);
-    }
-
-    @Override
-    public User saveUserOracleDataSource4(User user) {
-        return userDao.save(user);
-    }
-
-    @Override
-    public User getUserMysqlDataSource1(Long id) {
-        return userDao.get(id);
-    }
-
-    @Override
-    public User getUserMysqlDataSource2(Long id) {
-        return userDao.get(id);
-    }
-
-    @Override
-    public List<User> listUserMysqlDataSource1() {
-        return userDao.listUser();
+        return "error";
     }
 }

@@ -267,13 +267,15 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
     }
 
     @Override
-    public List<Object[]> getKzdkyhSummary(String date, String mine, Integer start, Integer limit) {
+    public List<Object[]> getKzdkyhSummary(String startDate, String endDate, String mine, Integer start, Integer limit) {
         String sql = "SELECT ny.MAINDEPTID,d.deptname,ny.zrdeptname,count(ny.YHPUTINID) YHALL,sum(decode(ny.LEVELID,42,1,0)) YHA,";
         sql += " sum(decode(ny.LEVELID,43,1,0)) YHB,sum(decode(ny.LEVELID,44,1,0)) YHC,";
         sql += " sum(decode(ny.STATUS,'逾期未整改',1,0)) YHYQWZG,";
         sql += " sum(decode(ny.YQCS,0,0,1)) YHLSYQ,sum(decode(ny.STATUS,'现场整改',1,'复查通过',1,'隐患已整改',1,0)) YHYBH,";
         sql += " sum(decode(ny.STATUS,'隐患未整改',1,'复查不通过',1,0)) YHWBH FROM GETYHINPUT ny,Department d";
-        sql += " WHERE ny.MAINDEPTID='" + mine + "' and ny.PCTIME>=to_date('" + date + "','YYYY-MM-DD') and ny.STATUS not in ('新增','作废','提交审批') and ny.MAINDEPTID = d.deptnumber";
+        sql += " WHERE ny.MAINDEPTID='" + mine + "'";
+        sql += " and ny.PCTIME between to_date('" + startDate + "','YYYY-MM-DD') and to_date('" + endDate + "','YYYY-MM-DD')";
+        sql += " and ny.STATUS not in ('新增','作废','提交审批') and ny.MAINDEPTID = d.deptnumber";
         sql += " GROUP BY ny.MAINDEPTID, D.deptname,ny.zrdeptname";
         return querySql(sql, start, limit);
     }
