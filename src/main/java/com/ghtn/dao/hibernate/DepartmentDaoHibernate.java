@@ -1,7 +1,7 @@
 package com.ghtn.dao.hibernate;
 
 import com.ghtn.dao.DepartmentDao;
-import com.ghtn.model.sqlServer.Department;
+import com.ghtn.model.oracle.Department;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * Time: 下午5:06
  */
 @Repository("departmentDao")
-public class DepartmentDaoHibernate extends GenericDaoHibernate<Department, Short> implements DepartmentDao {
+public class DepartmentDaoHibernate extends GenericDaoHibernate<Department, String> implements DepartmentDao {
 
     public DepartmentDaoHibernate() {
         super(Department.class);

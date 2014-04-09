@@ -1,7 +1,7 @@
 package com.ghtn.service;
 
 import com.ghtn.BaseTestCase;
-import com.ghtn.model.sqlServer.Department;
+import com.ghtn.model.oracle.Department;
 import org.junit.Test;
 
 import javax.annotation.Resource;

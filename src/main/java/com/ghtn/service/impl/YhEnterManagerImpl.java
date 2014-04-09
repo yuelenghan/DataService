@@ -1,10 +1,10 @@
 package com.ghtn.service.impl;
 
+import com.ghtn.dao.DepartmentDao;
+import com.ghtn.dao.PersonDao;
+import com.ghtn.dao.PlaceDao;
 import com.ghtn.dao.YhEnterDao;
-import com.ghtn.model.oracle.BaseBanci;
-import com.ghtn.model.oracle.Nyhinput;
-import com.ghtn.model.oracle.Person;
-import com.ghtn.model.oracle.Place;
+import com.ghtn.model.oracle.*;
 import com.ghtn.service.YhEnterManager;
 import com.ghtn.util.DateUtil;
 import com.ghtn.util.StringUtil;
@@ -15,6 +15,7 @@ import com.ghtn.vo.ZrrVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.math.BigInteger;
 import java.sql.Timestamp;
@@ -35,6 +36,27 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
     public YhEnterManagerImpl(YhEnterDao yhEnterDao) {
         super(yhEnterDao);
         this.yhEnterDao = yhEnterDao;
+    }
+
+    private PlaceDao placeDao;
+
+    @Resource
+    public void setPlaceDao(PlaceDao placeDao) {
+        this.placeDao = placeDao;
+    }
+
+    private PersonDao personDao;
+
+    @Resource
+    public void setPersonDao(PersonDao personDao) {
+        this.personDao = personDao;
+    }
+
+    private DepartmentDao departmentDao;
+
+    @Resource
+    public void setDepartmentDao(DepartmentDao departmentDao) {
+        this.departmentDao = departmentDao;
     }
 
     @Override
@@ -180,11 +202,16 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
     }
 
     @Override
-    public void insertInfoOracleDataSource3(Integer yhyj, Integer yhjb, String yhlx, String wxy, String yhms, String zrdw, String zrr, Integer pcdd, String mxdd, String pcsj, String pcbc, String pcry, Integer pclx, String zgfs, String zgqx, String zgbc, Integer yhzy, String mainDeptId) throws ParseException {
+    public String insertInfoOracleDataSource3(Integer yhyj, Integer yhjb, String yhlx, String wxy, String yhms, String zrdw, String zrr, Integer pcdd, String mxdd, String pcsj, String pcbc, String pcry, Integer pclx, String zgfs, String zgqx, String zgbc, Integer yhzy, String mainDeptId) throws ParseException {
+        // 插入NYHINPUT
         Nyhinput nyhinput = new Nyhinput();
 
         nyhinput.setDeptid(zrdw);
         nyhinput.setPlaceid(pcdd);
+
+        if (StringUtil.isNullStr(mxdd)) {
+            mxdd = "";
+        }
         nyhinput.setPlacedetail(mxdd);
         nyhinput.setBanci(pcbc);
         nyhinput.setPersonid(zrr);
@@ -202,13 +229,16 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
 
         // 限期整改填写
         if (zgfs.equals("新增")) {
-            nyhinput.setXqdate(new Timestamp(DateUtil.stringToDate(zgqx, "yyyy-MM-dd").getTime()));
-            nyhinput.setXqbanci(zgbc);
+            if (!StringUtil.isNullStr(zgqx)) {
+                nyhinput.setXqdate(new Timestamp(DateUtil.stringToDate(zgqx, "yyyy-MM-dd").getTime()));
 
-            BaseBanci baseBanci = yhEnterDao.getBaseBanci(mainDeptId, zgbc);
-            Date xqDate = DateUtil.stringToDate(zgqx, "yyyy-MM-dd");
-            Date endTime = DateUtil.stringToDate(baseBanci.getEndtime(), "HH:mm:ss");
-            nyhinput.setLastxqtime(new Timestamp(xqDate.getTime() + endTime.getTime() + 4 * 3600 * 1000));
+                BaseBanci baseBanci = yhEnterDao.getBaseBanci(mainDeptId, zgbc);
+                Date xqDate = DateUtil.stringToDate(zgqx, "yyyy-MM-dd");
+                Date endTime = DateUtil.stringToDate(baseBanci.getEndtime(), "HH:mm:ss");
+                nyhinput.setLastxqtime(new Timestamp(xqDate.getTime() + endTime.getTime() + 4 * 3600 * 1000));
+            }
+
+            nyhinput.setXqbanci(zgbc);
         }
 
         nyhinput.setYqcs(BigInteger.ZERO);
@@ -220,6 +250,41 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
 
         nyhinput.setJctype(pclx);
 
-        yhEnterDao.insertNyhinput(nyhinput);
+        nyhinput = (Nyhinput) yhEnterDao.save(nyhinput);
+
+
+        // 插入NYHINPUT_MORE
+        NyhinputMore nyhinputMore = new NyhinputMore();
+        nyhinputMore.setYhputinid(nyhinput.getYhputinid());
+        nyhinputMore.setPersonid(pcry);
+        nyhinputMore.setPctime(new Timestamp(DateUtil.stringToDate(pcsj, "yyyy-MM-dd").getTime()));
+        nyhinputMore.setBanci(pcbc);
+        nyhinputMore.setJctype(BigInteger.valueOf(pclx));
+        nyhinputMore.setRemarks(yhms);
+
+        yhEnterDao.save(nyhinputMore);
+
+        // 插入NYHSTATUSCHANGE
+        Nyhstatuschange nyhstatuschange = new Nyhstatuschange();
+        nyhstatuschange.setYhputinid(nyhinput.getYhputinid());
+        nyhstatuschange.setLcmark(1);
+        nyhstatuschange.setRecorddate(new Timestamp(new Date().getTime()));
+        nyhstatuschange.setNstatus(zgfs);
+        nyhstatuschange.setCremarks(personDao.getPersonName(pcry) + "于" + DateUtil.dateToString(new Date(), "yyyy/MM/dd HH:mm:ss") + "新增一条隐患!");
+
+        yhEnterDao.save(nyhstatuschange);
+
+
+        // 插入YHPERSISTENCE
+        Yhpersistence yhpersistence = new Yhpersistence();
+        yhpersistence.setYhputinid(nyhinput.getYhputinid());
+        yhpersistence.setZrdeptname(departmentDao.get(zrdw).getDeptname());
+        yhpersistence.setZrpername(personDao.getPersonName(zrr));
+        yhpersistence.setPlacename(placeDao.get(pcdd).getPlacename());
+        yhpersistence.setInputpername(personDao.getPersonName(pcry));
+
+        yhEnterDao.save(yhpersistence);
+
+        return "success";
     }
 }

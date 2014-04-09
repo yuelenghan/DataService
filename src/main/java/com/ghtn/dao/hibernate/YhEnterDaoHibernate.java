@@ -2,7 +2,6 @@ package com.ghtn.dao.hibernate;
 
 import com.ghtn.dao.YhEnterDao;
 import com.ghtn.model.oracle.BaseBanci;
-import com.ghtn.model.oracle.Nyhinput;
 import com.ghtn.model.oracle.Person;
 import com.ghtn.model.oracle.Place;
 import org.hibernate.criterion.Restrictions;
@@ -48,11 +47,6 @@ public class YhEnterDaoHibernate extends GenericDaoHibernate implements YhEnterD
     @Override
     public List<Place> getPlace(String deptNumber) {
         return getSession().createCriteria(Place.class).add(Restrictions.eq("maindeptid", deptNumber)).list();
-    }
-
-    @Override
-    public void insertNyhinput(Nyhinput nyhinput) {
-        save(nyhinput);
     }
 
     @Override

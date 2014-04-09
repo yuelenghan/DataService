@@ -1,6 +1,6 @@
 package com.ghtn.dao;
 
-import com.ghtn.model.sqlServer.Department;
+import com.ghtn.model.oracle.Department;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  * Date: 14-3-17
  * Time: 下午5:05
  */
-public interface DepartmentDao extends GenericDao<Department, Short> {
+public interface DepartmentDao extends GenericDao<Department, String> {
 
     List<Department> getAllDept();
 

@@ -15,7 +15,7 @@ public class Nyhinput {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "nyhinput")
-    @SequenceGenerator(name = "nyhinput", sequenceName = "SEQ_NYHINPUT")
+    @SequenceGenerator(name = "nyhinput", sequenceName = "SEQ_NYHINPUT", allocationSize = 1)
     @javax.persistence.Column(name = "YHPUTINID", nullable = false, insertable = true, updatable = true, precision = 0)
     public int getYhputinid() {
         return yhputinid;

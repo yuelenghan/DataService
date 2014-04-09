@@ -27,7 +27,7 @@ public class YhEnterManagerTest extends BaseTestCase {
 
     @Test
     public void testInsert() throws ParseException {
-        yhEnterManager.insertInfoOracleDataSource3(1, 1, "1", "1", "1", "1", "1", 1, "1", "2013-08-01", "1", "1", 1, "新增", "2014-01-01", "早班", 1, "010102");
+        yhEnterManager.insertInfoOracleDataSource3(1, 1, "1", "1", "1", "1", "1", 40, "1", "2013-08-01", "1", "1", 1, "新增", "2014-01-01", "早班", 1, "010102");
     }
 
 }

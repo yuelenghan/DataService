@@ -1,7 +1,7 @@
 package com.ghtn.service.impl;
 
 import com.ghtn.dao.DepartmentDao;
-import com.ghtn.model.sqlServer.Department;
+import com.ghtn.model.oracle.Department;
 import com.ghtn.service.DepartmentManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.util.List;
  * Time: 下午5:32
  */
 @Service("departmentManager")
-public class DepartmentManagerImpl extends GenericManagerImpl<Department, Short> implements DepartmentManager {
+public class DepartmentManagerImpl extends GenericManagerImpl<Department, String> implements DepartmentManager {
 
     private DepartmentDao departmentDao;
 
