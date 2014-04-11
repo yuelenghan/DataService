@@ -127,8 +127,6 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
         List<Object[]> list = yhEnterDao.getHazard(deptNumber);
         if (list != null && list.size() > 0) {
             List<HazardVO> resultList = new ArrayList<>();
-            Map<String, String> levelMap = new HashMap<>();
-            Map<String, String> typeMap = new HashMap<>();
             for (Object[] o : list) {
                 HazardVO vo = new HazardVO();
 

@@ -5,6 +5,8 @@ import com.ghtn.model.oracle.Person;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * User: Administrator
  * Date: 2014/4/3
@@ -24,5 +26,12 @@ public class PersonDaoHibernate extends GenericDaoHibernate<Person, Long> implem
             return person.getName();
         }
         return "";
+    }
+
+    @Override
+    public List<Person> getPerson(String shortName, String mainDeptId) {
+        return getSession().createCriteria(Person.class)
+                .add(Restrictions.eq("maindeptid", mainDeptId))
+                .add(Restrictions.like("name", "%" + shortName + "%")).list();
     }
 }
