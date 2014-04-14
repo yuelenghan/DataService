@@ -10,6 +10,12 @@ import java.sql.ResultSet;
  */
 public interface RydwDao extends GenericDao {
 
+    /**
+     * 人员下井记录
+     *
+     * @param date 日期
+     * @return
+     */
     ResultSet getInMinePeople(Date date);
 
 

@@ -11,6 +11,12 @@ import java.util.List;
  */
 public interface PersonDao extends GenericDao<Person, Long> {
 
+    /**
+     * 根据人员编码取得姓名
+     *
+     * @param personNumber 人员编码
+     * @return
+     */
     String getPersonName(String personNumber);
 
     List<Person> getPerson(String shortName, String mainDeptId);

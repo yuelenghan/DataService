@@ -80,7 +80,7 @@ public class YhEnterDaoHibernate extends GenericDaoHibernate implements YhEnterD
     }
 
     @Override
-    public Nyhinput listYhinput(Integer placeId, String zrdw, Integer yhyj) {
+    public Nyhinput getYhinput(Integer placeId, String zrdw, Integer yhyj) {
         return (Nyhinput) getSession().createCriteria(Nyhinput.class)
                 .add(Restrictions.eq("placeid", placeId))
                 .add(Restrictions.eq("deptid", zrdw))

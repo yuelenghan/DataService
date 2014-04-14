@@ -9,8 +9,21 @@ import java.util.List;
  */
 public interface SwEnterDao extends GenericDao {
 
+    /**
+     * 查询三违依据
+     *
+     * @param deptNumber 部门编码
+     * @return
+     */
     List<Object[]> getSwBasis(String deptNumber);
 
+    /**
+     * 过滤三违依据
+     *
+     * @param deptNumber 部门编码
+     * @param arg        过滤条件
+     * @return
+     */
     List<Object[]> filterSwBasis(String deptNumber, String arg);
 
 }

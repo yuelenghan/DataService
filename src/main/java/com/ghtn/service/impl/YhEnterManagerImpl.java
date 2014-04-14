@@ -201,7 +201,7 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
 
     @Override
     public String insertInfoOracleDataSource3(Integer yhyj, Integer yhjb, String yhlx, String wxy, String yhms, String zrdw, String zrr, Integer pcdd, String mxdd, String pcsj, String pcbc, String pcry, Integer pclx, String zgfs, String zgqx, String zgbc, Integer yhzy, String mainDeptId) throws ParseException {
-        Nyhinput nyhinput = yhEnterDao.listYhinput(pcdd, zrdw, yhyj);
+        Nyhinput nyhinput = yhEnterDao.getYhinput(pcdd, zrdw, yhyj);
         if (nyhinput == null) {
             // 插入NYHINPUT
             nyhinput = new Nyhinput();
@@ -244,6 +244,7 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
             nyhinput.setYqcs(BigInteger.ZERO);
             nyhinput.setDxtx(BigInteger.ZERO);
 
+            // 排查类型为矿专项检查或公司专项检查，指定排查专业
             if (pclx == 4 || pclx == 7) {
                 nyhinput.setYhzyid(yhzy);
             }
