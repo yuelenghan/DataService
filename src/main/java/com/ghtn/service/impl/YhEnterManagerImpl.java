@@ -201,88 +201,154 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
 
     @Override
     public String insertInfoOracleDataSource3(Integer yhyj, Integer yhjb, String yhlx, String wxy, String yhms, String zrdw, String zrr, Integer pcdd, String mxdd, String pcsj, String pcbc, String pcry, Integer pclx, String zgfs, String zgqx, String zgbc, Integer yhzy, String mainDeptId) throws ParseException {
-        // 插入NYHINPUT
-        Nyhinput nyhinput = new Nyhinput();
+        Nyhinput nyhinput = yhEnterDao.listYhinput(pcdd, zrdw, yhyj);
+        if (nyhinput == null) {
+            // 插入NYHINPUT
+            nyhinput = new Nyhinput();
 
-        nyhinput.setDeptid(zrdw);
-        nyhinput.setPlaceid(pcdd);
+            nyhinput.setDeptid(zrdw);
+            nyhinput.setPlaceid(pcdd);
 
-        if (StringUtil.isNullStr(mxdd)) {
-            mxdd = "";
-        }
-        nyhinput.setPlacedetail(mxdd);
-        nyhinput.setBanci(pcbc);
-        nyhinput.setPersonid(zrr);
-        nyhinput.setPctime(new Timestamp(DateUtil.stringToDate(pcsj, "yyyy-MM-dd").getTime()));
-        nyhinput.setIntime(new Timestamp(new Date().getTime()));
-        nyhinput.setYhid(yhyj);
-        nyhinput.setLevelid(yhjb);
-        nyhinput.setTypeid(yhzy);
-        nyhinput.sethNumber(wxy);
-        nyhinput.setRemarks(yhms);
-        nyhinput.setStatus(zgfs);
-        nyhinput.setInputpersonid(pcry);
-        nyhinput.setMaindeptid(mainDeptId);
-        nyhinput.setLcmark(1L);
+            if (StringUtil.isNullStr(mxdd)) {
+                mxdd = "";
+            }
+            nyhinput.setPlacedetail(mxdd);
+            nyhinput.setBanci(pcbc);
+            nyhinput.setPersonid(zrr);
+            nyhinput.setPctime(new Timestamp(DateUtil.stringToDate(pcsj, "yyyy-MM-dd").getTime()));
+            nyhinput.setIntime(new Timestamp(new Date().getTime()));
+            nyhinput.setYhid(yhyj);
+            nyhinput.setLevelid(yhjb);
+            nyhinput.setTypeid(yhzy);
+            nyhinput.sethNumber(wxy);
+            nyhinput.setRemarks(yhms);
+            nyhinput.setStatus(zgfs);
+            nyhinput.setInputpersonid(pcry);
+            nyhinput.setMaindeptid(mainDeptId);
+            nyhinput.setLcmark(1L);
 
-        // 限期整改填写
-        if (zgfs.equals("新增")) {
-            if (!StringUtil.isNullStr(zgqx)) {
-                nyhinput.setXqdate(new Timestamp(DateUtil.stringToDate(zgqx, "yyyy-MM-dd").getTime()));
+            // 限期整改填写
+            if (zgfs.equals("新增")) {
+                if (!StringUtil.isNullStr(zgqx)) {
+                    nyhinput.setXqdate(new Timestamp(DateUtil.stringToDate(zgqx, "yyyy-MM-dd").getTime()));
 
-                BaseBanci baseBanci = yhEnterDao.getBaseBanci(mainDeptId, zgbc);
-                Date xqDate = DateUtil.stringToDate(zgqx, "yyyy-MM-dd");
-                Date endTime = DateUtil.stringToDate(baseBanci.getEndtime(), "HH:mm:ss");
-                nyhinput.setLastxqtime(new Timestamp(xqDate.getTime() + endTime.getTime() + 4 * 3600 * 1000));
+                    BaseBanci baseBanci = yhEnterDao.getBaseBanci(mainDeptId, zgbc);
+                    Date xqDate = DateUtil.stringToDate(zgqx, "yyyy-MM-dd");
+                    Date endTime = DateUtil.stringToDate(baseBanci.getEndtime(), "HH:mm:ss");
+                    nyhinput.setLastxqtime(new Timestamp(xqDate.getTime() + endTime.getTime() + 4 * 3600 * 1000));
+                }
+
+                nyhinput.setXqbanci(zgbc);
             }
 
-            nyhinput.setXqbanci(zgbc);
+            nyhinput.setYqcs(BigInteger.ZERO);
+            nyhinput.setDxtx(BigInteger.ZERO);
+
+            if (pclx == 4 || pclx == 7) {
+                nyhinput.setYhzyid(yhzy);
+            }
+
+            nyhinput.setJctype(pclx);
+
+            nyhinput = (Nyhinput) yhEnterDao.save(nyhinput);
+
+
+            // 插入NYHINPUT_MORE
+            NyhinputMore nyhinputMore = new NyhinputMore();
+            nyhinputMore.setYhputinid(nyhinput.getYhputinid());
+            nyhinputMore.setPersonid(pcry);
+            nyhinputMore.setPctime(new Timestamp(DateUtil.stringToDate(pcsj, "yyyy-MM-dd").getTime()));
+            nyhinputMore.setBanci(pcbc);
+            nyhinputMore.setJctype(BigInteger.valueOf(pclx));
+            nyhinputMore.setRemarks(yhms);
+
+            yhEnterDao.save(nyhinputMore);
+
+            // 插入NYHSTATUSCHANGE
+            Nyhstatuschange nyhstatuschange = new Nyhstatuschange();
+            nyhstatuschange.setYhputinid(nyhinput.getYhputinid());
+            nyhstatuschange.setLcmark(1);
+            nyhstatuschange.setRecorddate(new Timestamp(new Date().getTime()));
+            nyhstatuschange.setNstatus(zgfs);
+            nyhstatuschange.setCremarks(personDao.getPersonName(pcry) + "于" + DateUtil.dateToString(new Date(), "yyyy/MM/dd HH:mm:ss") + "新增一条隐患!");
+
+            yhEnterDao.save(nyhstatuschange);
+
+
+            // 插入YHPERSISTENCE
+            Yhpersistence yhpersistence = new Yhpersistence();
+            yhpersistence.setYhputinid(nyhinput.getYhputinid());
+            yhpersistence.setZrdeptname(departmentDao.get(zrdw).getDeptname());
+            yhpersistence.setZrpername(personDao.getPersonName(zrr));
+            yhpersistence.setPlacename(placeDao.get(pcdd).getPlacename());
+            yhpersistence.setInputpername(personDao.getPersonName(pcry));
+
+            yhEnterDao.save(yhpersistence);
+        } else {
+            // 插入NYHINPUT_MORE
+            NyhinputMore nyhinputMore = new NyhinputMore();
+            nyhinputMore.setYhputinid(nyhinput.getYhputinid());
+            nyhinputMore.setPersonid(pcry);
+            nyhinputMore.setPctime(new Timestamp(DateUtil.stringToDate(pcsj, "yyyy-MM-dd").getTime()));
+            nyhinputMore.setBanci(pcbc);
+            nyhinputMore.setJctype(BigInteger.valueOf(pclx));
+            nyhinputMore.setRemarks(yhms);
+
+            yhEnterDao.save(nyhinputMore);
         }
 
-        nyhinput.setYqcs(BigInteger.ZERO);
-        nyhinput.setDxtx(BigInteger.ZERO);
-
-        if (pclx == 4 || pclx == 7) {
-            nyhinput.setYhzyid(yhzy);
-        }
-
-        nyhinput.setJctype(pclx);
-
-        nyhinput = (Nyhinput) yhEnterDao.save(nyhinput);
-
-
-        // 插入NYHINPUT_MORE
-        NyhinputMore nyhinputMore = new NyhinputMore();
-        nyhinputMore.setYhputinid(nyhinput.getYhputinid());
-        nyhinputMore.setPersonid(pcry);
-        nyhinputMore.setPctime(new Timestamp(DateUtil.stringToDate(pcsj, "yyyy-MM-dd").getTime()));
-        nyhinputMore.setBanci(pcbc);
-        nyhinputMore.setJctype(BigInteger.valueOf(pclx));
-        nyhinputMore.setRemarks(yhms);
-
-        yhEnterDao.save(nyhinputMore);
-
-        // 插入NYHSTATUSCHANGE
-        Nyhstatuschange nyhstatuschange = new Nyhstatuschange();
-        nyhstatuschange.setYhputinid(nyhinput.getYhputinid());
-        nyhstatuschange.setLcmark(1);
-        nyhstatuschange.setRecorddate(new Timestamp(new Date().getTime()));
-        nyhstatuschange.setNstatus(zgfs);
-        nyhstatuschange.setCremarks(personDao.getPersonName(pcry) + "于" + DateUtil.dateToString(new Date(), "yyyy/MM/dd HH:mm:ss") + "新增一条隐患!");
-
-        yhEnterDao.save(nyhstatuschange);
-
-
-        // 插入YHPERSISTENCE
-        Yhpersistence yhpersistence = new Yhpersistence();
-        yhpersistence.setYhputinid(nyhinput.getYhputinid());
-        yhpersistence.setZrdeptname(departmentDao.get(zrdw).getDeptname());
-        yhpersistence.setZrpername(personDao.getPersonName(zrr));
-        yhpersistence.setPlacename(placeDao.get(pcdd).getPlacename());
-        yhpersistence.setInputpername(personDao.getPersonName(pcry));
-
-        yhEnterDao.save(yhpersistence);
 
         return "success";
     }
+
+    @Override
+    public List<YhBasisVO> filterYhBasisOracleDataSource3(String deptNumber, String arg) {
+        List<Object[]> list = yhEnterDao.filterYhBasis(deptNumber, arg);
+        if (list != null && list.size() > 0) {
+            List<YhBasisVO> resultList = new ArrayList<>();
+            for (Object[] o : list) {
+                YhBasisVO vo = new YhBasisVO();
+                vo.setYhId(StringUtil.processNullStr(String.valueOf(o[0])));
+                vo.setYhNumber(StringUtil.processNullStr(String.valueOf(o[1])));
+                vo.setYhContent(StringUtil.processNullStr(String.valueOf(o[2])));
+                vo.setLevelId(StringUtil.processNullStr(String.valueOf(o[3])));
+                vo.setLevelName(StringUtil.processNullStr(String.valueOf(o[4])));
+                vo.setTypeId(StringUtil.processNullStr(String.valueOf(o[5])));
+                vo.setTypeName(StringUtil.processNullStr(String.valueOf(o[6])));
+                vo.sethNumber(StringUtil.processNullStr(String.valueOf(o[7])));
+                vo.sethContent(StringUtil.processNullStr(String.valueOf(o[8])));
+
+                resultList.add(vo);
+
+            }
+
+            return resultList;
+        }
+        return null;
+    }
+
+    @Override
+    public List<HazardVO> filterHazardOracleDataSource3(String deptNumber, String arg) {
+        List<Object[]> list = yhEnterDao.filterHazard(deptNumber, arg);
+        if (list != null && list.size() > 0) {
+            List<HazardVO> resultList = new ArrayList<>();
+            for (Object[] o : list) {
+                HazardVO vo = new HazardVO();
+
+                vo.sethNumber(StringUtil.processNullStr(String.valueOf(o[0])));
+                vo.sethContent(StringUtil.processNullStr(String.valueOf(o[1])));
+
+                resultList.add(vo);
+            }
+
+            return resultList;
+        }
+        return null;
+    }
+
+    @Override
+    public List<Place> filterPlaceOracleDataSource3(String deptNumber, String arg) {
+        return yhEnterDao.filterPlace(deptNumber, arg);
+    }
+
 }

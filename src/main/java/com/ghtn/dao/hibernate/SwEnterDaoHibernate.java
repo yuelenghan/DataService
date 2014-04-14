@@ -18,4 +18,12 @@ public class SwEnterDaoHibernate extends GenericDaoHibernate implements SwEnterD
         sql += " WHERE DEPTNUMBER = '" + deptNumber + "'";
         return querySql(sql);
     }
+
+    @Override
+    public List<Object[]> filterSwBasis(String deptNumber, String arg) {
+        String sql = "select SWID, SWNUMBER, SWCONTENT, Levelid,levelname, Typeid,typename, H_NUMBER,h_content FROM Getswandhazusing";
+        sql += " WHERE DEPTNUMBER = '" + deptNumber + "'";
+        sql += " and swcontent like '%" + arg + "%'";
+        return querySql(sql);
+    }
 }

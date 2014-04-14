@@ -97,4 +97,22 @@ public class YhEnterController extends BaseController {
                         zgqx, zgbc, yhzy, mainDeptId)
         );
     }
+
+    @RequestMapping("/yhBasis/deptNumber/{deptNumber}/{arg}")
+    @ResponseBody
+    public JSONPObject filterYhBasis(@PathVariable String deptNumber, @PathVariable String arg, @RequestParam String callback) {
+        return new JSONPObject(callback, yhEnterManager.filterYhBasisOracleDataSource3(deptNumber, arg));
+    }
+
+    @RequestMapping("/hazard/deptNumber/{deptNumber}/{arg}")
+    @ResponseBody
+    public JSONPObject filterHazard(@PathVariable String deptNumber, @PathVariable String arg, @RequestParam String callback) {
+        return new JSONPObject(callback, yhEnterManager.filterHazardOracleDataSource3(deptNumber, arg));
+    }
+
+    @RequestMapping("/place/deptNumber/{deptNumber}/{arg}")
+    @ResponseBody
+    public JSONPObject filterPlace(@PathVariable String deptNumber, @PathVariable String arg, @RequestParam String callback) {
+        return new JSONPObject(callback, yhEnterManager.filterPlaceOracleDataSource3(deptNumber, arg));
+    }
 }

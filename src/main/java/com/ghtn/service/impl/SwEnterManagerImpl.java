@@ -193,4 +193,30 @@ public class SwEnterManagerImpl extends GenericManagerImpl implements SwEnterMan
 
         return "success";
     }
+
+    @Override
+    public List<SwBasisVO> filterSwBasisOracleDataSource3(String deptNumber, String arg) {
+        List<Object[]> list = swEnterDao.filterSwBasis(deptNumber, arg);
+        if (list != null && list.size() > 0) {
+            List<SwBasisVO> resultList = new ArrayList<>();
+            for (Object[] o : list) {
+                SwBasisVO vo = new SwBasisVO();
+                vo.setSwId(StringUtil.processNullStr(String.valueOf(o[0])));
+                vo.setSwNumber(StringUtil.processNullStr(String.valueOf(o[1])));
+                vo.setSwContent(StringUtil.processNullStr(String.valueOf(o[2])));
+                vo.setLevelId(StringUtil.processNullStr(String.valueOf(o[3])));
+                vo.setLevelName(StringUtil.processNullStr(String.valueOf(o[4])));
+                vo.setTypeId(StringUtil.processNullStr(String.valueOf(o[5])));
+                vo.setTypeName(StringUtil.processNullStr(String.valueOf(o[6])));
+                vo.sethNumber(StringUtil.processNullStr(String.valueOf(o[7])));
+                vo.sethContent(StringUtil.processNullStr(String.valueOf(o[8])));
+
+                resultList.add(vo);
+
+            }
+
+            return resultList;
+        }
+        return null;
+    }
 }

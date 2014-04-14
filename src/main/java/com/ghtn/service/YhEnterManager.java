@@ -35,4 +35,11 @@ public interface YhEnterManager extends GenericManager {
 
     String insertInfoOracleDataSource3(Integer yhyj, Integer yhjb, String yhlx, String wxy, String yhms, String zrdw, String zrr, Integer pcdd, String mxdd,
                                        String pcsj, String pcbc, String pcry, Integer pclx, String zgfs, String zgqx, String zgbc, Integer yhzy, String mainDeptId) throws ParseException;
+
+    List<YhBasisVO> filterYhBasisOracleDataSource3(String deptNumber, String arg);
+
+    List<HazardVO> filterHazardOracleDataSource3(String deptNumber, String arg);
+
+    List<Place> filterPlaceOracleDataSource3(String deptNumber, String arg);
+
 }

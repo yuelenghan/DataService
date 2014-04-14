@@ -98,4 +98,22 @@ public class SwEnterController {
                         swry, pcry, pcdd, mxdd, pcsj, pcbc, jcfs, mainDeptId)
         );
     }
+
+    @RequestMapping("/swBasis/deptNumber/{deptNumber}/{arg}")
+    @ResponseBody
+    public JSONPObject filterSwBasis(@PathVariable String deptNumber, @PathVariable String arg, @RequestParam String callback) {
+        return new JSONPObject(callback, swEnterManager.filterSwBasisOracleDataSource3(deptNumber, arg));
+    }
+
+    @RequestMapping("/hazard/deptNumber/{deptNumber}/{arg}")
+    @ResponseBody
+    public JSONPObject filterHazard(@PathVariable String deptNumber, @PathVariable String arg, @RequestParam String callback) {
+        return new JSONPObject(callback, yhEnterManager.filterHazardOracleDataSource3(deptNumber, arg));
+    }
+
+    @RequestMapping("/place/deptNumber/{deptNumber}/{arg}")
+    @ResponseBody
+    public JSONPObject filterPlace(@PathVariable String deptNumber, @PathVariable String arg, @RequestParam String callback) {
+        return new JSONPObject(callback, yhEnterManager.filterPlaceOracleDataSource3(deptNumber, arg));
+    }
 }

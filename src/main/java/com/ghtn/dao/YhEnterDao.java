@@ -1,6 +1,7 @@
 package com.ghtn.dao;
 
 import com.ghtn.model.oracle.BaseBanci;
+import com.ghtn.model.oracle.Nyhinput;
 import com.ghtn.model.oracle.Person;
 import com.ghtn.model.oracle.Place;
 
@@ -24,4 +25,12 @@ public interface YhEnterDao extends GenericDao {
     List<Place> getPlace(String deptNumber);
 
     BaseBanci getBaseBanci(String mainDeptId, String banci);
+
+    List<Object[]> filterYhBasis(String deptNumber, String arg);
+
+    List<Object[]> filterHazard(String deptNumber, String arg);
+
+    List<Place> filterPlace(String deptNumber, String arg);
+
+    Nyhinput listYhinput(Integer placeId, String zrdw, Integer yhyj);
 }

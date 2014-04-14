@@ -27,4 +27,5 @@ public interface SwEnterManager extends GenericManager {
     String insertInfoOracleDataSource3(Integer swyj, Integer swxz, Integer swlx, Integer swzy, String wxy, String swms, String swry, String pcry,
                                        Integer pcdd, String mxdd, String pcsj, String pcbc, Integer jcfs, String mainDeptId) throws ParseException;
 
+    List<SwBasisVO> filterSwBasisOracleDataSource3(String deptNumber, String arg);
 }

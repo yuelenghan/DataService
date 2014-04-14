@@ -11,4 +11,6 @@ public interface SwEnterDao extends GenericDao {
 
     List<Object[]> getSwBasis(String deptNumber);
 
+    List<Object[]> filterSwBasis(String deptNumber, String arg);
+
 }
