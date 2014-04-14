@@ -448,6 +448,24 @@
         <timeToLiveSeconds>3600</timeToLiveSeconds>
         <diskPersistent>false</diskPersistent>
 
+
+        <log4j.level>DEBUG</log4j.level>
         <encoding>utf-8</encoding>
     </properties>
+
+    <profiles>
+        <!-- 远程正式环境 -->
+        <profile>
+            <id>remote</id>
+            <properties>
+                <!-- 数据源3   -->
+                <dataSource3.url>jdbc:oracle:thin:@//10.1.168.50:1521/orcl
+                </dataSource3.url>
+                <dataSource3.username>sep3</dataSource3.username>
+                <dataSource3.password>GhtnTechby3885580</dataSource3.password>
+
+                <log4j.level>ERROR</log4j.level>
+            </properties>
+        </profile>
+    </profiles>
 </project>

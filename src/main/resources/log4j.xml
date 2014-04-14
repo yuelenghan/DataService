@@ -14,23 +14,23 @@
     </logger>
 
     <logger name="com.ghtn">
-        <level value="DEBUG"/>
+        <level value="${log4j.level}"/>
     </logger>
 
     <logger name="org.springframework.web.context.ContextLoader">
-        <level value="debug"/>
+        <level value="${log4j.level}"/>
     </logger>
 
     <logger name="org.hibernate.transaction">
-        <level value="debug"/>
+        <level value="${log4j.level}"/>
     </logger>
 
     <logger name="org.springframework.test.context">
-        <level value="debug"/>
+        <level value="${log4j.level}"/>
     </logger>
 
     <root>
-        <level value="INFO"/>
+        <level value="${log4j.level}"/>
         <appender-ref ref="CONSOLE"/>
     </root>
 
