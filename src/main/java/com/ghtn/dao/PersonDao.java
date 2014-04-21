@@ -19,6 +19,8 @@ public interface PersonDao extends GenericDao<Person, Long> {
      */
     String getPersonName(String personNumber);
 
-    List<Person> getPerson(String shortName, String mainDeptId);
+    List<Person> getPerson(String shortName, String deptId);
+
+    Person getPerson(String personNumber);
 
 }

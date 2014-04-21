@@ -1,5 +1,6 @@
 package com.ghtn.service.impl;
 
+import com.ghtn.dao.DepartmentDao;
 import com.ghtn.dao.PersonDao;
 import com.ghtn.dao.PlaceDao;
 import com.ghtn.dao.SwEnterDao;
@@ -7,6 +8,7 @@ import com.ghtn.model.oracle.*;
 import com.ghtn.service.SwEnterManager;
 import com.ghtn.util.DateUtil;
 import com.ghtn.util.StringUtil;
+import com.ghtn.vo.DepartmentVO;
 import com.ghtn.vo.SwBasisVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +48,13 @@ public class SwEnterManagerImpl extends GenericManagerImpl implements SwEnterMan
     @Resource
     public void setPlaceDao(PlaceDao placeDao) {
         this.placeDao = placeDao;
+    }
+
+    private DepartmentDao departmentDao;
+
+    @Resource
+    public void setDepartmentDao(DepartmentDao departmentDao) {
+        this.departmentDao = departmentDao;
     }
 
     @Override
@@ -124,8 +133,8 @@ public class SwEnterManagerImpl extends GenericManagerImpl implements SwEnterMan
     }
 
     @Override
-    public List<Person> getPersonOracleDataSource3(String shortName, String mainDeptId) {
-        return personDao.getPerson(shortName, mainDeptId);
+    public List<Person> getPersonOracleDataSource3(String shortName, String deptId) {
+        return personDao.getPerson(shortName, deptId);
     }
 
     @Override
@@ -195,10 +204,17 @@ public class SwEnterManagerImpl extends GenericManagerImpl implements SwEnterMan
     }
 
     @Override
-    public List<SwBasisVO> filterSwBasisOracleDataSource3(String deptNumber, String arg) {
-        List<Object[]> list = swEnterDao.filterSwBasis(deptNumber, arg);
+    public List<SwBasisVO> filterSwBasisOracleDataSource3(String deptNumber, String swyjLevel, String swyjText, HttpSession session) {
+        int swyjLevelInt = 0;
+        if (!StringUtil.isNullStr(swyjLevel)) {
+            swyjLevelInt = Integer.parseInt(swyjLevel);
+        }
+        List<Object[]> list = swEnterDao.filterSwBasis(deptNumber, swyjLevelInt, swyjText);
         if (list != null && list.size() > 0) {
             List<SwBasisVO> resultList = new ArrayList<>();
+            Map<String, String> levelMap = new HashMap<>();
+            Map<String, String> typeMap = new HashMap<>();
+            Map<String, String> hazardMap = new HashMap<>();
             for (Object[] o : list) {
                 SwBasisVO vo = new SwBasisVO();
                 vo.setSwId(StringUtil.processNullStr(String.valueOf(o[0])));
@@ -213,6 +229,33 @@ public class SwEnterManagerImpl extends GenericManagerImpl implements SwEnterMan
 
                 resultList.add(vo);
 
+                levelMap.put(vo.getSwId(), vo.getLevelId());
+                typeMap.put(vo.getSwId(), vo.getTypeId());
+                hazardMap.put(vo.getSwId(), vo.gethNumber());
+            }
+
+            if (session != null) {
+                session.setAttribute("levelMap", levelMap);
+                session.setAttribute("typeMap", typeMap);
+                session.setAttribute("hazardMap", hazardMap);
+            }
+
+            return resultList;
+        }
+        return null;
+    }
+
+    @Override
+    public List<DepartmentVO> filterDepartmentOracleDataSource3(String mainDeptId) {
+        List<Object[]> list = departmentDao.getDept(mainDeptId);
+        if (list != null && list.size() > 0) {
+            List<DepartmentVO> resultList = new ArrayList<>();
+            for (Object[] o : list) {
+                DepartmentVO vo = new DepartmentVO();
+                vo.setDeptNumber(StringUtil.processNullStr(String.valueOf(o[0])));
+                vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[1])));
+
+                resultList.add(vo);
             }
 
             return resultList;

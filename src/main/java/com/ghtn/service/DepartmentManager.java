@@ -1,6 +1,7 @@
 package com.ghtn.service;
 
 import com.ghtn.model.oracle.Department;
+import com.ghtn.vo.DepartmentVO;
 
 import java.util.List;
 
@@ -11,6 +12,6 @@ import java.util.List;
  */
 public interface DepartmentManager extends GenericManager<Department, String> {
 
-    List<Department> getAllDeptSqlServerDataSource4();
+    List<DepartmentVO> getAllDeptSqlServerDataSource3();
 
 }

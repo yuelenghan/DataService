@@ -1,6 +1,7 @@
 package com.ghtn.service;
 
 import com.ghtn.model.oracle.Person;
+import com.ghtn.vo.DepartmentVO;
 import com.ghtn.vo.SwBasisVO;
 
 import javax.servlet.http.HttpSession;
@@ -57,7 +58,7 @@ public interface SwEnterManager extends GenericManager {
      * @param mainDeptId 部门id
      * @return
      */
-    List<Person> getPersonOracleDataSource3(String shortName, String mainDeptId);
+    List<Person> getPersonOracleDataSource3(String shortName, String deptId);
 
     /**
      * 把三违信息插入数据库
@@ -89,5 +90,7 @@ public interface SwEnterManager extends GenericManager {
      * @param arg        过滤条件
      * @return
      */
-    List<SwBasisVO> filterSwBasisOracleDataSource3(String deptNumber, String arg);
+    List<SwBasisVO> filterSwBasisOracleDataSource3(String deptNumber, String swyjLevel, String swyjText, HttpSession session);
+
+    List<DepartmentVO> filterDepartmentOracleDataSource3(String mainDeptId);
 }

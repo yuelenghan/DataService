@@ -5,6 +5,8 @@ import com.ghtn.model.oracle.BaseBanci;
 import com.ghtn.model.oracle.Nyhinput;
 import com.ghtn.model.oracle.Person;
 import com.ghtn.model.oracle.Place;
+import com.ghtn.util.ConstantUtil;
+import com.ghtn.util.StringUtil;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -57,18 +59,31 @@ public class YhEnterDaoHibernate extends GenericDaoHibernate implements YhEnterD
     }
 
     @Override
-    public List<Object[]> filterYhBasis(String deptNumber, String arg) {
+    public List<Object[]> filterYhBasis(String deptNumber, Integer yhyjLevel, Integer yhyjType, String yhyjText) {
         String sql = "select YHID, YHNUMBER, YHCONTENT, Levelid,levelname, Typeid,typename, H_NUMBER,h_content FROM Getyhandhazusing";
         sql += " WHERE DEPTNUMBER = '" + deptNumber + "'";
-        sql += " and yhcontent like '%" + arg + "%'";
-        return querySql(sql);
+        if (yhyjLevel != 0) {
+            sql += " and levelid = " + yhyjLevel;
+        }
+        if (yhyjType != 0) {
+            sql += " and typeid = " + yhyjType;
+        }
+        if (!StringUtil.isNullStr(yhyjText)) {
+            sql += " and (yhcontent like '%" + yhyjText + "%' or conpyfirst like '%" + yhyjText.toUpperCase() + "%' or pyall like '%" + yhyjText.toLowerCase() + "%')";
+        }
+        return querySql(sql, 0, ConstantUtil.MAX_RESULT);
     }
 
     @Override
-    public List<Object[]> filterHazard(String deptNumber, String arg) {
+    public List<Object[]> filterHazard(String deptNumber, String wxyLevel, String wxyText) {
         String sql = "select h_number, h_content from Gethazardusing where deptnumber = '" + deptNumber + "'";
-        sql += " and h_content like '%" + arg + "%'";
-        return querySql(sql);
+        if (!StringUtil.isNullStr(wxyLevel)) {
+            sql += " and fclevel = '" + wxyLevel + "'";
+        }
+        if (!StringUtil.isNullStr(wxyText)) {
+            sql += " and h_content like '%" + wxyText + "%'";
+        }
+        return querySql(sql, 0, ConstantUtil.MAX_RESULT);
     }
 
     @Override
@@ -76,7 +91,18 @@ public class YhEnterDaoHibernate extends GenericDaoHibernate implements YhEnterD
         return getSession().createCriteria(Place.class)
                 .add(Restrictions.eq("maindeptid", deptNumber))
                 .add(Restrictions.like("placename", "%" + arg + "%"))
+                .setFirstResult(0).setMaxResults(ConstantUtil.MAX_RESULT)
                 .list();
+    }
+
+    @Override
+    public List<Object[]> filterZrdw(String deptNumber, String arg) {
+        String sql = "select deptnumber, deptname from view_department where maindeptnumber = '" + deptNumber + "'";
+        sql += " and (dlevel = 176 or dlevel = 177) and Deptstatus = 1";
+        if (!StringUtil.isNullStr(arg)) {
+            sql += " and (deptname like '%" + arg + "%' or pinyin like '%" + arg.toUpperCase() + "%')";
+        }
+        return querySql(sql);
     }
 
     @Override
@@ -87,5 +113,13 @@ public class YhEnterDaoHibernate extends GenericDaoHibernate implements YhEnterD
                 .add(Restrictions.eq("yhid", yhyj))
                 .add(Restrictions.or(Restrictions.eq("status", "新增"), Restrictions.eq("status", "提交审批"), Restrictions.eq("status", "隐患未整改"), Restrictions.eq("status", "逾期未整改")))
                 .uniqueResult();
+    }
+
+    @Override
+    public List<Person> filterZrr(String deptId, String arg) {
+        return getSession().createCriteria(Person.class)
+                .add(Restrictions.eq("deptid", deptId))
+                .add(Restrictions.or(Restrictions.like("name", "%" + arg + "%"), Restrictions.like("pinyin", "%" + arg.toUpperCase() + "%")))
+                .list();
     }
 }

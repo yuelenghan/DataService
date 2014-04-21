@@ -1,11 +1,9 @@
 package com.ghtn.dao;
 
 import com.ghtn.BaseTestCase;
-import com.ghtn.model.oracle.Department;
 import org.junit.Test;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * User: Administrator
@@ -23,9 +21,9 @@ public class DepartmentDaoTest extends BaseTestCase {
 
     @Test
     public void testGetAllDept() {
-        List<Department> list = departmentDao.getAllDept();
+      /*  List<Department> list = departmentDao.getAllDept();
         if (list != null && list.size() > 0) {
             System.out.println(list.size());
-        }
+        }*/
     }
 }

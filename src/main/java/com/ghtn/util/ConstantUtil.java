@@ -16,6 +16,8 @@ public class ConstantUtil {
 
     public static final Integer PAGE_SIZE = 15;
 
+    public static final Integer MAX_RESULT = 50;
+
     static {
         InputStream in = ConstantUtil.class.getResourceAsStream("/constant.properties");
         Properties prop = new Properties();

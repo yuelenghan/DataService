@@ -1,10 +1,8 @@
 package com.ghtn.service;
 
+import com.ghtn.model.oracle.Person;
 import com.ghtn.model.oracle.Place;
-import com.ghtn.vo.HazardVO;
-import com.ghtn.vo.YhBasisVO;
-import com.ghtn.vo.ZrdwVO;
-import com.ghtn.vo.ZrrVO;
+import com.ghtn.vo.*;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
@@ -119,7 +117,7 @@ public interface YhEnterManager extends GenericManager {
      * @param arg        过滤条件
      * @return
      */
-    List<YhBasisVO> filterYhBasisOracleDataSource3(String deptNumber, String arg);
+    List<YhBasisVO> filterYhBasisOracleDataSource3(String deptNumber, String yhyjLevel, String yhyjType, String yhyjText, HttpSession session);
 
     /**
      * 过滤危险源
@@ -128,7 +126,7 @@ public interface YhEnterManager extends GenericManager {
      * @param arg        过滤条件
      * @return
      */
-    List<HazardVO> filterHazardOracleDataSource3(String deptNumber, String arg);
+    List<HazardVO> filterHazardOracleDataSource3(String deptNumber, String wxyLevel, String wxyText);
 
     /**
      * 过滤地点
@@ -138,5 +136,9 @@ public interface YhEnterManager extends GenericManager {
      * @return
      */
     List<Place> filterPlaceOracleDataSource3(String deptNumber, String arg);
+
+    List<DepartmentVO> filterZrdwOracleDataSource3(String deptNumber, String arg);
+
+    List<Person> filterZrrOracleDataSource3(String deptId, String arg);
 
 }

@@ -11,6 +11,7 @@ import java.util.List;
  */
 public interface DepartmentDao extends GenericDao<Department, String> {
 
-    List<Department> getAllDept();
+    List<Object[]> getAllDept();
 
+    List<Object[]> getDept(String mainDeptId);
 }

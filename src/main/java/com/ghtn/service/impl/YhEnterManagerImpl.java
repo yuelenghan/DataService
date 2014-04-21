@@ -8,10 +8,7 @@ import com.ghtn.model.oracle.*;
 import com.ghtn.service.YhEnterManager;
 import com.ghtn.util.DateUtil;
 import com.ghtn.util.StringUtil;
-import com.ghtn.vo.HazardVO;
-import com.ghtn.vo.YhBasisVO;
-import com.ghtn.vo.ZrdwVO;
-import com.ghtn.vo.ZrrVO;
+import com.ghtn.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -303,10 +300,21 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
     }
 
     @Override
-    public List<YhBasisVO> filterYhBasisOracleDataSource3(String deptNumber, String arg) {
-        List<Object[]> list = yhEnterDao.filterYhBasis(deptNumber, arg);
+    public List<YhBasisVO> filterYhBasisOracleDataSource3(String deptNumber, String yhyjLevel, String yhyjType, String yhyjText, HttpSession session) {
+        int yhyjLevelInt = 0;
+        int yhyjTypeInt = 0;
+        if (!StringUtil.isNullStr(yhyjLevel)) {
+            yhyjLevelInt = Integer.parseInt(yhyjLevel);
+        }
+        if (!StringUtil.isNullStr(yhyjType)) {
+            yhyjTypeInt = Integer.parseInt(yhyjType);
+        }
+        List<Object[]> list = yhEnterDao.filterYhBasis(deptNumber, yhyjLevelInt, yhyjTypeInt, yhyjText);
         if (list != null && list.size() > 0) {
             List<YhBasisVO> resultList = new ArrayList<>();
+            Map<String, String> levelMap = new HashMap<>();
+            Map<String, String> typeMap = new HashMap<>();
+            Map<String, String> hazardMap = new HashMap<>();
             for (Object[] o : list) {
                 YhBasisVO vo = new YhBasisVO();
                 vo.setYhId(StringUtil.processNullStr(String.valueOf(o[0])));
@@ -321,6 +329,17 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
 
                 resultList.add(vo);
 
+                levelMap.put(vo.getYhId(), vo.getLevelId());
+                typeMap.put(vo.getYhId(), vo.getTypeId());
+                hazardMap.put(vo.getYhId(), vo.gethNumber());
+
+            }
+
+
+            if (session != null) {
+                session.setAttribute("levelMap", levelMap);
+                session.setAttribute("typeMap", typeMap);
+                session.setAttribute("hazardMap", hazardMap);
             }
 
             return resultList;
@@ -329,8 +348,8 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
     }
 
     @Override
-    public List<HazardVO> filterHazardOracleDataSource3(String deptNumber, String arg) {
-        List<Object[]> list = yhEnterDao.filterHazard(deptNumber, arg);
+    public List<HazardVO> filterHazardOracleDataSource3(String deptNumber, String wxyLevel, String wxyText) {
+        List<Object[]> list = yhEnterDao.filterHazard(deptNumber, wxyLevel, wxyText);
         if (list != null && list.size() > 0) {
             List<HazardVO> resultList = new ArrayList<>();
             for (Object[] o : list) {
@@ -349,7 +368,36 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
 
     @Override
     public List<Place> filterPlaceOracleDataSource3(String deptNumber, String arg) {
+        if (StringUtil.isNullStr(arg)) {
+            arg = "";
+        }
         return yhEnterDao.filterPlace(deptNumber, arg);
+    }
+
+    @Override
+    public List<DepartmentVO> filterZrdwOracleDataSource3(String deptNumber, String arg) {
+        List<Object[]> list = yhEnterDao.filterZrdw(deptNumber, arg);
+        if (list != null && list.size() > 0) {
+            List<DepartmentVO> resultList = new ArrayList<>();
+            for (Object[] o : list) {
+                DepartmentVO vo = new DepartmentVO();
+                vo.setDeptNumber(StringUtil.processNullStr(String.valueOf(o[0])));
+                vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[1])));
+
+                resultList.add(vo);
+            }
+
+            return resultList;
+        }
+        return null;
+    }
+
+    @Override
+    public List<Person> filterZrrOracleDataSource3(String deptId, String arg) {
+        if (StringUtil.isNullStr(arg)) {
+            arg = "";
+        }
+        return yhEnterDao.filterZrr(deptId, arg);
     }
 
 }

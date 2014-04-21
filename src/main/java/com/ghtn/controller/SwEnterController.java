@@ -78,11 +78,11 @@ public class SwEnterController {
         return new JSONPObject(callback, session.getAttribute("user"));
     }
 
-    @RequestMapping("/person/{mainDeptId}/{shortName}")
+    @RequestMapping("/person/{deptId}/{shortName}")
     @ResponseBody
-    public JSONPObject getPerson(@PathVariable String mainDeptId, @PathVariable String shortName,
+    public JSONPObject getPerson(@PathVariable String deptId, @PathVariable String shortName,
                                  @RequestParam String callback) {
-        return new JSONPObject(callback, swEnterManager.getPersonOracleDataSource3(shortName, mainDeptId));
+        return new JSONPObject(callback, swEnterManager.getPersonOracleDataSource3(shortName, deptId));
     }
 
     @RequestMapping("/insertInfo/{swyj}/{swxz}/{swlx}/{swzy}/{wxy}/{swms}/{swry}/{pcry}/{pcdd}/{mxdd}/{pcsj}/{pcbc}/{jcfs}/{mainDeptId}")
@@ -99,21 +99,35 @@ public class SwEnterController {
         );
     }
 
-    @RequestMapping("/swBasis/deptNumber/{deptNumber}/{arg}")
+    @RequestMapping("/swBasis/deptNumber/{deptNumber}/{swyjLevel}/{swyjText}")
     @ResponseBody
-    public JSONPObject filterSwBasis(@PathVariable String deptNumber, @PathVariable String arg, @RequestParam String callback) {
-        return new JSONPObject(callback, swEnterManager.filterSwBasisOracleDataSource3(deptNumber, arg));
+    public JSONPObject filterSwBasis(@PathVariable String deptNumber, @PathVariable String swyjLevel,
+                                     @PathVariable String swyjText, @RequestParam String callback, HttpSession session) {
+        return new JSONPObject(callback, swEnterManager.filterSwBasisOracleDataSource3(deptNumber, swyjLevel, swyjText, session));
     }
 
-    @RequestMapping("/hazard/deptNumber/{deptNumber}/{arg}")
+    @RequestMapping("/hazard/deptNumber/{deptNumber}/{wxyLevel}/{wxyText}")
     @ResponseBody
-    public JSONPObject filterHazard(@PathVariable String deptNumber, @PathVariable String arg, @RequestParam String callback) {
-        return new JSONPObject(callback, yhEnterManager.filterHazardOracleDataSource3(deptNumber, arg));
+    public JSONPObject filterHazard(@PathVariable String deptNumber, @PathVariable String wxyLevel,
+                                    @PathVariable String wxyText, @RequestParam String callback) {
+        return new JSONPObject(callback, yhEnterManager.filterHazardOracleDataSource3(deptNumber, wxyLevel, wxyText));
     }
 
     @RequestMapping("/place/deptNumber/{deptNumber}/{arg}")
     @ResponseBody
     public JSONPObject filterPlace(@PathVariable String deptNumber, @PathVariable String arg, @RequestParam String callback) {
         return new JSONPObject(callback, yhEnterManager.filterPlaceOracleDataSource3(deptNumber, arg));
+    }
+
+    @RequestMapping("/zrdw/deptNumber/{deptNumber}/{arg}")
+    @ResponseBody
+    public JSONPObject filterZrdw(@PathVariable String deptNumber, @PathVariable String arg, @RequestParam String callback) {
+        return new JSONPObject(callback, yhEnterManager.filterPlaceOracleDataSource3(deptNumber, arg));
+    }
+
+    @RequestMapping("/department/{mainDeptId}")
+    @ResponseBody
+    public JSONPObject getDepartment(@PathVariable String mainDeptId, @RequestParam String callback) {
+        return new JSONPObject(callback, swEnterManager.filterDepartmentOracleDataSource3(mainDeptId));
     }
 }

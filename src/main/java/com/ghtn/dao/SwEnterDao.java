@@ -24,6 +24,6 @@ public interface SwEnterDao extends GenericDao {
      * @param arg        过滤条件
      * @return
      */
-    List<Object[]> filterSwBasis(String deptNumber, String arg);
+    List<Object[]> filterSwBasis(String deptNumber, Integer swyjLevel, String swyjText);
 
 }

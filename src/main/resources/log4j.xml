@@ -30,7 +30,7 @@
     </logger>
 
     <root>
-        <level value="${log4j.level}"/>
+        <level value="ERROR"/>
         <appender-ref ref="CONSOLE"/>
     </root>
 

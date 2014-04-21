@@ -70,7 +70,7 @@ public interface YhEnterDao extends GenericDao {
      * @param arg        过滤条件
      * @return
      */
-    List<Object[]> filterYhBasis(String deptNumber, String arg);
+    List<Object[]> filterYhBasis(String deptNumber, Integer yhyjLevel, Integer yhyjType, String yhyjText);
 
     /**
      * 过滤危险源
@@ -79,7 +79,7 @@ public interface YhEnterDao extends GenericDao {
      * @param arg        过滤条件
      * @return
      */
-    List<Object[]> filterHazard(String deptNumber, String arg);
+    List<Object[]> filterHazard(String deptNumber, String wxyLevel, String wxyText);
 
     /**
      * 过滤地点
@@ -90,6 +90,8 @@ public interface YhEnterDao extends GenericDao {
      */
     List<Place> filterPlace(String deptNumber, String arg);
 
+    List<Object[]> filterZrdw(String deptNumber, String arg);
+
     /**
      * 查询隐患录入记录
      *
@@ -99,4 +101,6 @@ public interface YhEnterDao extends GenericDao {
      * @return
      */
     Nyhinput getYhinput(Integer placeId, String zrdw, Integer yhyj);
+
+    List<Person> filterZrr(String deptId, String arg);
 }

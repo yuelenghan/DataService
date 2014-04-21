@@ -3,9 +3,12 @@ package com.ghtn.service.impl;
 import com.ghtn.dao.DepartmentDao;
 import com.ghtn.model.oracle.Department;
 import com.ghtn.service.DepartmentManager;
+import com.ghtn.util.StringUtil;
+import com.ghtn.vo.DepartmentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +28,21 @@ public class DepartmentManagerImpl extends GenericManagerImpl<Department, String
     }
 
     @Override
-    public List<Department> getAllDeptSqlServerDataSource4() {
-        return departmentDao.getAllDept();
+    public List<DepartmentVO> getAllDeptSqlServerDataSource3() {
+        List<Object[]> list = departmentDao.getAllDept();
+        if (list != null && list.size() > 0) {
+            List<DepartmentVO> resultList = new ArrayList<>();
+
+            for (Object[] o : list) {
+                DepartmentVO vo = new DepartmentVO();
+                vo.setDeptNumber(StringUtil.processNullStr(String.valueOf(o[0])));
+                vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[1])));
+
+                resultList.add(vo);
+            }
+
+            return resultList;
+        }
+        return null;
     }
 }
