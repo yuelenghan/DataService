@@ -96,6 +96,8 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
             sql += " and person like '%" + name + "%'";
         }
 
+        sql += " order by minedate, banci, person";
+
 //        System.out.println("sql = " + sql);
 
         return querySql(sql, start, limit);

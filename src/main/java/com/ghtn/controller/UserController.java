@@ -36,4 +36,10 @@ public class UserController extends BaseController {
     public JSONPObject login(@PathVariable String userName, @PathVariable String password, @RequestParam String callback, HttpSession session) {
         return new JSONPObject(callback, userManager.loginOracleDataSource3(userName, password, session));
     }
+
+    @RequestMapping("/logout")
+    @ResponseBody
+    public JSONPObject logout(@RequestParam String callback, HttpSession session) {
+        return new JSONPObject(callback, userManager.logoutOracleDataSource3(session));
+    }
 }

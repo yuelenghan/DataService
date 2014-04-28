@@ -14,4 +14,6 @@ import javax.servlet.http.HttpSession;
 public interface UserManager extends GenericManager<SfUser, Long> {
 
     String loginOracleDataSource3(String userName, String password, HttpSession session);
+
+    String logoutOracleDataSource3(HttpSession session);
 }

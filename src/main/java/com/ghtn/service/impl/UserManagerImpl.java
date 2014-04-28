@@ -89,4 +89,10 @@ public class UserManagerImpl extends GenericManagerImpl<SfUser, Long> implements
 
         return "error";
     }
+
+    @Override
+    public String logoutOracleDataSource3(HttpSession session) {
+        session.removeAttribute("user");
+        return "success";
+    }
 }
