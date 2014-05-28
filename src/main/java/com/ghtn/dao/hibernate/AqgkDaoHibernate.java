@@ -33,10 +33,12 @@ public class AqgkDaoHibernate extends GenericDaoHibernate implements AqgkDao {
         sql += " WHERE h.GPDATE between TO_DATE ('" + startDate + "', 'YYYY-MM-DD') ";
         sql += " and to_date('" + endDate + "','YYYY-MM-DD')";
         sql += " AND h.HTSTATUS IN (2, 3)";
-        sql += " GROUP BY h.MAINDEPT) t3, department d";
-        sql += " where t1.maindeptid = t2.maindeptid";
-        sql += " and t1.maindeptid = t3.maindept";
-        sql += " and t1.maindeptid = d.deptnumber";
+        sql += " GROUP BY h.MAINDEPT) t3, view_department d";
+        sql += " where d.dlevel = 175";
+        sql += " and d.deptnumber = t1.maindeptid(+)";
+        sql += " and d.deptnumber = t2.maindeptid(+)";
+        sql += " and d.deptnumber = t3.maindept(+)";
+        sql += " order by d.dsort";
         return querySql(sql);
     }
 }
