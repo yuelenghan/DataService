@@ -90,19 +90,20 @@ public class YhEnterController extends BaseController {
         return new JSONPObject(callback, session.getAttribute("user"));
     }
 
-    @RequestMapping("/insertInfo/{yhyj}/{yhjb}/{yhlx}/{wxy}/{yhms}/{zrdw}/{zrr}/{pcdd}/{mxdd}/{pcsj}/{pcbc}/{pcry}/{pclx}/{zgfs}/{zgqx}/{zgbc}/{yhzy}/{mainDeptId}")
+    @RequestMapping("/insertInfo/{yhyj}/{yhjb}/{yhlx}/{yhms}/{zrdw}/{zrr}/{pcdd}/{mxdd}/{pcsj}/{pcbc}/{pcry}/{pclx}/{zgfs}/{zgqx}/{zgbc}/{yhzy}/{mainDeptId}/{fineType}/{dwfk}/{grfk}")
     @ResponseBody
-    public JSONPObject insertInfo(@PathVariable Integer yhyj, @PathVariable Integer yhjb, @PathVariable String yhlx,
-                                  @PathVariable String wxy, @PathVariable String yhms, @PathVariable String zrdw,
+    public JSONPObject insertInfo(@PathVariable Integer yhyj, @PathVariable Integer yhjb, @PathVariable Integer yhlx,
+                                  @PathVariable String yhms, @PathVariable String zrdw,
                                   @PathVariable String zrr, @PathVariable Integer pcdd, @PathVariable String mxdd,
                                   @PathVariable String pcsj, @PathVariable String pcbc, @PathVariable String pcry,
                                   @PathVariable Integer pclx, @PathVariable String zgfs, @PathVariable String zgqx,
                                   @PathVariable String zgbc, @PathVariable Integer yhzy, @PathVariable String mainDeptId,
+                                  @PathVariable Integer fineType, @PathVariable Integer dwfk, @PathVariable Integer grfk,
                                   @RequestParam String callback) throws ParseException {
         return new JSONPObject(callback,
-                yhEnterManager.insertInfoOracleDataSource3(yhyj, yhjb, yhlx, wxy, yhms,
+                yhEnterManager.insertInfoOracleDataSource3(yhyj, yhjb, yhlx, yhms,
                         zrdw, zrr, pcdd, mxdd, pcsj, pcbc, pcry, pclx, zgfs,
-                        zgqx, zgbc, yhzy, mainDeptId)
+                        zgqx, zgbc, yhzy, mainDeptId, fineType, dwfk, grfk)
         );
     }
 

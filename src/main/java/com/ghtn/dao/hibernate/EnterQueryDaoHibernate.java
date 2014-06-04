@@ -17,7 +17,7 @@ public class EnterQueryDaoHibernate extends GenericDaoHibernate implements Enter
     public List<Object[]> queryYhEnter(String inputPersonId, String banci, Integer levelId, Integer typeId) {
         String sql = "select d.deptname, g.yhcontent, n.remarks, n.jctype, n.intime";
         sql += " from NYHINPUT n, department d, Getyhandhazusing g";
-        sql += " where d.deptnumber = n.deptid and g.yhid = n.yhid and n.maindeptid = g.deptnumber";
+        sql += " where d.deptnumber(+) = n.deptid and g.yhid = n.yhid and n.maindeptid = g.deptnumber";
         sql += " and n.inputpersonid = '" + inputPersonId + "'";
         if (!StringUtil.isNullStr(banci)) {
             sql += " and n.banci = '" + banci + "'";

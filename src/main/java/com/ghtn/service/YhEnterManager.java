@@ -107,8 +107,9 @@ public interface YhEnterManager extends GenericManager {
      * @return
      * @throws ParseException
      */
-    String insertInfoOracleDataSource3(Integer yhyj, Integer yhjb, String yhlx, String wxy, String yhms, String zrdw, String zrr, Integer pcdd, String mxdd,
-                                       String pcsj, String pcbc, String pcry, Integer pclx, String zgfs, String zgqx, String zgbc, Integer yhzy, String mainDeptId) throws ParseException;
+    String insertInfoOracleDataSource3(Integer yhyj, Integer yhjb, Integer yhlx, String yhms, String zrdw, String zrr, Integer pcdd, String mxdd,
+                                       String pcsj, String pcbc, String pcry, Integer pclx, String zgfs, String zgqx, String zgbc, Integer yhzy, String mainDeptId,
+                                       Integer fineType, Integer dwfk, Integer grfk) throws ParseException;
 
     /**
      * 过滤隐患依据
@@ -140,5 +141,7 @@ public interface YhEnterManager extends GenericManager {
     List<DepartmentVO> filterZrdwOracleDataSource3(String deptNumber, String arg);
 
     List<Person> filterZrrOracleDataSource3(String deptId, String arg);
+
+    String getBanciByTimeOracleDataSource3(String time, String mainDeptId, String bType);
 
 }

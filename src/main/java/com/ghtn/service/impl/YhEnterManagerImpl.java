@@ -1,9 +1,6 @@
 package com.ghtn.service.impl;
 
-import com.ghtn.dao.DepartmentDao;
-import com.ghtn.dao.PersonDao;
-import com.ghtn.dao.PlaceDao;
-import com.ghtn.dao.YhEnterDao;
+import com.ghtn.dao.*;
 import com.ghtn.model.oracle.*;
 import com.ghtn.service.YhEnterManager;
 import com.ghtn.util.DateUtil;
@@ -14,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -50,6 +48,13 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
     }
 
     private DepartmentDao departmentDao;
+
+    private BaseBanciDao baseBanciDao;
+
+    @Resource
+    public void setBaseBanciDao(BaseBanciDao baseBanciDao) {
+        this.baseBanciDao = baseBanciDao;
+    }
 
     @Resource
     public void setDepartmentDao(DepartmentDao departmentDao) {
@@ -197,35 +202,51 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
     }
 
     @Override
-    public String insertInfoOracleDataSource3(Integer yhyj, Integer yhjb, String yhlx, String wxy, String yhms, String zrdw, String zrr, Integer pcdd, String mxdd, String pcsj, String pcbc, String pcry, Integer pclx, String zgfs, String zgqx, String zgbc, Integer yhzy, String mainDeptId) throws ParseException {
+    public String insertInfoOracleDataSource3(Integer yhyj, Integer yhjb, Integer yhlx, String yhms, String zrdw, String zrr, Integer pcdd, String mxdd, String pcsj, String pcbc, String pcry, Integer pclx, String zgfs, String zgqx, String zgbc, Integer yhzy, String mainDeptId,
+                                              Integer fineType, Integer dwfk, Integer grfk) throws ParseException {
+        // TODO : 修改录入逻辑--现场整改只录入隐患依据、隐患描述、责任单位、排查班次;限期整改录入其他所有项
         Nyhinput nyhinput = yhEnterDao.getYhinput(pcdd, zrdw, yhyj);
         if (nyhinput == null) {
             // 插入NYHINPUT
             nyhinput = new Nyhinput();
 
-            nyhinput.setDeptid(zrdw);
-            nyhinput.setPlaceid(pcdd);
+            // 如果是现场整改, 只录入这些数据
+            // =================界面录入======================
+            nyhinput.setYhid(yhyj); // 隐患依据
+            nyhinput.setLevelid(yhjb); // 隐患级别
+            nyhinput.setTypeid(yhlx);   // 隐患类型
+            nyhinput.setRemarks(yhms); // 隐患描述
+            nyhinput.setDeptid(zrdw); //责任单位
+            nyhinput.setBanci(pcbc); // 排查班次
+            nyhinput.setStatus(zgfs);   // 整改方式
 
-            if (StringUtil.isNullStr(mxdd)) {
-                mxdd = "";
-            }
-            nyhinput.setPlacedetail(mxdd);
-            nyhinput.setBanci(pcbc);
-            nyhinput.setPersonid(zrr);
-            nyhinput.setPctime(new Timestamp(DateUtil.stringToDate(pcsj, "yyyy-MM-dd").getTime()));
+            // =================隐藏信息======================
+            nyhinput.setInputpersonid(pcry); // 排查人员
+            nyhinput.setYqcs(BigInteger.ZERO); // 逾期次数
+            nyhinput.setDxtx(BigInteger.ZERO); // 短信提醒
+            nyhinput.setLcmark(1L); // 流程标记
+            nyhinput.setMaindeptid(mainDeptId); // 被查矿
+            // 录入时间
             nyhinput.setIntime(new Timestamp(new Date().getTime()));
-            nyhinput.setYhid(yhyj);
-            nyhinput.setLevelid(yhjb);
-            nyhinput.setTypeid(yhzy);
-            nyhinput.sethNumber(wxy);
-            nyhinput.setRemarks(yhms);
-            nyhinput.setStatus(zgfs);
-            nyhinput.setInputpersonid(pcry);
-            nyhinput.setMaindeptid(mainDeptId);
-            nyhinput.setLcmark(1L);
 
-            // 限期整改填写
+
+            // 限期整改录入其他数据
             if (zgfs.equals("新增")) {
+                nyhinput.setPlaceid(pcdd); // 地点编码
+
+                if (StringUtil.isNullStr(mxdd)) {
+                    mxdd = "";
+                }
+                nyhinput.setPlacedetail(mxdd); // 明细地点
+
+                nyhinput.setPersonid(zrr);  // 责任人
+
+                // 排查时间
+                nyhinput.setPctime(new Timestamp(DateUtil.stringToDate(pcsj, "yyyy-MM-dd").getTime()));
+
+                //nyhinput.sethNumber(wxy);
+
+
                 if (!StringUtil.isNullStr(zgqx)) {
                     nyhinput.setXqdate(new Timestamp(DateUtil.stringToDate(zgqx, "yyyy-MM-dd").getTime()));
 
@@ -236,19 +257,87 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
                 }
 
                 nyhinput.setXqbanci(zgbc);
+
+                // 排查类型为矿专项检查或公司专项检查，指定排查专业
+                if (pclx == 4 || pclx == 7) {
+                    nyhinput.setYhzyid(yhzy);
+                }
+
+                nyhinput.setJctype(pclx);
             }
 
-            nyhinput.setYqcs(BigInteger.ZERO);
-            nyhinput.setDxtx(BigInteger.ZERO);
-
-            // 排查类型为矿专项检查或公司专项检查，指定排查专业
-            if (pclx == 4 || pclx == 7) {
-                nyhinput.setYhzyid(yhzy);
-            }
-
-            nyhinput.setJctype(pclx);
 
             nyhinput = (Nyhinput) yhEnterDao.save(nyhinput);
+
+            String zrdwName = "";
+            // 根据责任单位id得到责任单位名称
+            if (!StringUtil.isNullStr(zrdw)) {
+                zrdwName = departmentDao.get(zrdw).getDeptname();
+            }
+
+            String zrrName = "";
+            // 根据责任人id得到责任人名称
+            if (!StringUtil.isNullStr(zrr)) {
+                zrrName = personDao.getPersonName(zrr);
+            }
+
+
+            if (zgfs.equals("新增") && fineType != 0) {
+                // 插入罚款信息
+                if (fineType == 1) {
+                    Nyhfinedetail nyhfinedetail = new Nyhfinedetail();
+                    nyhfinedetail.setYhputinid(nyhinput.getYhputinid());
+                    nyhfinedetail.setRecorddate(new Date());
+                    nyhfinedetail.setLcmark(1);
+                    nyhfinedetail.setFinetype(BigInteger.valueOf(fineType));
+                    nyhfinedetail.setObjectname("责任单位");
+                    nyhfinedetail.setFineid(zrdw);
+                    nyhfinedetail.setFinename(zrdwName);
+                    nyhfinedetail.setFine(BigDecimal.valueOf(dwfk));
+
+                    yhEnterDao.save(nyhfinedetail);
+                }
+
+                if (fineType == 2) {
+                    Nyhfinedetail nyhfinedetail = new Nyhfinedetail();
+                    nyhfinedetail.setYhputinid(nyhinput.getYhputinid());
+                    nyhfinedetail.setRecorddate(new Date());
+                    nyhfinedetail.setLcmark(1);
+                    nyhfinedetail.setFinetype(BigInteger.valueOf(fineType));
+                    nyhfinedetail.setObjectname("责任人");
+                    nyhfinedetail.setFineid(zrr);
+                    nyhfinedetail.setFinename(zrrName);
+                    nyhfinedetail.setFine(BigDecimal.valueOf(grfk));
+
+                    yhEnterDao.save(nyhfinedetail);
+                }
+
+                if (fineType == 3) {
+                    Nyhfinedetail nyhfinedetail = new Nyhfinedetail();
+                    nyhfinedetail.setYhputinid(nyhinput.getYhputinid());
+                    nyhfinedetail.setRecorddate(new Date());
+                    nyhfinedetail.setLcmark(1);
+                    nyhfinedetail.setFinetype(BigInteger.valueOf(1));
+                    nyhfinedetail.setObjectname("责任单位");
+                    nyhfinedetail.setFineid(zrdw);
+                    nyhfinedetail.setFinename(zrdwName);
+                    nyhfinedetail.setFine(BigDecimal.valueOf(dwfk));
+
+                    yhEnterDao.save(nyhfinedetail);
+
+                    Nyhfinedetail nyhfinedetail2 = new Nyhfinedetail();
+                    nyhfinedetail2.setYhputinid(nyhinput.getYhputinid());
+                    nyhfinedetail2.setRecorddate(new Date());
+                    nyhfinedetail2.setLcmark(1);
+                    nyhfinedetail2.setFinetype(BigInteger.valueOf(2));
+                    nyhfinedetail2.setObjectname("责任人");
+                    nyhfinedetail2.setFineid(zrr);
+                    nyhfinedetail2.setFinename(zrrName);
+                    nyhfinedetail2.setFine(BigDecimal.valueOf(grfk));
+
+                    yhEnterDao.save(nyhfinedetail2);
+                }
+            }
 
 
             // 插入NYHINPUT_MORE
@@ -276,9 +365,16 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
             // 插入YHPERSISTENCE
             Yhpersistence yhpersistence = new Yhpersistence();
             yhpersistence.setYhputinid(nyhinput.getYhputinid());
-            yhpersistence.setZrdeptname(departmentDao.get(zrdw).getDeptname());
-            yhpersistence.setZrpername(personDao.getPersonName(zrr));
-            yhpersistence.setPlacename(placeDao.get(pcdd).getPlacename());
+            yhpersistence.setZrdeptname(zrdwName);
+            yhpersistence.setZrpername(zrrName);
+
+            // 限期整改填写排查地点, 现场整改不填写
+            if (zgfs.equals("新增")) {
+                yhpersistence.setPlacename(placeDao.get(pcdd).getPlacename());
+            } else {
+                yhpersistence.setPlacename("");
+            }
+
             yhpersistence.setInputpername(personDao.getPersonName(pcry));
 
             yhEnterDao.save(yhpersistence);
@@ -398,6 +494,19 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
             arg = "";
         }
         return yhEnterDao.filterZrr(deptId, arg);
+    }
+
+    @Override
+    public String getBanciByTimeOracleDataSource3(String time, String mainDeptId, String bType) {
+        BaseBanci banci = baseBanciDao.get(mainDeptId, bType, time);
+        if (banci == null) {
+            banci = baseBanciDao.getYb(mainDeptId, bType, time);
+        }
+        if (banci == null) {
+            return "";
+        }
+//        System.out.println(banci.getName());
+        return banci.getName();
     }
 
 }
