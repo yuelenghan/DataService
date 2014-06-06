@@ -132,7 +132,7 @@ public class YhEnterController extends BaseController {
     @RequestMapping("/department")
     @ResponseBody
     public JSONPObject getAllDepartment(@RequestParam String callback) {
-        return new JSONPObject(callback, departmentManager.getAllDeptSqlServerDataSource3());
+        return new JSONPObject(callback, departmentManager.getAllDeptOracleDataSource3());
     }
 
     @RequestMapping("/zrdw/deptNumber/{deptNumber}/{arg}")

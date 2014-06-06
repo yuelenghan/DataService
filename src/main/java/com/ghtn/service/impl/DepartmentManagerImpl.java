@@ -28,7 +28,7 @@ public class DepartmentManagerImpl extends GenericManagerImpl<Department, String
     }
 
     @Override
-    public List<DepartmentVO> getAllDeptSqlServerDataSource3() {
+    public List<DepartmentVO> getAllDeptOracleDataSource3() {
         List<Object[]> list = departmentDao.getAllDept();
         if (list != null && list.size() > 0) {
             List<DepartmentVO> resultList = new ArrayList<>();

@@ -471,10 +471,10 @@
                 <dataSource3.password>GhtnTechby3885580</dataSource3.password>
 
                 <!-- 数据源5   -->
-                <dataSource3.url>jdbc:sqlserver://192.168.168.187:1433;databaseName=mini
-                </dataSource3.url>
-                <dataSource3.username>gtxj</dataSource3.username>
-                <dataSource3.password>p222z</dataSource3.password>
+                <dataSource5.url>jdbc:sqlserver://192.168.168.187:1433;databaseName=mini
+                </dataSource5.url>
+                <dataSource5.username>gtxj</dataSource5.username>
+                <dataSource5.password>p222z</dataSource5.password>
 
                 <log4j.level>ERROR</log4j.level>
             </properties>

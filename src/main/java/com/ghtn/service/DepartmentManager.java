@@ -12,6 +12,6 @@ import java.util.List;
  */
 public interface DepartmentManager extends GenericManager<Department, String> {
 
-    List<DepartmentVO> getAllDeptSqlServerDataSource3();
+    List<DepartmentVO> getAllDeptOracleDataSource3();
 
 }
