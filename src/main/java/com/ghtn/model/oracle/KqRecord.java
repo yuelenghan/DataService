@@ -30,6 +30,8 @@ public class KqRecord {
     private Integer worktime;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "kqrecord")
+    @SequenceGenerator(name = "kqrecord", sequenceName = "SEQ_KQ_RECORD", allocationSize = 1)
     @Column(name = "RJID", nullable = false, insertable = true, updatable = true, length = 9, precision = 0)
     public int getRjid() {
         return rjid;

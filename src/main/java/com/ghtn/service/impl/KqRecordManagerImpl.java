@@ -3,13 +3,23 @@ package com.ghtn.service.impl;
 import com.ghtn.dao.KqRecordDao;
 import com.ghtn.model.oracle.KqRecord;
 import com.ghtn.service.KqRecordManager;
+import com.ghtn.service.YhEnterManager;
+import com.ghtn.util.DateUtil;
+import com.ghtn.util.StringUtil;
+import com.ghtn.vo.IrisVO;
 import com.ghtn.vo.KqRecordVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: Administrator
@@ -26,6 +36,13 @@ public class KqRecordManagerImpl extends GenericManagerImpl<KqRecord, Integer>
     public KqRecordManagerImpl(KqRecordDao kqRecordDao) {
         super(kqRecordDao);
         this.kqRecordDao = kqRecordDao;
+    }
+
+    private YhEnterManager yhEnterManager;
+
+    @Resource
+    public void setYhEnterManager(YhEnterManager yhEnterManager) {
+        this.yhEnterManager = yhEnterManager;
     }
 
     @Override
@@ -48,6 +65,78 @@ public class KqRecordManagerImpl extends GenericManagerImpl<KqRecord, Integer>
             return transformToVO(kqRecordDao.getKqRecord(id));
         }
         return null;
+    }
+
+    @Override
+    public KqRecordVO insertKqRecordOracleDataSource3(String key, String mainDeptId, Integer kqType, HttpSession session) throws ParseException {
+        Object o = session.getAttribute("irisMap");
+        if (o != null) {
+            Map<String, IrisVO> map = (Map<String, IrisVO>) o;
+            if (!StringUtil.isNullStr(key)) {
+                IrisVO vo = map.get(key);
+                KqRecord kqRecord = new KqRecord();
+                kqRecord.setKqpnumber(vo.getWorkerSn());
+                kqRecord.setDowntime(new Timestamp(DateUtil.stringToDate(vo.getInWellTime()).getTime()));
+                kqRecord.setUptime(new Timestamp(DateUtil.stringToDate(vo.getOutWellTime()).getTime()));
+                kqRecord.setKqtime(new Timestamp(DateUtil.stringToDate(vo.getAttendDate(), "yyyy-MM-dd").getTime()));
+
+                // 根据入井时间确定班次
+                String time = DateUtil.dateToString(DateUtil.stringToDate(vo.getInWellTime()), "HH:mm:ss");
+                String banci = yhEnterManager.getBanciByTimeOracleDataSource3(time, mainDeptId, "rjbc");
+                kqRecord.setKqbenci(banci);
+
+                kqRecord.setKqtype(BigInteger.valueOf(kqType));
+                kqRecord.setDatafrom(BigInteger.ONE);
+                kqRecord.setInputperson(vo.getWorkerSn());
+                kqRecord.setKqdept(mainDeptId);
+
+                // 计算下井时长
+                if (StringUtil.isNullStr(vo.getInWellWorkTime())) {
+                    long workTime = (kqRecord.getUptime().getTime() - kqRecord.getDowntime().getTime()) / 1000 / 60;
+                    kqRecord.setWorktime((int) workTime);
+                } else {
+                    kqRecord.setWorktime(Integer.parseInt(vo.getInWellWorkTime()));
+                }
+
+                kqRecord = kqRecordDao.save(kqRecord);
+
+                KqRecordVO kqRecordVO = new KqRecordVO();
+                kqRecordVO.setRjid(kqRecord.getRjid());
+                kqRecordVO.setKqbenci(banci);
+                kqRecordVO.setKqtime(vo.getAttendDate());
+
+                return kqRecordVO;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public KqRecordVO insertKqRecordOracleDataSource3(String personNumber, String downTime, String upTime, String kqTime, String kqBanci, Integer kqType, String kqDept) throws ParseException {
+        KqRecord kqRecord = new KqRecord();
+        kqRecord.setKqpnumber(personNumber);
+        kqRecord.setDowntime(new Timestamp(DateUtil.stringToDate(downTime, "yyyy-MM-dd HH:mm").getTime()));
+        kqRecord.setUptime(new Timestamp(DateUtil.stringToDate(upTime, "yyyy-MM-dd HH:mm").getTime()));
+        kqRecord.setKqtime(new Timestamp(DateUtil.stringToDate(kqTime, "yyyy-MM-dd").getTime()));
+        kqRecord.setKqbenci(kqBanci);
+        kqRecord.setKqtype(BigInteger.valueOf(kqType));
+        kqRecord.setDatafrom(BigInteger.valueOf(3));
+        kqRecord.setInputperson(personNumber);
+        kqRecord.setKqdept(kqDept);
+
+        long workTime = (kqRecord.getUptime().getTime() - kqRecord.getDowntime().getTime()) / 1000 / 60;
+        kqRecord.setWorktime((int) workTime);
+
+        kqRecord = kqRecordDao.save(kqRecord);
+
+        KqRecordVO kqRecordVO = new KqRecordVO();
+        kqRecordVO.setRjid(kqRecord.getRjid());
+        kqRecordVO.setKqbenci(kqBanci);
+        kqRecordVO.setKqtime(kqTime);
+
+        return kqRecordVO;
+
     }
 
     /**

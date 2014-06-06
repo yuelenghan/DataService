@@ -109,7 +109,7 @@ public interface YhEnterManager extends GenericManager {
      */
     String insertInfoOracleDataSource3(Integer yhyj, Integer yhjb, Integer yhlx, String yhms, String zrdw, String zrr, Integer pcdd, String mxdd,
                                        String pcsj, String pcbc, String pcry, Integer pclx, String zgfs, String zgqx, String zgbc, Integer yhzy, String mainDeptId,
-                                       Integer fineType, Integer dwfk, Integer grfk) throws ParseException;
+                                       Integer fineType, Integer dwfk, Integer grfk, Integer rjid) throws ParseException;
 
     /**
      * 过滤隐患依据

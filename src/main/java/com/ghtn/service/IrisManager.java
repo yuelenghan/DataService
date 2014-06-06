@@ -2,6 +2,8 @@ package com.ghtn.service;
 
 import com.ghtn.vo.IrisVO;
 
+import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -10,6 +12,6 @@ import java.util.List;
  */
 public interface IrisManager extends GenericManager {
 
-    List<IrisVO> getIrisDataMysqlDataSource5(String personNumber);
+    List<IrisVO> getIrisDataMysqlDataSource5(String personNumber, HttpSession session) throws ParseException;
 
 }

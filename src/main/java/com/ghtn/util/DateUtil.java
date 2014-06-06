@@ -7,6 +7,16 @@ import java.util.Date;
 
 public class DateUtil {
 
+    public static void main(String[] args) throws ParseException {
+        /*String str = "2013-06-01 14:33:20";
+        String s = dateToString(stringToDate(str), "HH:mm:ss");
+        System.out.println(s);*/
+
+        /*Long t1 = stringToDate("2013-06-01 12:05:00").getTime();
+        Long t2 = stringToDate("2013-06-01 16:08:01").getTime();
+        System.out.println((t2-t1)/1000/60);*/
+    }
+
     public static String dateToString(Date date) {
         return dateToString(date, "yyyy-MM-dd HH:mm:ss");
     }

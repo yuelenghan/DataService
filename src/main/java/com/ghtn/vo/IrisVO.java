@@ -5,6 +5,7 @@ package com.ghtn.vo;
  */
 public class IrisVO {
 
+    private String key;
     private String workerSn;
     private String personName;
     private String departCode;
@@ -13,6 +14,14 @@ public class IrisVO {
     private String outWellTime;
     private String attendDate;
     private String inWellWorkTime;
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public String getWorkerSn() {
         return workerSn;

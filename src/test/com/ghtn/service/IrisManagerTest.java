@@ -1,11 +1,10 @@
 package com.ghtn.service;
 
 import com.ghtn.BaseTestCase;
-import com.ghtn.vo.IrisVO;
 import org.junit.Test;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.text.ParseException;
 
 /**
  * Created by lihe on 14-6-3.
@@ -20,12 +19,12 @@ public class IrisManagerTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetData() {
-        List<IrisVO> list = irisManager.getIrisDataMysqlDataSource5("01216");
+    public void testGetData() throws ParseException {
+       /* List<IrisVO> list = irisManager.getIrisDataMysqlDataSource5("01216");
         if (list != null && list.size() > 0) {
             IrisVO vo = list.get(0);
             System.out.println(vo.getDepartName());
-        }
+        }*/
     }
 
 

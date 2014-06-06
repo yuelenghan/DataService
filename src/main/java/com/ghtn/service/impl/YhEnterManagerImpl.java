@@ -203,8 +203,7 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
 
     @Override
     public String insertInfoOracleDataSource3(Integer yhyj, Integer yhjb, Integer yhlx, String yhms, String zrdw, String zrr, Integer pcdd, String mxdd, String pcsj, String pcbc, String pcry, Integer pclx, String zgfs, String zgqx, String zgbc, Integer yhzy, String mainDeptId,
-                                              Integer fineType, Integer dwfk, Integer grfk) throws ParseException {
-        // TODO : 修改录入逻辑--现场整改只录入隐患依据、隐患描述、责任单位、排查班次;限期整改录入其他所有项
+                                              Integer fineType, Integer dwfk, Integer grfk, Integer rjid) throws ParseException {
         Nyhinput nyhinput = yhEnterDao.getYhinput(pcdd, zrdw, yhyj);
         if (nyhinput == null) {
             // 插入NYHINPUT
@@ -229,6 +228,14 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
             // 录入时间
             nyhinput.setIntime(new Timestamp(new Date().getTime()));
 
+            // 排查时间
+            nyhinput.setPctime(new Timestamp(DateUtil.stringToDate(pcsj, "yyyy-MM-dd").getTime()));
+
+            // 入井id, 确认入井信息时生成的id
+            if (rjid != null && rjid > 0) {
+                nyhinput.setRjid(rjid);
+            }
+
 
             // 限期整改录入其他数据
             if (zgfs.equals("新增")) {
@@ -241,9 +248,6 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
 
                 nyhinput.setPersonid(zrr);  // 责任人
 
-                // 排查时间
-                nyhinput.setPctime(new Timestamp(DateUtil.stringToDate(pcsj, "yyyy-MM-dd").getTime()));
-
                 //nyhinput.sethNumber(wxy);
 
 
@@ -252,8 +256,13 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
 
                     BaseBanci baseBanci = yhEnterDao.getBaseBanci(mainDeptId, zgbc);
                     Date xqDate = DateUtil.stringToDate(zgqx, "yyyy-MM-dd");
-                    Date endTime = DateUtil.stringToDate(baseBanci.getEndtime(), "HH:mm:ss");
-                    nyhinput.setLastxqtime(new Timestamp(xqDate.getTime() + endTime.getTime() + 4 * 3600 * 1000));
+                    if (baseBanci != null) {
+                        Date endTime = DateUtil.stringToDate(baseBanci.getEndtime(), "HH:mm:ss");
+                        nyhinput.setLastxqtime(new Timestamp(xqDate.getTime() + endTime.getTime() + 4 * 3600 * 1000));
+                    } else {
+                        nyhinput.setLastxqtime(new Timestamp(xqDate.getTime() + 4 * 3600 * 1000));
+                    }
+
                 }
 
                 nyhinput.setXqbanci(zgbc);

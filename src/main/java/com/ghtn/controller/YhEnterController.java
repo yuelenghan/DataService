@@ -90,7 +90,7 @@ public class YhEnterController extends BaseController {
         return new JSONPObject(callback, session.getAttribute("user"));
     }
 
-    @RequestMapping("/insertInfo/{yhyj}/{yhjb}/{yhlx}/{yhms}/{zrdw}/{zrr}/{pcdd}/{mxdd}/{pcsj}/{pcbc}/{pcry}/{pclx}/{zgfs}/{zgqx}/{zgbc}/{yhzy}/{mainDeptId}/{fineType}/{dwfk}/{grfk}")
+    @RequestMapping("/insertInfo/{yhyj}/{yhjb}/{yhlx}/{yhms}/{zrdw}/{zrr}/{pcdd}/{mxdd}/{pcsj}/{pcbc}/{pcry}/{pclx}/{zgfs}/{zgqx}/{zgbc}/{yhzy}/{mainDeptId}/{fineType}/{dwfk}/{grfk}/{rjid}")
     @ResponseBody
     public JSONPObject insertInfo(@PathVariable Integer yhyj, @PathVariable Integer yhjb, @PathVariable Integer yhlx,
                                   @PathVariable String yhms, @PathVariable String zrdw,
@@ -99,11 +99,11 @@ public class YhEnterController extends BaseController {
                                   @PathVariable Integer pclx, @PathVariable String zgfs, @PathVariable String zgqx,
                                   @PathVariable String zgbc, @PathVariable Integer yhzy, @PathVariable String mainDeptId,
                                   @PathVariable Integer fineType, @PathVariable Integer dwfk, @PathVariable Integer grfk,
-                                  @RequestParam String callback) throws ParseException {
+                                  @PathVariable Integer rjid, @RequestParam String callback) throws ParseException {
         return new JSONPObject(callback,
                 yhEnterManager.insertInfoOracleDataSource3(yhyj, yhjb, yhlx, yhms,
                         zrdw, zrr, pcdd, mxdd, pcsj, pcbc, pcry, pclx, zgfs,
-                        zgqx, zgbc, yhzy, mainDeptId, fineType, dwfk, grfk)
+                        zgqx, zgbc, yhzy, mainDeptId, fineType, dwfk, grfk, rjid)
         );
     }
 
