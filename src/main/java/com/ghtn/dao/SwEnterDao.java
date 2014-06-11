@@ -1,5 +1,7 @@
 package com.ghtn.dao;
 
+import com.ghtn.model.oracle.Nswfineset;
+
 import java.util.List;
 
 /**
@@ -25,5 +27,7 @@ public interface SwEnterDao extends GenericDao {
      * @return
      */
     List<Object[]> filterSwBasis(String deptNumber, Integer swyjLevel, String swyjText);
+
+    List<Nswfineset> getSwFineSet(Integer levelId, Integer jcType, String mainDeptId);
 
 }

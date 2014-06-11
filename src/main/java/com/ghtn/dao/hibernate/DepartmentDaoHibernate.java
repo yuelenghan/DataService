@@ -30,4 +30,10 @@ public class DepartmentDaoHibernate extends GenericDaoHibernate<Department, Stri
                 " and Deptstatus = 1 and maindeptnumber = '" + mainDeptId + "' order by dsort";
         return querySql(sql);
     }
+
+    @Override
+    public String getDeptName(String deptNumber) {
+        String sql = "select deptname from view_department where deptnumber = '" + deptNumber + "'";
+        return getSession().createSQLQuery(sql).uniqueResult().toString();
+    }
 }

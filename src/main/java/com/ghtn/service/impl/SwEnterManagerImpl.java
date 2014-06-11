@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -138,13 +139,23 @@ public class SwEnterManagerImpl extends GenericManagerImpl implements SwEnterMan
     }
 
     @Override
-    public String insertInfoOracleDataSource3(Integer swyj, Integer swxz, Integer swlx, Integer swzy, String wxy, String swms, String swry, String pcry, Integer pcdd, String mxdd, String pcsj, String pcbc, Integer jcfs, String mainDeptId) throws ParseException {
+    public String insertInfoOracleDataSource3(Integer swyj, Integer swxz, Integer swlx, Integer swzy, String swms,
+                                              String swry, String pcry, Integer pcdd, String mxdd, String pcsj, String pcbc,
+                                              Integer jcfs, String mainDeptId,
+                                              boolean dwjf, Integer dwjfValue, boolean dwfk, Integer dwfkValue,
+                                              boolean grjf, Integer grjfValue, boolean grfk, Integer grfkValue,
+                                              boolean jbxx, Integer jbxxValue, boolean dismiss) throws ParseException {
         // 插入NSWINPUT
         Nswinput nswinput = new Nswinput();
 
         nswinput.setSwid(swyj);
         nswinput.setRemarks(swms);
-        nswinput.setSwpnumber(swry);
+
+        // 处理三违人员字符串 : 责任单位id@三违人员id
+        String[] s = swry.split("@");
+        nswinput.setSwpnumber(s[1]);
+
+
         nswinput.setPcpnumber(pcry);
         nswinput.setPlaceid(pcdd);
 
@@ -156,7 +167,7 @@ public class SwEnterManagerImpl extends GenericManagerImpl implements SwEnterMan
         nswinput.setTypeid(swlx);
         nswinput.setLevelid(swxz);
         nswinput.setZyid(swzy);
-        nswinput.sethNumber(wxy);
+//        nswinput.sethNumber(wxy);
         nswinput.setPctime(new Timestamp(DateUtil.stringToDate(pcsj, "yyyy-MM-dd").getTime()));
         nswinput.setBanci(pcbc);
         nswinput.setJctype(BigInteger.valueOf(jcfs));
@@ -193,12 +204,102 @@ public class SwEnterManagerImpl extends GenericManagerImpl implements SwEnterMan
         Nswpersistence nswpersistence = new Nswpersistence();
 
         nswpersistence.setSwinputid(nswinput.getSwinputid());
-        nswpersistence.setSwpname(personDao.getPersonName(swry));
+        nswpersistence.setSwpname(personDao.getPersonName(s[1]));
         nswpersistence.setPcpname(personDao.getPersonName(pcry));
         nswpersistence.setPlacename(placeDao.get(pcdd).getPlacename());
         nswpersistence.setInputpername(personDao.getPersonName(pcry));
 
         swEnterDao.save(nswpersistence);
+
+
+        // 处罚信息
+        // 插入NSWFINEDETAIL
+        if (dwjf) {
+            // 单位积分
+            Nswfinedetail nswfinedetail = new Nswfinedetail();
+            nswfinedetail.setSwinputid(nswinput.getSwinputid());
+            nswfinedetail.setLcmark(1);
+            nswfinedetail.setRecorddate(new Date());
+            nswfinedetail.setFinekind(BigInteger.ZERO); // 处罚对象 0:单位, 1:人
+            nswfinedetail.setFinetype(BigInteger.ZERO);    // 处罚方式 0:积分, 1:罚款, 2:进班学习, 3:解除劳动合同
+            nswfinedetail.setObjectname("责任单位");
+            nswfinedetail.setFineid(s[0]);
+            nswfinedetail.setFinename(departmentDao.getDeptName(s[0]));
+            nswfinedetail.setFine(BigDecimal.valueOf(dwjfValue));
+
+            swEnterDao.save(nswfinedetail);
+        }
+        if (dwfk) {
+            // 单位罚款
+            Nswfinedetail nswfinedetail = new Nswfinedetail();
+            nswfinedetail.setSwinputid(nswinput.getSwinputid());
+            nswfinedetail.setLcmark(1);
+            nswfinedetail.setRecorddate(new Date());
+            nswfinedetail.setFinekind(BigInteger.ZERO); // 处罚对象 0:单位, 1:人
+            nswfinedetail.setFinetype(BigInteger.ONE);    // 处罚方式 0:积分, 1:罚款, 2:进班学习, 3:解除劳动合同
+            nswfinedetail.setObjectname("责任单位");
+            nswfinedetail.setFineid(s[0]);
+            nswfinedetail.setFinename(departmentDao.getDeptName(s[0]));
+            nswfinedetail.setFine(BigDecimal.valueOf(dwfkValue));
+
+            swEnterDao.save(nswfinedetail);
+        }
+        if (grjf) {
+            Nswfinedetail nswfinedetail = new Nswfinedetail();
+            nswfinedetail.setSwinputid(nswinput.getSwinputid());
+            nswfinedetail.setLcmark(1);
+            nswfinedetail.setRecorddate(new Date());
+            nswfinedetail.setFinekind(BigInteger.ONE); // 处罚对象 0:单位, 1:人
+            nswfinedetail.setFinetype(BigInteger.ZERO);    // 处罚方式 0:积分, 1:罚款, 2:进班学习, 3:解除劳动合同
+            nswfinedetail.setObjectname("责任人");
+            nswfinedetail.setFineid(s[1]);
+            nswfinedetail.setFinename(personDao.getPersonName(s[1]));
+            nswfinedetail.setFine(BigDecimal.valueOf(grjfValue));
+
+            swEnterDao.save(nswfinedetail);
+        }
+        if (grfk) {
+            Nswfinedetail nswfinedetail = new Nswfinedetail();
+            nswfinedetail.setSwinputid(nswinput.getSwinputid());
+            nswfinedetail.setLcmark(1);
+            nswfinedetail.setRecorddate(new Date());
+            nswfinedetail.setFinekind(BigInteger.ONE); // 处罚对象 0:单位, 1:人
+            nswfinedetail.setFinetype(BigInteger.ONE);    // 处罚方式 0:积分, 1:罚款, 2:进班学习, 3:解除劳动合同
+            nswfinedetail.setObjectname("责任人");
+            nswfinedetail.setFineid(s[1]);
+            nswfinedetail.setFinename(personDao.getPersonName(s[1]));
+            nswfinedetail.setFine(BigDecimal.valueOf(grfkValue));
+
+            swEnterDao.save(nswfinedetail);
+        }
+        if (jbxx) {
+            Nswfinedetail nswfinedetail = new Nswfinedetail();
+            nswfinedetail.setSwinputid(nswinput.getSwinputid());
+            nswfinedetail.setLcmark(1);
+            nswfinedetail.setRecorddate(new Date());
+            nswfinedetail.setFinekind(BigInteger.ONE); // 处罚对象 0:单位, 1:人
+            nswfinedetail.setFinetype(BigInteger.valueOf(2));    // 处罚方式 0:积分, 1:罚款, 2:进班学习, 3:解除劳动合同
+            nswfinedetail.setObjectname("责任人");
+            nswfinedetail.setFineid(s[1]);
+            nswfinedetail.setFinename(personDao.getPersonName(s[1]));
+            nswfinedetail.setFine(BigDecimal.valueOf(jbxxValue));
+
+            swEnterDao.save(nswfinedetail);
+        }
+        if (dismiss) {
+            Nswfinedetail nswfinedetail = new Nswfinedetail();
+            nswfinedetail.setSwinputid(nswinput.getSwinputid());
+            nswfinedetail.setLcmark(1);
+            nswfinedetail.setRecorddate(new Date());
+            nswfinedetail.setFinekind(BigInteger.ONE); // 处罚对象 0:单位, 1:人
+            nswfinedetail.setFinetype(BigInteger.valueOf(3));    // 处罚方式 0:积分, 1:罚款, 2:进班学习, 3:解除劳动合同
+            nswfinedetail.setObjectname("责任人");
+            nswfinedetail.setFineid(s[1]);
+            nswfinedetail.setFinename(personDao.getPersonName(s[1]));
+
+            swEnterDao.save(nswfinedetail);
+        }
+
 
         return "success";
     }
@@ -261,5 +362,10 @@ public class SwEnterManagerImpl extends GenericManagerImpl implements SwEnterMan
             return resultList;
         }
         return null;
+    }
+
+    @Override
+    public List<Nswfineset> getSwFineSetOracleDataSource3(Integer levelId, Integer jcType, String mainDeptId) {
+        return swEnterDao.getSwFineSet(levelId, jcType, mainDeptId);
     }
 }

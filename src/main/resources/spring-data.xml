@@ -44,7 +44,7 @@
 
     <!-- 第五个数据源 -->
     <bean id="dataSource5" class="org.apache.commons.dbcp.BasicDataSource">
-        <property name="driverClassName" value="${mysql.driverClassName}"/>
+        <property name="driverClassName" value="${sqlServer.driverClassName}"/>
         <property name="url" value="${dataSource5.url}"/>
         <property name="username" value="${dataSource5.username}"/>
         <property name="password" value="${dataSource5.password}"/>

@@ -14,4 +14,6 @@ public interface DepartmentDao extends GenericDao<Department, String> {
     List<Object[]> getAllDept();
 
     List<Object[]> getDept(String mainDeptId);
+
+    String getDeptName(String deptNumber);
 }

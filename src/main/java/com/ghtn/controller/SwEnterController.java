@@ -85,17 +85,25 @@ public class SwEnterController {
         return new JSONPObject(callback, swEnterManager.getPersonOracleDataSource3(shortName, deptId));
     }
 
-    @RequestMapping("/insertInfo/{swyj}/{swxz}/{swlx}/{swzy}/{wxy}/{swms}/{swry}/{pcry}/{pcdd}/{mxdd}/{pcsj}/{pcbc}/{jcfs}/{mainDeptId}")
+    @RequestMapping("/insertInfo/{swyj}/{swxz}/{swlx}/{swzy}/{swms}/{swry}/{pcry}/{pcdd}/{mxdd}/{pcsj}/{pcbc}/{jcfs}/{mainDeptId}/{dwjf}/{dwjfValue}/{dwfk}/{dwfkValue}/{grjf}/{grjfValue}/{grfk}/{grfkValue}/{jbxx}/{jbxxValue}/{dismiss}")
     @ResponseBody
     public JSONPObject insertInfo(@PathVariable Integer swyj, @PathVariable Integer swxz, @PathVariable Integer swlx,
-                                  @PathVariable Integer swzy, @PathVariable String wxy, @PathVariable String swms,
+                                  @PathVariable Integer swzy, @PathVariable String swms,
                                   @PathVariable String swry, @PathVariable String pcry, @PathVariable Integer pcdd,
                                   @PathVariable String mxdd, @PathVariable String pcsj, @PathVariable String pcbc,
                                   @PathVariable Integer jcfs, @PathVariable String mainDeptId,
+                                  @PathVariable boolean dwjf, @PathVariable Integer dwjfValue,
+                                  @PathVariable boolean dwfk, @PathVariable Integer dwfkValue,
+                                  @PathVariable boolean grjf, @PathVariable Integer grjfValue,
+                                  @PathVariable boolean grfk, @PathVariable Integer grfkValue,
+                                  @PathVariable boolean jbxx, @PathVariable Integer jbxxValue,
+                                  @PathVariable boolean dismiss,
                                   @RequestParam String callback) throws ParseException {
         return new JSONPObject(callback,
-                swEnterManager.insertInfoOracleDataSource3(swyj, swxz, swlx, swzy, wxy, swms,
-                        swry, pcry, pcdd, mxdd, pcsj, pcbc, jcfs, mainDeptId)
+                swEnterManager.insertInfoOracleDataSource3(swyj, swxz, swlx, swzy, swms,
+                        swry, pcry, pcdd, mxdd, pcsj, pcbc, jcfs, mainDeptId,
+                        dwjf, dwjfValue, dwfk, dwfkValue, grjf, grjfValue, grfk, grfkValue,
+                        jbxx, jbxxValue, dismiss)
         );
     }
 
@@ -129,5 +137,12 @@ public class SwEnterController {
     @ResponseBody
     public JSONPObject getDepartment(@PathVariable String mainDeptId, @RequestParam String callback) {
         return new JSONPObject(callback, swEnterManager.filterDepartmentOracleDataSource3(mainDeptId));
+    }
+
+    @RequestMapping("/fineSet/{levelId}/{jcType}/{mainDeptId}")
+    @ResponseBody
+    public JSONPObject getSwFineSet(@PathVariable Integer levelId, @PathVariable Integer jcType,
+                                    @PathVariable String mainDeptId, @RequestParam String callback) {
+        return new JSONPObject(callback, swEnterManager.getSwFineSetOracleDataSource3(levelId, jcType, mainDeptId));
     }
 }

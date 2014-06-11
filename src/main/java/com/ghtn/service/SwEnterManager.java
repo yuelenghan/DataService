@@ -1,5 +1,6 @@
 package com.ghtn.service;
 
+import com.ghtn.model.oracle.Nswfineset;
 import com.ghtn.model.oracle.Person;
 import com.ghtn.vo.DepartmentVO;
 import com.ghtn.vo.SwBasisVO;
@@ -80,8 +81,11 @@ public interface SwEnterManager extends GenericManager {
      * @return
      * @throws ParseException
      */
-    String insertInfoOracleDataSource3(Integer swyj, Integer swxz, Integer swlx, Integer swzy, String wxy, String swms, String swry, String pcry,
-                                       Integer pcdd, String mxdd, String pcsj, String pcbc, Integer jcfs, String mainDeptId) throws ParseException;
+    String insertInfoOracleDataSource3(Integer swyj, Integer swxz, Integer swlx, Integer swzy, String swms, String swry, String pcry,
+                                       Integer pcdd, String mxdd, String pcsj, String pcbc, Integer jcfs, String mainDeptId,
+                                       boolean dwjf, Integer dwjfValue, boolean dwfk, Integer dwfkValue,
+                                       boolean grjf, Integer grjfValue, boolean grfk, Integer grfkValue,
+                                       boolean jbxx, Integer jbxxValue, boolean dismiss) throws ParseException;
 
     /**
      * 过滤三违依据
@@ -93,4 +97,6 @@ public interface SwEnterManager extends GenericManager {
     List<SwBasisVO> filterSwBasisOracleDataSource3(String deptNumber, String swyjLevel, String swyjText, HttpSession session);
 
     List<DepartmentVO> filterDepartmentOracleDataSource3(String mainDeptId);
+
+    List<Nswfineset> getSwFineSetOracleDataSource3(Integer levelId, Integer jcType, String mainDeptId);
 }

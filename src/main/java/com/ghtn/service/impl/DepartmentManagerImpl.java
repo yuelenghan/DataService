@@ -45,4 +45,9 @@ public class DepartmentManagerImpl extends GenericManagerImpl<Department, String
         }
         return null;
     }
+
+    @Override
+    public String getDeptNameOracleDataSource3(String deptNumber) {
+        return departmentDao.getDeptName(deptNumber);
+    }
 }

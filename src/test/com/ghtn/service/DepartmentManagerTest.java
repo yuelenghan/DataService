@@ -26,4 +26,9 @@ public class DepartmentManagerTest extends BaseTestCase {
             System.out.println(list.size());
         }*/
     }
+
+    @Test
+    public void testGetDeptName() {
+        System.out.println(departmentManager.getDeptNameOracleDataSource3("010102009"));
+    }
 }

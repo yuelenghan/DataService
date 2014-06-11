@@ -1,6 +1,7 @@
 package com.ghtn.dao.hibernate;
 
 import com.ghtn.dao.SwEnterDao;
+import com.ghtn.model.oracle.Nswfineset;
 import com.ghtn.util.StringUtil;
 import org.springframework.stereotype.Repository;
 
@@ -31,5 +32,15 @@ public class SwEnterDaoHibernate extends GenericDaoHibernate implements SwEnterD
             sql += " and (swcontent like '%" + swyjText + "%' or conpyfirst like '%" + swyjText.toUpperCase() + "%' or pyall like '%" + swyjText.toLowerCase() + "%')";
         }
         return querySql(sql);
+    }
+
+    @Override
+    public List<Nswfineset> getSwFineSet(Integer levelId, Integer jcType, String mainDeptId) {
+        StringBuilder hql = new StringBuilder();
+        hql.append("from Nswfineset n where n.levelid = " + levelId)
+                .append(" and n.jctype = " + jcType)
+                .append(" and n.maindeptid = '" + mainDeptId + "'")
+                .append(" and n.status = '已发布'");
+        return queryHql(hql.toString());
     }
 }
