@@ -5,6 +5,7 @@ import org.hibernate.jdbc.Work;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.util.List;
 
 /**
  * User: Administrator
@@ -31,5 +32,19 @@ public class RydwDaoHibernate extends GenericDaoHibernate implements RydwDao {
             }
         });
         return resultSet;
+    }
+
+    @Override
+    public List<Object[]> getRydwSummary() {
+        String sql = "SELECT short_name as 煤矿简称, config_mine.max_num as 定员数, num_mine as 井下人数, num_leader as 跟班领导,";
+        sql += " num_spec as 井下特种人员, num_overtime as 超时报警 , times_sys as 系统异常";
+        sql += " FROM result_mineone inner join config_mine on result_mineone.mine_id = config_mine.mine_id";
+        return querySql(sql);
+    }
+
+    @Override
+    public List<Object[]> test() {
+        String sql = "select Alarm_id as ID, Alarm_type as 类型, Process_time as 日期 from AlarmReport where First_report_time >= '2013-07-24';";
+        return querySql(sql);
     }
 }

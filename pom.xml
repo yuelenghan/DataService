@@ -197,10 +197,16 @@
         <!-- sqlServer driver -->
         <dependency>
             <groupId>sqlServer</groupId>
-            <artifactId>sqljdbc4</artifactId>
-            <version>4</version>
+            <artifactId>sqljdbc</artifactId>
+            <version>3.4</version>
         </dependency>
 
+        <!-- postgresql driver -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.3-1102-jdbc41</version>
+        </dependency>
 
         <!-- junit -->
         <dependency>
@@ -330,7 +336,7 @@
                     </webApp>
                     <connectors>
                         <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                            <port>8080</port>
+                            <port>8081</port>
                         </connector>
                     </connectors>
                 </configuration>
@@ -341,7 +347,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <url>http://192.168.1.105:8080/manager/text</url>
+                    <url>http://localhost:8080/manager/text</url>
                     <server>tomcat</server>
                 </configuration>
             </plugin>
@@ -382,35 +388,49 @@
 
         <sqlServer.driverClassName>com.microsoft.sqlserver.jdbc.SQLServerDriver</sqlServer.driverClassName>
 
-        <!-- 数据源1   -->
+        <postgreSql.driverClassName>org.postgresql.Driver</postgreSql.driverClassName>
+
+        <!-- 数据源1 测试数据库1  -->
         <dataSource1.url>jdbc:mysql://localhost:3306/test1?useUnicode=true&amp;amp;characterEncoding=UTF-8
         </dataSource1.url>
         <dataSource1.username>root</dataSource1.username>
         <dataSource1.password>212214</dataSource1.password>
 
-        <!-- 数据源2 -->
-        <dataSource2.url>jdbc:mysql://localhost:3306/test2?useUnicode=true&amp;amp;characterEncoding=UTF-8
+        <!-- 数据源2 测试数据库2 -->
+        <dataSource2.url>jdbc:sqlserver://192.168.1.202:1433;databaseName=KJ07
         </dataSource2.url>
-        <dataSource2.username>root</dataSource2.username>
-        <dataSource2.password>212214</dataSource2.password>
+        <dataSource2.username>sa</dataSource2.username>
+        <dataSource2.password>ghtn123</dataSource2.password>
 
-        <!-- 数据源3   -->
+        <!-- 数据源3 风险预控数据库  -->
         <dataSource3.url>jdbc:oracle:thin:@//192.168.1.105:1521/orcl
         </dataSource3.url>
         <dataSource3.username>sep3</dataSource3.username>
         <dataSource3.password>GhtnTechby3885580</dataSource3.password>
 
-        <!-- 数据源4 -->
-        <dataSource4.url>jdbc:sqlserver://192.168.1.202:1433;databaseName=KJ07
+        <!-- 数据源4 人员定位数据库 -->
+        <dataSource4.url>jdbc:postgresql://192.168.1.105:5432/mine
         </dataSource4.url>
-        <dataSource4.username>sa</dataSource4.username>
-        <dataSource4.password>ghtn123</dataSource4.password>
+        <dataSource4.username>android</dataSource4.username>
+        <dataSource4.password>android</dataSource4.password>
 
-        <!-- 数据源5 -->
+        <!-- 数据源5 虹膜数据库 -->
         <dataSource5.url>jdbc:mysql://localhost:3306/fxyk?useUnicode=true&amp;amp;characterEncoding=UTF-8
         </dataSource5.url>
         <dataSource5.username>root</dataSource5.username>
         <dataSource5.password>212214</dataSource5.password>
+
+        <!-- 数据源6 产量数据库 -->
+        <dataSource6.url>jdbc:sqlserver://192.168.1.118:1433;databaseName=computer
+        </dataSource6.url>
+        <dataSource6.username>sa</dataSource6.username>
+        <dataSource6.password></dataSource6.password>
+
+        <!-- 数据源7 瓦斯数据库 -->
+        <dataSource7.url>jdbc:sqlserver://192.168.1.118:1433;databaseName=xskwj
+        </dataSource7.url>
+        <dataSource7.username>sa</dataSource7.username>
+        <dataSource7.password></dataSource7.password>
 
         <!-- mysql 5 -->
         <hibernate.mysql.dialect>org.hibernate.dialect.MySQL5Dialect</hibernate.mysql.dialect>
@@ -426,6 +446,9 @@
 
         <!-- sql server -->
         <hibernate.sqlServer.dialect>org.hibernate.dialect.SQLServerDialect</hibernate.sqlServer.dialect>
+
+        <!-- postgreSql -->
+        <hibernate.postgreSql.dialect>org.hibernate.dialect.PostgreSQLDialect</hibernate.postgreSql.dialect>
 
         <hibernate.hbm2ddl.auto>none</hibernate.hbm2ddl.auto>
         <hibernate.show_sql>true</hibernate.show_sql>
@@ -464,17 +487,35 @@
         <profile>
             <id>remote</id>
             <properties>
-                <!-- 数据源3   -->
+                <!-- 数据源3  风险预控数据库 -->
                 <dataSource3.url>jdbc:oracle:thin:@//10.1.168.50:1521/orcl
                 </dataSource3.url>
                 <dataSource3.username>sep3</dataSource3.username>
                 <dataSource3.password>GhtnTechby3885580</dataSource3.password>
 
-                <!-- 数据源5   -->
+                <!-- 数据源4 人员定位数据库 -->
+                <dataSource4.url>jdbc:postgresql://192.168.168.64:5432/mine
+                </dataSource4.url>
+                <dataSource4.username>android</dataSource4.username>
+                <dataSource4.password>android</dataSource4.password>
+
+                <!-- 数据源5  虹膜数据库 -->
                 <dataSource5.url>jdbc:sqlserver://192.168.168.187:1433;databaseName=mini
                 </dataSource5.url>
                 <dataSource5.username>gtxj</dataSource5.username>
                 <dataSource5.password>p222z</dataSource5.password>
+
+                <!-- 数据源6 产量数据库 -->
+                <dataSource6.url>jdbc:sqlserver://192.168.168.200:1433;databaseName=computer
+                </dataSource6.url>
+                <dataSource6.username>android</dataSource6.username>
+                <dataSource6.password>android</dataSource6.password>
+
+                <!-- 数据源7 瓦斯数据库 -->
+                <dataSource7.url>jdbc:sqlserver://192.168.168.62:1433;databaseName=xskwj
+                </dataSource7.url>
+                <dataSource7.username>android</dataSource7.username>
+                <dataSource7.password>android</dataSource7.password>
 
                 <log4j.level>ERROR</log4j.level>
             </properties>

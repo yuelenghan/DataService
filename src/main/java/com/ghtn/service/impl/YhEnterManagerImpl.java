@@ -65,10 +65,10 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
     public List<YhBasisVO> getYhBasisOracleDataSource3(String deptNumber, HttpSession session) {
         List<Object[]> list = yhEnterDao.getYhBasis(deptNumber);
         if (list != null && list.size() > 0) {
-            List<YhBasisVO> resultList = new ArrayList<>();
-            Map<String, String> levelMap = new HashMap<>();
-            Map<String, String> typeMap = new HashMap<>();
-            Map<String, String> hazardMap = new HashMap<>();
+            List<YhBasisVO> resultList = new ArrayList<YhBasisVO>();
+            Map<String, String> levelMap = new HashMap<String, String>();
+            Map<String, String> typeMap = new HashMap<String, String>();
+            Map<String, String> hazardMap = new HashMap<String, String>();
             for (Object[] o : list) {
                 YhBasisVO vo = new YhBasisVO();
                 vo.setYhId(StringUtil.processNullStr(String.valueOf(o[0])));
@@ -128,7 +128,7 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
     public List<HazardVO> getHazardOracleDataSource3(String deptNumber) {
         List<Object[]> list = yhEnterDao.getHazard(deptNumber);
         if (list != null && list.size() > 0) {
-            List<HazardVO> resultList = new ArrayList<>();
+            List<HazardVO> resultList = new ArrayList<HazardVO>();
             for (Object[] o : list) {
                 HazardVO vo = new HazardVO();
 
@@ -159,7 +159,7 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
     public List<ZrdwVO> getZrdwOracleDataSource3(String deptNumber) {
         List<Object[]> list = yhEnterDao.getZrdw(deptNumber);
         if (list != null && list.size() > 0) {
-            List<ZrdwVO> resultList = new ArrayList<>();
+            List<ZrdwVO> resultList = new ArrayList<ZrdwVO>();
             for (Object[] o : list) {
                 ZrdwVO vo = new ZrdwVO();
 
@@ -178,7 +178,7 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
     public List<ZrrVO> getZrrOracleDataSource3(String deptId) {
         List<Person> list = yhEnterDao.getZrr(deptId);
         if (list != null && list.size() > 0) {
-            List<ZrrVO> resultList = new ArrayList<>();
+            List<ZrrVO> resultList = new ArrayList<ZrrVO>();
             for (Person p : list) {
                 ZrrVO vo = new ZrrVO();
 
@@ -416,10 +416,10 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
         }
         List<Object[]> list = yhEnterDao.filterYhBasis(deptNumber, yhyjLevelInt, yhyjTypeInt, yhyjText);
         if (list != null && list.size() > 0) {
-            List<YhBasisVO> resultList = new ArrayList<>();
-            Map<String, String> levelMap = new HashMap<>();
-            Map<String, String> typeMap = new HashMap<>();
-            Map<String, String> hazardMap = new HashMap<>();
+            List<YhBasisVO> resultList = new ArrayList<YhBasisVO>();
+            Map<String, String> levelMap = new HashMap<String, String>();
+            Map<String, String> typeMap = new HashMap<String, String>();
+            Map<String, String> hazardMap = new HashMap<String, String>();
             for (Object[] o : list) {
                 YhBasisVO vo = new YhBasisVO();
                 vo.setYhId(StringUtil.processNullStr(String.valueOf(o[0])));
@@ -456,7 +456,7 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
     public List<HazardVO> filterHazardOracleDataSource3(String deptNumber, String wxyLevel, String wxyText) {
         List<Object[]> list = yhEnterDao.filterHazard(deptNumber, wxyLevel, wxyText);
         if (list != null && list.size() > 0) {
-            List<HazardVO> resultList = new ArrayList<>();
+            List<HazardVO> resultList = new ArrayList<HazardVO>();
             for (Object[] o : list) {
                 HazardVO vo = new HazardVO();
 
@@ -483,7 +483,7 @@ public class YhEnterManagerImpl extends GenericManagerImpl implements YhEnterMan
     public List<DepartmentVO> filterZrdwOracleDataSource3(String deptNumber, String arg) {
         List<Object[]> list = yhEnterDao.filterZrdw(deptNumber, arg);
         if (list != null && list.size() > 0) {
-            List<DepartmentVO> resultList = new ArrayList<>();
+            List<DepartmentVO> resultList = new ArrayList<DepartmentVO>();
             for (Object[] o : list) {
                 DepartmentVO vo = new DepartmentVO();
                 vo.setDeptNumber(StringUtil.processNullStr(String.valueOf(o[0])));

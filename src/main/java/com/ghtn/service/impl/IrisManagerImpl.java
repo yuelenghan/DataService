@@ -33,8 +33,8 @@ public class IrisManagerImpl extends GenericManagerImpl implements IrisManager {
     public List<IrisVO> getIrisDataMysqlDataSource5(String personNumber, HttpSession session) throws ParseException {
         List<Object[]> list = irisDao.getIrisData(personNumber);
         if (list != null && list.size() > 0) {
-            List<IrisVO> resultList = new ArrayList<>();
-            Map<String, IrisVO> map = new HashMap<>();
+            List<IrisVO> resultList = new ArrayList<IrisVO>();
+            Map<String, IrisVO> map = new HashMap<String, IrisVO>();
             for (Object[] o : list) {
                 IrisVO vo = new IrisVO();
                 vo.setWorkerSn(StringUtil.processNullStr(String.valueOf(o[0])));

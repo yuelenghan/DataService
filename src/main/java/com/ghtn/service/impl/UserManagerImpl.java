@@ -77,7 +77,7 @@ public class UserManagerImpl extends GenericManagerImpl<SfUser, Long> implements
                     mainDeptId = person.getUsingdept();
                 }
 
-                Map<String, String> userMap = new HashMap<>();
+                Map<String, String> userMap = new HashMap<String, String>();
                 userMap.put("personNumber", userName);
                 userMap.put("personName", person.getName());
                 userMap.put("roleLevel", roleLevel);

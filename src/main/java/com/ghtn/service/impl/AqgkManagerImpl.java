@@ -35,7 +35,7 @@ public class AqgkManagerImpl extends GenericManagerImpl implements AqgkManager {
 
             List<Object[]> list = aqgkDao.getAqgk(startDate, endDate);
             if (list != null && list.size() > 0) {
-                List<AqgkVO> resultList = new ArrayList<>();
+                List<AqgkVO> resultList = new ArrayList<AqgkVO>();
 
                 for (Object[] o : list) {
                     AqgkVO vo = new AqgkVO();

@@ -34,7 +34,7 @@ public class SwxcQueryManagerImpl extends GenericManagerImpl implements SwxcQuer
                 DateUtil.stringToDate(endDate, "yyyy-MM-dd"), start, limit);
         if (list != null && list.size() > 0) {
 
-            List<SwxcListVO> resultList = new ArrayList<>();
+            List<SwxcListVO> resultList = new ArrayList<SwxcListVO>();
 
             for (Nswinput nswinput : list) {
                 SwxcListVO vo = new SwxcListVO();

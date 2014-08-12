@@ -31,7 +31,7 @@ public class DepartmentManagerImpl extends GenericManagerImpl<Department, String
     public List<DepartmentVO> getAllDeptOracleDataSource3() {
         List<Object[]> list = departmentDao.getAllDept();
         if (list != null && list.size() > 0) {
-            List<DepartmentVO> resultList = new ArrayList<>();
+            List<DepartmentVO> resultList = new ArrayList<DepartmentVO>();
 
             for (Object[] o : list) {
                 DepartmentVO vo = new DepartmentVO();

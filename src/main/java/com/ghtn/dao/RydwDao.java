@@ -2,6 +2,7 @@ package com.ghtn.dao;
 
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.util.List;
 
 /**
  * User: Administrator
@@ -18,5 +19,7 @@ public interface RydwDao extends GenericDao {
      */
     ResultSet getInMinePeople(Date date);
 
+    List<Object[]> getRydwSummary();
 
+    List<Object[]> test();
 }

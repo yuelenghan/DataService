@@ -38,5 +38,13 @@ public class DataSourceUtil {
             log.info("切换到数据源 : dataSource5");
             DataSourceContextHolder.setType(DataSourceType.dataSource5);
         }
+        if (methodName.toUpperCase().contains("DATASOURCE6")) {
+            log.info("切换到数据源 : dataSource6");
+            DataSourceContextHolder.setType(DataSourceType.dataSource6);
+        }
+        if (methodName.toUpperCase().contains("DATASOURCE7")) {
+            log.info("切换到数据源 : dataSource7");
+            DataSourceContextHolder.setType(DataSourceType.dataSource7);
+        }
     }
 }

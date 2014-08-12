@@ -13,7 +13,9 @@ import javax.servlet.http.HttpSession;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: Administrator
@@ -54,7 +56,7 @@ public class RydwManagerImpl extends GenericManagerImpl implements RydwManager {
             // 调用存储过程取得总的结果集totalList，在内存中对totalList进行分页
             ResultSet resultSet = rydwDao.getInMinePeople(DateUtil.createSqlDate(date, "yyyy-MM-dd"));
             if (resultSet != null) {
-                List<RydwVO> totalList = new ArrayList<>();
+                List<RydwVO> totalList = new ArrayList<RydwVO>();
                 while (resultSet.next()) {
                     int peopleId = resultSet.getInt("People_id");
                     String peopleName = resultSet.getString("People_name");
@@ -103,5 +105,43 @@ public class RydwManagerImpl extends GenericManagerImpl implements RydwManager {
         }
 
         return null;
+    }
+
+    @Override
+    public List<Map<String, String>> getRydwSummaryPostgreSqlDataSource4() {
+        List<Object[]> list = rydwDao.getRydwSummary();
+        List<Map<String, String>> returnList = new ArrayList<Map<String, String>>();
+        if (list != null && list.size() > 0) {
+            for (Object[] o : list) {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("shortName", String.valueOf(o[0]));
+                map.put("maxNum", String.valueOf(o[1]));
+                map.put("numMine", String.valueOf(o[2]));
+                map.put("numLeader", String.valueOf(o[3]));
+                map.put("numSpec", String.valueOf(o[4]));
+                map.put("numOverTime", String.valueOf(o[5]));
+                map.put("timeSys", String.valueOf(o[6]));
+
+                returnList.add(map);
+            }
+        }
+        return returnList;
+    }
+
+    @Override
+    public List<Map<String, String>> testSqlServerDataSource2() {
+        List<Object[]> list = rydwDao.test();
+        List<Map<String, String>> returnList = new ArrayList<Map<String, String>>();
+        if (list != null && list.size() > 0) {
+            for (Object[] o : list) {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("test1", String.valueOf(o[0]));
+                map.put("test2", String.valueOf(o[1]));
+                map.put("test3", String.valueOf(o[2]));
+
+                returnList.add(map);
+            }
+        }
+        return returnList;
     }
 }

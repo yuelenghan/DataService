@@ -6,7 +6,7 @@ package com.ghtn.context;
  * Time: 下午4:54
  */
 public class SessionFactoryContextHolder {
-    private static final ThreadLocal holder = new ThreadLocal<>();
+    private static final ThreadLocal holder = new ThreadLocal();
 
 
     public static void setType(SessionFactoryType sessionFactoryType) {

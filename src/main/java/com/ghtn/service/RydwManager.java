@@ -5,6 +5,7 @@ import com.ghtn.vo.RydwVO;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: Administrator
@@ -15,4 +16,7 @@ public interface RydwManager extends GenericManager {
 
     List<RydwVO> getInMinePeopleSqlServerDataSource4(String date, HttpSession session, Integer start, Integer limit) throws SQLException;
 
+    List<Map<String, String>> getRydwSummaryPostgreSqlDataSource4();
+
+    List<Map<String, String>> testSqlServerDataSource2();
 }

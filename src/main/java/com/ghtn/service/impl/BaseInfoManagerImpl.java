@@ -30,7 +30,7 @@ public class BaseInfoManagerImpl extends GenericManagerImpl<CsBaseinfoset, Integ
     @Override
     public List<BaseInfoVO> listBaseInfoOracleDataSource3() {
         List<CsBaseinfoset> list = baseInfoDao.listBaseInfo();
-        List<BaseInfoVO> returnList = new ArrayList<>();
+        List<BaseInfoVO> returnList = new ArrayList<BaseInfoVO>();
 
         if (list != null && list.size() > 0) {
             for (CsBaseinfoset csBaseinfoset : list) {
@@ -44,7 +44,7 @@ public class BaseInfoManagerImpl extends GenericManagerImpl<CsBaseinfoset, Integ
     @Override
     public List<BaseInfoVO> listBaseInfoByFidOracleDataSource3(Integer fid) {
         List<CsBaseinfoset> list = baseInfoDao.listBaseInfoByFid(fid);
-        List<BaseInfoVO> returnList = new ArrayList<>();
+        List<BaseInfoVO> returnList = new ArrayList<BaseInfoVO>();
 
         if (list != null && list.size() > 0) {
             for (CsBaseinfoset csBaseinfoset : list) {
@@ -59,7 +59,7 @@ public class BaseInfoManagerImpl extends GenericManagerImpl<CsBaseinfoset, Integ
     public List<BaseInfoVO> listTitleOracleDataSource3() {
         List<CsBaseinfoset> list = baseInfoDao.listTitle();
         if (list != null && list.size() > 0) {
-            List<BaseInfoVO> resultList = new ArrayList<>();
+            List<BaseInfoVO> resultList = new ArrayList<BaseInfoVO>();
             for (CsBaseinfoset csBaseinfoset : list) {
                 resultList.add(transformToVO(csBaseinfoset));
             }
@@ -73,7 +73,7 @@ public class BaseInfoManagerImpl extends GenericManagerImpl<CsBaseinfoset, Integ
     public List<BaseInfoVO> listGslevelOracleDataSource3() {
         List<CsBaseinfoset> list = baseInfoDao.listGsLevel();
         if (list != null && list.size() > 0) {
-            List<BaseInfoVO> resultList = new ArrayList<>();
+            List<BaseInfoVO> resultList = new ArrayList<BaseInfoVO>();
             for (CsBaseinfoset csBaseinfoset : list) {
                 resultList.add(transformToVO(csBaseinfoset));
             }

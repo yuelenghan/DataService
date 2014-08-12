@@ -62,10 +62,10 @@ public class SwEnterManagerImpl extends GenericManagerImpl implements SwEnterMan
     public List<SwBasisVO> getSwBasisOracleDataSource3(String deptNumber, HttpSession session) {
         List<Object[]> list = swEnterDao.getSwBasis(deptNumber);
         if (list != null && list.size() > 0) {
-            List<SwBasisVO> resultList = new ArrayList<>();
-            Map<String, String> levelMap = new HashMap<>();
-            Map<String, String> typeMap = new HashMap<>();
-            Map<String, String> hazardMap = new HashMap<>();
+            List<SwBasisVO> resultList = new ArrayList<SwBasisVO>();
+            Map<String, String> levelMap = new HashMap<String, String>();
+            Map<String, String> typeMap = new HashMap<String, String>();
+            Map<String, String> hazardMap = new HashMap<String, String>();
             for (Object[] o : list) {
                 SwBasisVO vo = new SwBasisVO();
                 vo.setSwId(StringUtil.processNullStr(String.valueOf(o[0])));
@@ -285,6 +285,9 @@ public class SwEnterManagerImpl extends GenericManagerImpl implements SwEnterMan
             nswfinedetail.setFine(BigDecimal.valueOf(jbxxValue));
 
             swEnterDao.save(nswfinedetail);
+
+            nswinput.setIslearn(BigInteger.valueOf(jbxxValue));
+            swEnterDao.save(nswinput);
         }
         if (dismiss) {
             Nswfinedetail nswfinedetail = new Nswfinedetail();
@@ -312,10 +315,10 @@ public class SwEnterManagerImpl extends GenericManagerImpl implements SwEnterMan
         }
         List<Object[]> list = swEnterDao.filterSwBasis(deptNumber, swyjLevelInt, swyjText);
         if (list != null && list.size() > 0) {
-            List<SwBasisVO> resultList = new ArrayList<>();
-            Map<String, String> levelMap = new HashMap<>();
-            Map<String, String> typeMap = new HashMap<>();
-            Map<String, String> hazardMap = new HashMap<>();
+            List<SwBasisVO> resultList = new ArrayList<SwBasisVO>();
+            Map<String, String> levelMap = new HashMap<String, String>();
+            Map<String, String> typeMap = new HashMap<String, String>();
+            Map<String, String> hazardMap = new HashMap<String, String>();
             for (Object[] o : list) {
                 SwBasisVO vo = new SwBasisVO();
                 vo.setSwId(StringUtil.processNullStr(String.valueOf(o[0])));
@@ -350,7 +353,7 @@ public class SwEnterManagerImpl extends GenericManagerImpl implements SwEnterMan
     public List<DepartmentVO> filterDepartmentOracleDataSource3(String mainDeptId) {
         List<Object[]> list = departmentDao.getDept(mainDeptId);
         if (list != null && list.size() > 0) {
-            List<DepartmentVO> resultList = new ArrayList<>();
+            List<DepartmentVO> resultList = new ArrayList<DepartmentVO>();
             for (Object[] o : list) {
                 DepartmentVO vo = new DepartmentVO();
                 vo.setDeptNumber(StringUtil.processNullStr(String.valueOf(o[0])));

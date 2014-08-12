@@ -34,7 +34,7 @@ public class SwinputManagerImpl extends GenericManagerImpl<Getswinput, Integer>
         if (limit == null) limit = 15;
 
         List<Getswinput> list = swinputDao.listSwinput(typeId, start, limit);
-        List<SwinputVO> returnList = new ArrayList<>();
+        List<SwinputVO> returnList = new ArrayList<SwinputVO>();
 
         if (list != null && list.size() > 0) {
             for (Getswinput getswinput : list) {

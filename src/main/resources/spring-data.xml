@@ -36,7 +36,7 @@
 
     <!-- 第四个数据源 -->
     <bean id="dataSource4" class="org.apache.commons.dbcp.BasicDataSource">
-        <property name="driverClassName" value="${sqlServer.driverClassName}"/>
+        <property name="driverClassName" value="${postgreSql.driverClassName}"/>
         <property name="url" value="${dataSource4.url}"/>
         <property name="username" value="${dataSource4.username}"/>
         <property name="password" value="${dataSource4.password}"/>
@@ -50,6 +50,22 @@
         <property name="password" value="${dataSource5.password}"/>
     </bean>
 
+    <!-- 第六个数据源 -->
+    <bean id="dataSource6" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="${sqlServer.driverClassName}"/>
+        <property name="url" value="${dataSource6.url}"/>
+        <property name="username" value="${dataSource6.username}"/>
+        <property name="password" value="${dataSource6.password}"/>
+    </bean>
+
+    <!-- 第七个数据源 -->
+    <bean id="dataSource7" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="${sqlServer.driverClassName}"/>
+        <property name="url" value="${dataSource7.url}"/>
+        <property name="username" value="${dataSource7.username}"/>
+        <property name="password" value="${dataSource7.password}"/>
+    </bean>
+
     <!-- 配置动态数据源 -->
     <bean id="dynamicDataSource" class="com.ghtn.context.DynamicDataSource">
         <property name="targetDataSources">
@@ -60,6 +76,8 @@
                 <entry key="dataSource3" value-ref="dataSource3"/>
                 <entry key="dataSource4" value-ref="dataSource4"/>
                 <entry key="dataSource5" value-ref="dataSource5"/>
+                <entry key="dataSource6" value-ref="dataSource6"/>
+                <entry key="dataSource7" value-ref="dataSource7"/>
             </map>
         </property>
         <property name="defaultTargetDataSource" ref="dataSource1"/>
@@ -173,6 +191,42 @@
         </property>
     </bean>
 
+    <!-- 配置postgreSqlSessionFactory -->
+    <bean id="postgreSqlSessionFactory"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource">
+            <ref bean="dynamicDataSource"/>
+        </property>
+
+        <!-- 配置hibernate属性 -->
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.postgreSql.dialect}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+                <prop key="hibernate.query.substitutions">${hibernate.query.substitutions}</prop>
+                <prop key="hibernate.default_batch_fetch_size">${hibernate.default_batch_fetch_size}</prop>
+                <prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop>
+                <prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
+                <prop key="hibernate.cache.region.factory_class">${hibernate.cache.region.factory_class}</prop>
+                <prop key="net.sf.ehcache.configurationResourceName">${net.sf.ehcache.configurationResourceName}</prop>
+                <prop key="hibernate.cache.use_structured_entries">${hibernate.cache.use_structured_entries}</prop>
+                <prop key="hibernate.search.default.directory_provider">${hibernate.search.default.directory_provider}
+                </prop>
+                <prop key="hibernate.search.default.indexBase">${hibernate.search.default.indexBase}</prop>
+                <prop key="hibernate.search.indexing_strategy">${hibernate.search.indexing_strategy}</prop>
+            </props>
+        </property>
+
+        <!-- 配置实体类（自动扫描） -->
+        <property name="packagesToScan">
+            <list>
+                <value>com.ghtn.model.postgreSql</value>
+            </list>
+        </property>
+    </bean>
+
     <!-- 动态SessionFactory -->
     <bean id="sessionFactory" class="com.ghtn.context.DynamicSessionFactoryImpl">
         <property name="defaultTargetSessionFactory" ref="mysqlSessionFactory"/>
@@ -181,6 +235,7 @@
                 <entry key="oracle" value-ref="oracleSessionFactory"/>
                 <entry key="mysql" value-ref="mysqlSessionFactory"/>
                 <entry key="sqlServer" value-ref="sqlServerSessionFactory"/>
+                <entry key="postgreSql" value-ref="postgreSqlSessionFactory"/>
             </map>
         </property>
     </bean>

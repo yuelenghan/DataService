@@ -29,5 +29,9 @@ public class SessionFactoryUtil {
             log.info("切换到sessionFactory : sqlServer");
             SessionFactoryContextHolder.setType(SessionFactoryType.sqlServer);
         }
+        if (methodName.toUpperCase().contains("POSTGRESQL")) {
+            log.info("切换到sessionFactory : postgreSql");
+            SessionFactoryContextHolder.setType(SessionFactoryType.postgreSql);
+        }
     }
 }

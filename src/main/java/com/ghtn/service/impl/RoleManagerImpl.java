@@ -30,7 +30,7 @@ public class RoleManagerImpl extends GenericManagerImpl<SfRole, BigDecimal> impl
     public List<Integer> getRoleLevelOracleDataSource3(Integer userId) {
         List list = roleDao.getRoleLevel(userId);
         if (list != null && list.size() > 0) {
-            List<Integer> resultList = new ArrayList<>();
+            List<Integer> resultList = new ArrayList<Integer>();
             for (Object b : list) {
                 resultList.add(Integer.parseInt(String.valueOf(b)));
             }

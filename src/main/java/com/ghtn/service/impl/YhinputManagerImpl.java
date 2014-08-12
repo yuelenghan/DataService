@@ -34,7 +34,7 @@ public class YhinputManagerImpl extends GenericManagerImpl<Getyhinput, Integer>
         if (limit == null) limit = 15;
 
         List<Getyhinput> list = yhinputDao.listYhinput(typeId, start, limit);
-        List<YhinputVO> returnList = new ArrayList<>();
+        List<YhinputVO> returnList = new ArrayList<YhinputVO>();
 
         if (list != null && list.size() > 0) {
             for (Getyhinput getyhinput : list) {

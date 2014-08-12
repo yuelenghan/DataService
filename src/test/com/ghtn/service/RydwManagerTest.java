@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import javax.annotation.Resource;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * User: Administrator
@@ -23,6 +24,12 @@ public class RydwManagerTest extends BaseTestCase {
     @Test
     public void testGetInMinePeople() throws SQLException {
         rydwManager.getInMinePeopleSqlServerDataSource4("2013-08-01 09:53:35", null, 0, 15);
+    }
+
+    @Test
+    public void test() {
+        List list = rydwManager.testSqlServerDataSource2();
+        System.out.println(list.size());
     }
 
 }

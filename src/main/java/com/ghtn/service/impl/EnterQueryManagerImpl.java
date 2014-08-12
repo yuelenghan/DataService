@@ -45,69 +45,69 @@ public class EnterQueryManagerImpl extends GenericManagerImpl implements EnterQu
         List<Object[]> list = enterQueryDao.queryYhEnter(inputPersonId, banci, levelIdInt, typeIdInt);
 
         if (list != null && list.size() > 0) {
-            List<YhEnterQueryVO> resultList = new ArrayList<>();
+            List<YhEnterQueryVO> resultList = new ArrayList<YhEnterQueryVO>();
             for (Object[] o : list) {
                 YhEnterQueryVO vo = new YhEnterQueryVO();
                 vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[0])));
                 vo.setYhContent(StringUtil.processNullStr(String.valueOf(o[1])));
                 vo.setRemarks(StringUtil.processNullStr(String.valueOf(o[2])));
 
-                switch (StringUtil.processNullStr(String.valueOf(o[3]))) {
-                    case "-6":
+                switch (Integer.parseInt(StringUtil.processNullStr(String.valueOf(o[3])))) {
+                    case -6:
                         vo.setJcTypeDesc("采掘专项检查");
                         break;
-                    case "-5":
+                    case -5:
                         vo.setJcTypeDesc("火工品专项检查");
                         break;
-                    case "-4":
+                    case -4:
                         vo.setJcTypeDesc("机电运输专项检查");
                         break;
-                    case "-3":
+                    case -3:
                         vo.setJcTypeDesc("地测防治水专项检查");
                         break;
-                    case "-2":
+                    case -2:
                         vo.setJcTypeDesc("一通三防专项检查");
                         break;
-                    case "-1":
+                    case -1:
                         vo.setJcTypeDesc("顶板管理专项检查");
                         break;
-                    case "0":
+                    case 0:
                         vo.setJcTypeDesc("重大安全隐患");
                         break;
-                    case "1":
+                    case 1:
                         vo.setJcTypeDesc("年度隐患");
                         break;
-                    case "2":
+                    case 2:
                         vo.setJcTypeDesc("月度隐患");
                         break;
-                    case "3":
+                    case 3:
                         vo.setJcTypeDesc("日常动态检查隐患");
                         break;
-                    case "4":
+                    case 4:
                         vo.setJcTypeDesc("矿专项检查");
                         break;
-                    case "5":
+                    case 5:
                         vo.setJcTypeDesc("地面检查");
                         break;
-                    case "6":
+                    case 6:
                         vo.setJcTypeDesc("职工检查");
                         break;
-                    case "7":
+                    case 7:
                         vo.setJcTypeDesc("公司专项检查");
                         break;
-                    case "8":
+                    case 8:
                         vo.setJcTypeDesc("省局检查");
                         break;
-                    case "9":
+                    case 9:
                         vo.setJcTypeDesc("市局检查");
                         break;
-                    case "10":
+                    case 10:
                         vo.setJcTypeDesc("国投检查");
                         break;
-                    case "11":
+                    case 11:
                         vo.setJcTypeDesc("经信委检查");
                         break;
-                    case "12":
+                    case 12:
                         vo.setJcTypeDesc("公司预评估");
                         break;
                     default:
@@ -140,27 +140,27 @@ public class EnterQueryManagerImpl extends GenericManagerImpl implements EnterQu
         List<Object[]> list = enterQueryDao.querySwEnter(inputPersonId, banci, levelIdInt, typeIdInt);
 
         if (list != null && list.size() > 0) {
-            List<SwEnterQueryVO> resultList = new ArrayList<>();
+            List<SwEnterQueryVO> resultList = new ArrayList<SwEnterQueryVO>();
             for (Object[] o : list) {
                 SwEnterQueryVO vo = new SwEnterQueryVO();
                 vo.setSwPerson(StringUtil.processNullStr(String.valueOf(o[0])));
                 vo.setSwContent(StringUtil.processNullStr(String.valueOf(o[1])));
                 vo.setRemarks(StringUtil.processNullStr(String.valueOf(o[2])));
 
-                switch (StringUtil.processNullStr(String.valueOf(o[3]))) {
-                    case "1":
+                switch (Integer.parseInt(StringUtil.processNullStr(String.valueOf(o[3])))) {
+                    case 1:
                         vo.setJcTypeDesc("区队自查");
                         break;
-                    case "2":
+                    case 2:
                         vo.setJcTypeDesc("职能科室");
                         break;
-                    case "3":
+                    case 3:
                         vo.setJcTypeDesc("安检部门");
                         break;
-                    case "4":
+                    case 4:
                         vo.setJcTypeDesc("矿领导");
                         break;
-                    case "5":
+                    case 5:
                         vo.setJcTypeDesc("公司部门");
                         break;
                     default:

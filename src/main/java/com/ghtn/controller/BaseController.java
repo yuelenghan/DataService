@@ -33,7 +33,7 @@ public class BaseController {
         log.error("Caused by : " + e.getCause());
         log.error("Message : " + e.getMessage());
         log.error("Exception : ", e);
-        Map<String, Object> returnMap = new HashMap<>();
+        Map<String, Object> returnMap = new HashMap<String, Object>();
         returnMap.put("success", false);
         returnMap.put("msg", "操作失败!");
         returnMap.put("caused by", e.getCause());
@@ -46,7 +46,7 @@ public class BaseController {
      * @return 操作结果,{success:true, msg:成功信息}
      */
     public Map<String, Object> operationSuccess() {
-        Map<String, Object> returnMap = new HashMap<>();
+        Map<String, Object> returnMap = new HashMap<String, Object>();
         returnMap.put("success", true);
         returnMap.put("msg", "操作成功!");
         return returnMap;

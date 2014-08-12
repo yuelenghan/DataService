@@ -35,4 +35,10 @@ public class RydwController extends BaseController {
 
         return new JSONPObject(callback, rydwManager.getInMinePeopleSqlServerDataSource4(date, session, start, limit));
     }
+
+    @RequestMapping("/summary")
+    @ResponseBody
+    public JSONPObject getSummaryData(@RequestParam String callback) {
+        return new JSONPObject(callback, rydwManager.getRydwSummaryPostgreSqlDataSource4());
+    }
 }

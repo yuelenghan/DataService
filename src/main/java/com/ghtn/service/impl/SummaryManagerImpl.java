@@ -43,7 +43,7 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
 
         List<Object[]> list = summaryDao.getRjxxSummary(startDate, endDate, dept, start, limit);
         if (list != null && list.size() > 0) {
-            List<RjxxSummaryVO> resultList = new ArrayList<>();
+            List<RjxxSummaryVO> resultList = new ArrayList<RjxxSummaryVO>();
 
             for (Object[] o : list) {
                 RjxxSummaryVO vo = new RjxxSummaryVO();
@@ -85,7 +85,7 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
 
         List<Object[]> list = summaryDao.getDbjdbSummary(date, banci, name, start, limit);
         if (list != null && list.size() > 0) {
-            List<DbjhbSummaryVO> resultList = new ArrayList<>();
+            List<DbjhbSummaryVO> resultList = new ArrayList<DbjhbSummaryVO>();
             for (int i = 0; i < list.size(); i++) {
                 Object[] o = list.get(i);
                 DbjhbSummaryVO vo = new DbjhbSummaryVO();
@@ -115,7 +115,7 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
 
         List<Gethangtag> list = summaryDao.getGpxxSummary(start, limit);
         if (list != null && list.size() > 0) {
-            List<GpxxSummaryVO> resultList = new ArrayList<>();
+            List<GpxxSummaryVO> resultList = new ArrayList<GpxxSummaryVO>();
             for (Gethangtag t : list) {
                 GpxxSummaryVO vo = new GpxxSummaryVO();
                 vo.setMaindeptname(t.getMaindeptname());
@@ -167,7 +167,7 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
 
         if (list != null && list.size() > 0) {
 
-            List<FswxxSummaryVO> resultList = new ArrayList<>();
+            List<FswxxSummaryVO> resultList = new ArrayList<FswxxSummaryVO>();
 
             for (Object[] o : list) {
                 FswxxSummaryVO vo = new FswxxSummaryVO();
@@ -195,7 +195,7 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
 
             if (list != null && list.size() > 0) {
 
-                List<ZbdbldSummaryVO> resultList = new ArrayList<>();
+                List<ZbdbldSummaryVO> resultList = new ArrayList<ZbdbldSummaryVO>();
 
                 for (Object[] o : list) {
                     ZbdbldSummaryVO vo = new ZbdbldSummaryVO();
@@ -226,7 +226,7 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
 
             List<Object[]> list = summaryDao.getYdyhhzSummary(startDate, endDate);
             if (list != null && list.size() > 0) {
-                List<YdyhhzSummaryVO> resultList = new ArrayList<>();
+                List<YdyhhzSummaryVO> resultList = new ArrayList<YdyhhzSummaryVO>();
 
                 for (Object[] o : list) {
                     YdyhhzSummaryVO vo = new YdyhhzSummaryVO();
@@ -262,7 +262,7 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
 
         List<Object[]> list = summaryDao.getLdxjdbSummary(startDate, endDate, name, start, limit);
         if (list != null && list.size() > 0) {
-            List<LdxjdbSummaryVO> resultList = new ArrayList<>();
+            List<LdxjdbSummaryVO> resultList = new ArrayList<LdxjdbSummaryVO>();
             for (Object[] o : list) {
                 LdxjdbSummaryVO vo = new LdxjdbSummaryVO();
 
@@ -303,7 +303,7 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
 
         List<Object[]> list = summaryDao.getKzdkyhSummary(startDate, endDate, mine, start, limit);
         if (list != null && list.size() > 0) {
-            List<KzdkyhSummaryVO> resultList = new ArrayList<>();
+            List<KzdkyhSummaryVO> resultList = new ArrayList<KzdkyhSummaryVO>();
 
             for (Object[] o : list) {
                 KzdkyhSummaryVO vo = new KzdkyhSummaryVO();
@@ -356,11 +356,11 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
                 return resultList;
             }*/
             List<Object[]> list;
-            List<YdswgphzSummaryVO> resultList = new ArrayList<>();
+            List<YdswgphzSummaryVO> resultList = new ArrayList<YdswgphzSummaryVO>();
             if (type.equals("sw")) {
                 list = summaryDao.getYdswhzSummary(startDate, endDate);
                 if (list != null && list.size() > 0) {
-                    resultList = new ArrayList<>();
+                    resultList = new ArrayList<YdswgphzSummaryVO>();
                     for (Object[] o : list) {
                         YdswgphzSummaryVO vo = new YdswgphzSummaryVO();
 
@@ -377,7 +377,7 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
             if (type.equals("gp")) {
                 list = summaryDao.getYdgphzSummary(startDate, endDate);
                 if (list != null && list.size() > 0) {
-                    resultList = new ArrayList<>();
+                    resultList = new ArrayList<YdswgphzSummaryVO>();
                     for (Object[] o : list) {
                         YdswgphzSummaryVO vo = new YdswgphzSummaryVO();
 
@@ -408,7 +408,7 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
 
         List<Object[]> list = summaryDao.getSwxxSummary(startDate, endDate, dept, start, limit);
         if (list != null && list.size() > 0) {
-            List<SwxxSummaryVO> resultList = new ArrayList<>();
+            List<SwxxSummaryVO> resultList = new ArrayList<SwxxSummaryVO>();
 
             for (Object[] o : list) {
                 SwxxSummaryVO vo = new SwxxSummaryVO();
@@ -439,7 +439,7 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
 
         List<Object[]> list = summaryDao.getYhfltjcxSummary(startDate, endDate, unit, start, limit);
         if (list != null && list.size() > 0) {
-            List<YhfltjcxSummaryVO> resultList = new ArrayList<>();
+            List<YhfltjcxSummaryVO> resultList = new ArrayList<YhfltjcxSummaryVO>();
 
             for (Object[] o : list) {
                 YhfltjcxSummaryVO vo = new YhfltjcxSummaryVO();
@@ -474,7 +474,7 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
 
         List<Object[]> list = summaryDao.getYhxxzhcxSummary(startDate, endDate, unit, start, limit);
         if (list != null && list.size() > 0) {
-            List<YhxxzhcxSummaryVO> resultList = new ArrayList<>();
+            List<YhxxzhcxSummaryVO> resultList = new ArrayList<YhxxzhcxSummaryVO>();
 
             for (Object[] o : list) {
                 YhxxzhcxSummaryVO vo = new YhxxzhcxSummaryVO();
@@ -507,7 +507,7 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
 
         List<Object[]> list = summaryDao.getGsxxSummary(startDate, endDate, unit, level, name, start, limit);
         if (list != null && list.size() > 0) {
-            List<GsxxSummaryVO> resultList = new ArrayList<>();
+            List<GsxxSummaryVO> resultList = new ArrayList<GsxxSummaryVO>();
 
             for (Object[] o : list) {
                 GsxxSummaryVO vo = new GsxxSummaryVO();

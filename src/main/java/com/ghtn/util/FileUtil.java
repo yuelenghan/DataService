@@ -172,7 +172,7 @@ public class FileUtil {
      */
     public static List<Map<Integer, String>> ExcelReader(String fileName, String fileType, int startLine) throws Exception {
         if (exists(fileName) && !StringUtil.isNullStr(fileType)) {
-            List<Map<Integer, String>> list = new ArrayList<>();
+            List<Map<Integer, String>> list = new ArrayList<Map<Integer, String>>();
 
             FileInputStream fis = new FileInputStream(fileName);
             Workbook wb;
@@ -222,7 +222,7 @@ public class FileUtil {
                 continue;
             }
             int n = 0;
-            Map<Integer, String> map = new HashMap<>();
+            Map<Integer, String> map = new HashMap<Integer, String>();
 
             for (Iterator<Cell> cellIt = r.iterator(); cellIt.hasNext(); ) {
                 Cell cell = cellIt.next();
@@ -419,7 +419,7 @@ public class FileUtil {
      * @param overlay      如果目标文件存在，是否覆盖, 覆盖:true, 不覆盖:false
      * @return 如果复制成功，则返回true，否则返回false
      */
-    public static boolean copyFile(String srcFileName, String destFileName,
+    /*public static boolean copyFile(String srcFileName, String destFileName,
                                    boolean overlay) {
         // 判断原文件是否存在
         File srcFile = new File(srcFileName);
@@ -477,6 +477,6 @@ public class FileUtil {
             log.error("复制文件失败：" + e.getMessage());
             return false;
         }
-    }
+    }*/
 }
 
