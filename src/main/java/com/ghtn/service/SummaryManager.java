@@ -14,7 +14,7 @@ import java.util.List;
 public interface SummaryManager extends GenericManager {
 
 
-    List<RjxxSummaryVO> getRjxxSummaryOracleDataSource3(String startDate, String endDate, String dept, Integer start, Integer limit) throws SQLException;
+    List<RjxxSummaryVO> getRjxxSummaryOracleDataSource3(String startDate, String endDate, String dept, Integer start, Integer limit) throws SQLException, ParseException;
 
     List<DbjhbSummaryVO> getDbjhbSummaryOracleDataSource3(String date, String banci, String name, Integer start, Integer limit) throws Exception;
 

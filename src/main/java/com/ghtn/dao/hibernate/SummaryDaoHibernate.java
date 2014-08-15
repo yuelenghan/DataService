@@ -204,7 +204,7 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
         sql += " sum(decode(ny.LEVELID,43,1,0)) YHB,sum(decode(ny.LEVELID,44,1,0)) YHC,";
         sql += " sum(decode(ny.STATUS,'逾期未整改',1,0)) YHYQWZG,";
         sql += " sum(decode(ny.YQCS,0,0,1)) YHLSYQ,sum(decode(ny.STATUS,'现场整改',1,'复查通过',1,'隐患已整改',1,0)) YHYBH,";
-        sql += " sum(decode(ny.STATUS,'隐患未整改',1,'复查不通过',1,0)) YHWBH FROM GETYHINPUT ny,Department d";
+        sql += " sum(decode(ny.STATUS,'隐患未整改',1,'复查不通过',1,0)) YHWBH FROM GETYHINPUT ny, VIEW_DEPARTMENT  d";
         sql += " WHERE ny.PCTIME between to_date('" + startDate + "','YYYY-MM-DD') and to_date('" + endDate + "','YYYY-MM-DD')";
         sql += " and ny.STATUS not in ('新增','作废','提交审批') and ny.MAINDEPTID = d.deptnumber";
         sql += " GROUP BY ny.MAINDEPTID, D.deptname";
@@ -345,7 +345,7 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
         sql += " sum(decode(ny.LEVELID,43,1,0)) YHB,sum(decode(ny.LEVELID,44,1,0)) YHC,";
         sql += " sum(decode(ny.STATUS,'逾期未整改',1,0)) YHYQWZG,";
         sql += " sum(decode(ny.YQCS,0,0,1)) YHLSYQ,sum(decode(ny.STATUS,'现场整改',1,'复查通过',1,'隐患已整改',1,0)) YHYBH,";
-        sql += " sum(decode(ny.STATUS,'隐患未整改',1,'复查不通过',1,0)) YHWBH FROM GETYHINPUT ny,Department d";
+        sql += " sum(decode(ny.STATUS,'隐患未整改',1,'复查不通过',1,0)) YHWBH FROM GETYHINPUT ny,VIEW_DEPARTMENT d";
         sql += " where ny.MAINDEPTID = d.deptnumber and ny.STATUS not in ('新增','作废','提交审批') ";
 
         if (!StringUtil.isNullStr(startDate)) {

@@ -33,7 +33,7 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<RjxxSummaryVO> getRjxxSummaryOracleDataSource3(String startDate, String endDate, String dept, Integer start, Integer limit) throws SQLException {
+    public List<RjxxSummaryVO> getRjxxSummaryOracleDataSource3(String startDate, String endDate, String dept, Integer start, Integer limit) throws SQLException, ParseException {
         if (start == null || start <= 0) {
             start = 0;
         }
@@ -50,7 +50,7 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
 
                 vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[0])));
                 vo.setName(StringUtil.processNullStr(String.valueOf(o[1])));
-                vo.setDownTime(StringUtil.processNullStr(String.valueOf(o[2])));
+                vo.setDownTime(DateUtil.dateToString(DateUtil.stringToDate(String.valueOf(o[2]))));
 
                 resultList.add(vo);
             }

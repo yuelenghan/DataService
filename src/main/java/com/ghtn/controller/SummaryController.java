@@ -32,7 +32,7 @@ public class SummaryController extends BaseController {
     @ResponseBody
     public JSONPObject getRjxxSummary(@PathVariable String startDate, @PathVariable String endDate,
                                       @PathVariable String dept, @PathVariable Integer start, @PathVariable Integer limit,
-                                      @RequestParam String callback) throws SQLException {
+                                      @RequestParam String callback) throws SQLException, ParseException {
         return new JSONPObject(callback, summaryManager.getRjxxSummaryOracleDataSource3(startDate, endDate, dept, start, limit));
     }
 
