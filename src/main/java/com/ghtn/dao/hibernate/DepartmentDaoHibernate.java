@@ -4,7 +4,9 @@ import com.ghtn.dao.DepartmentDao;
 import com.ghtn.model.oracle.Department;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: Administrator
@@ -35,5 +37,14 @@ public class DepartmentDaoHibernate extends GenericDaoHibernate<Department, Stri
     public String getDeptName(String deptNumber) {
         String sql = "select deptname from view_department where deptnumber = '" + deptNumber + "'";
         return getSession().createSQLQuery(sql).uniqueResult().toString();
+    }
+
+    @Override
+    public List<Object[]> getChildDept(String fDeptNumber) {
+        String sql = "select deptnumber, deptname from view_department where FDEPTNUMBER = :fDeptNumber";
+        sql += " order by dsort";
+        Map map = new HashMap();
+        map.put("fDeptNumber", fDeptNumber);
+        return getSession().createSQLQuery(sql).setProperties(map).list();
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.text.ParseException;
 
@@ -28,12 +29,13 @@ public class SummaryController extends BaseController {
         this.summaryManager = summaryManager;
     }
 
-    @RequestMapping("/rjxx/startDate/{startDate}/endDate/{endDate}/dept/{dept}/start/{start}/limit/{limit}")
+    @RequestMapping("/rjxx/startDate/{startDate}/endDate/{endDate}/dept/{dept}/zwjb/{zwjb}/name/{name}/start/{start}/limit/{limit}")
     @ResponseBody
     public JSONPObject getRjxxSummary(@PathVariable String startDate, @PathVariable String endDate,
-                                      @PathVariable String dept, @PathVariable Integer start, @PathVariable Integer limit,
-                                      @RequestParam String callback) throws SQLException, ParseException {
-        return new JSONPObject(callback, summaryManager.getRjxxSummaryOracleDataSource3(startDate, endDate, dept, start, limit));
+                                      @PathVariable String dept, @PathVariable String zwjb, @PathVariable String name,
+                                      @PathVariable Integer start, @PathVariable Integer limit,
+                                      @RequestParam String callback, HttpSession session) throws SQLException, ParseException {
+        return new JSONPObject(callback, summaryManager.getRjxxSummaryOracleDataSource3(startDate, endDate, dept, zwjb, name, start, limit, session));
     }
 
     @RequestMapping("/dbjhb/date/{date}/banci/{banci}/name/{name}/start/{start}/limit/{limit}")
@@ -60,7 +62,7 @@ public class SummaryController extends BaseController {
 
     @RequestMapping("/zbdbld/date/{date}")
     @ResponseBody
-    public JSONPObject getZbdbldSummary(@PathVariable String date, @RequestParam String callback) {
+    public JSONPObject getZbdbldSummary(@PathVariable String date, @RequestParam String callback) throws ParseException {
         return new JSONPObject(callback, summaryManager.getZbdbldSummaryOracleDataSource3(date));
     }
 

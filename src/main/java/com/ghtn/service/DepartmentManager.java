@@ -16,4 +16,6 @@ public interface DepartmentManager extends GenericManager<Department, String> {
 
     String getDeptNameOracleDataSource3(String deptNumber);
 
+    List<DepartmentVO> getChildDeptOracleDataSource3(String fDeptNumber);
+
 }

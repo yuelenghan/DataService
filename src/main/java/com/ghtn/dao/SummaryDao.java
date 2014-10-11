@@ -1,5 +1,6 @@
 package com.ghtn.dao;
 
+import com.ghtn.model.oracle.BaseBanci;
 import com.ghtn.model.oracle.Gethangtag;
 
 import java.sql.ResultSet;
@@ -29,7 +30,9 @@ public interface SummaryDao extends GenericDao {
      * @param limit
      * @return
      */
-    List<Object[]> getRjxxSummary(String startDate, String endDate, String dept, Integer start, Integer limit);
+    List<Object[]> getRjxxSummary(String startDate, String endDate, String dept, String personNumber, Integer start, Integer limit);
+
+    List<Object[]> getRjxxSummary2(String startDate, String endDate, String dept, String zwjb, String name, Integer start, Integer limit);
 
     /**
      * 带班计划表
@@ -67,10 +70,9 @@ public interface SummaryDao extends GenericDao {
     /**
      * 值班带班领导
      *
-     * @param date 日期
      * @return
      */
-    List<Object[]> getZbdbldSummary(String date);
+    List<Object[]> getZbdbldSummary(String date, String banci);
 
     /**
      * 月度隐患汇总
@@ -182,4 +184,5 @@ public interface SummaryDao extends GenericDao {
      */
     List<Object[]> getGsxxSummary(String startDate, String endDate, String unit, String level, String name, Integer start, Integer limit);
 
+    List<BaseBanci> getBanci();
 }

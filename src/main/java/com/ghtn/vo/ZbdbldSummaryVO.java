@@ -8,15 +8,8 @@ package com.ghtn.vo;
 public class ZbdbldSummaryVO {
 
     private String deptName;
-    private String detail;
-    private String yb;
     private String zb;
-    private String zhb;
-
-    private String nextDetail;
-    private String nextYb;
-    private String nextZb;
-    private String nextZhb;
+    private String db;
 
     public String getDeptName() {
         return deptName;
@@ -24,22 +17,6 @@ public class ZbdbldSummaryVO {
 
     public void setDeptName(String deptName) {
         this.deptName = deptName;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
-    public String getYb() {
-        return yb;
-    }
-
-    public void setYb(String yb) {
-        this.yb = yb;
     }
 
     public String getZb() {
@@ -50,43 +27,11 @@ public class ZbdbldSummaryVO {
         this.zb = zb;
     }
 
-    public String getZhb() {
-        return zhb;
+    public String getDb() {
+        return db;
     }
 
-    public void setZhb(String zhb) {
-        this.zhb = zhb;
-    }
-
-    public String getNextDetail() {
-        return nextDetail;
-    }
-
-    public void setNextDetail(String nextDetail) {
-        this.nextDetail = nextDetail;
-    }
-
-    public String getNextYb() {
-        return nextYb;
-    }
-
-    public void setNextYb(String nextYb) {
-        this.nextYb = nextYb;
-    }
-
-    public String getNextZb() {
-        return nextZb;
-    }
-
-    public void setNextZb(String nextZb) {
-        this.nextZb = nextZb;
-    }
-
-    public String getNextZhb() {
-        return nextZhb;
-    }
-
-    public void setNextZhb(String nextZhb) {
-        this.nextZhb = nextZhb;
+    public void setDb(String db) {
+        this.db = db;
     }
 }

@@ -10,10 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by lihe on 14-6-3.
@@ -30,7 +27,7 @@ public class IrisManagerImpl extends GenericManagerImpl implements IrisManager {
     }
 
     @Override
-    public List<IrisVO> getIrisDataMysqlDataSource5(String personNumber, HttpSession session) throws ParseException {
+    public List<IrisVO> getIrisDataSqlServerDataSource5(String personNumber, HttpSession session) throws ParseException {
         List<Object[]> list = irisDao.getIrisData(personNumber);
         if (list != null && list.size() > 0) {
             List<IrisVO> resultList = new ArrayList<IrisVO>();
@@ -49,7 +46,19 @@ public class IrisManagerImpl extends GenericManagerImpl implements IrisManager {
                 }
 
                 if (!StringUtil.isNullStr(String.valueOf(o[5]))) {
-                    vo.setOutWellTime(DateUtil.dateToString(DateUtil.stringToDate(String.valueOf(o[5]))));
+                    Date outWellTime = DateUtil.stringToDate(String.valueOf(o[5]));
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(outWellTime);
+                    c.add(Calendar.HOUR, 4);
+
+                    Date currentDate = new Date();
+
+                    // 如果当前时间 大于 升井时间＋4小时，不返回此条记录
+                    if (currentDate.after(c.getTime())) {
+                        continue;
+                    }
+
+                    vo.setOutWellTime(DateUtil.dateToString(outWellTime));
                 } else {
                     vo.setOutWellTime("");
                 }

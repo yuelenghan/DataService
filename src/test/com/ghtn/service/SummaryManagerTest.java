@@ -52,7 +52,7 @@ public class SummaryManagerTest extends BaseTestCase {
     }
 
     @Test
-    public void testZbdbld() {
+    public void testZbdbld() throws ParseException {
         summaryManager.getZbdbldSummaryOracleDataSource3("2013-08-01");
     }
 

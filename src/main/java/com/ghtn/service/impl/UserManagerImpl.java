@@ -82,6 +82,7 @@ public class UserManagerImpl extends GenericManagerImpl<SfUser, Long> implements
                 userMap.put("personName", person.getName());
                 userMap.put("roleLevel", roleLevel);
                 userMap.put("mainDeptId", mainDeptId);
+                userMap.put("deptId", person.getDeptid());
                 session.setAttribute("user", userMap);
                 return "success";
             }

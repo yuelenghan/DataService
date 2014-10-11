@@ -1,7 +1,7 @@
 package com.ghtn.util;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: Administrator
@@ -34,7 +34,24 @@ public class Test {
             e.printStackTrace();
         }*/
 
-        Timestamp timestamp = new Timestamp(new Date().getTime() + 12 * 3600 * 1000);
-        System.out.println(timestamp);
+        /*Timestamp timestamp = new Timestamp(new Date().getTime() + 12 * 3600 * 1000);
+        System.out.println(timestamp);*/
+
+        List<Integer> list1 = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
+
+        for (int i = 0; i < 3; i++) {
+            list1.add(i);
+        }
+
+        for (int i = 5; i < 9; i++) {
+            list2.add(i);
+        }
+
+        System.out.println(list1.size());
+        System.out.println(list2.size());
+
+        list1.addAll(list2);
+        System.out.println(list1.size());
     }
 }

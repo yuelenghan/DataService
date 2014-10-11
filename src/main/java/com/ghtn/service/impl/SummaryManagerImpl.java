@@ -1,6 +1,7 @@
 package com.ghtn.service.impl;
 
 import com.ghtn.dao.SummaryDao;
+import com.ghtn.model.oracle.BaseBanci;
 import com.ghtn.model.oracle.Gethangtag;
 import com.ghtn.service.SummaryManager;
 import com.ghtn.util.ConstantUtil;
@@ -10,11 +11,11 @@ import com.ghtn.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: Administrator
@@ -33,7 +34,7 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<RjxxSummaryVO> getRjxxSummaryOracleDataSource3(String startDate, String endDate, String dept, Integer start, Integer limit) throws SQLException, ParseException {
+    public List<RjxxSummaryVO> getRjxxSummaryOracleDataSource3(String startDate, String endDate, String dept, String zwjb, String name, Integer start, Integer limit, HttpSession session) throws SQLException, ParseException {
         if (start == null || start <= 0) {
             start = 0;
         }
@@ -41,7 +42,26 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
             limit = ConstantUtil.PAGE_SIZE;
         }
 
-        List<Object[]> list = summaryDao.getRjxxSummary(startDate, endDate, dept, start, limit);
+        List<Object[]> list = new ArrayList<>();
+
+        // 如果开始日期和结束日期都为空，默认开始日期为当前第一天，结束日期为当月最后一天
+        if (StringUtil.isNullStr(startDate) && StringUtil.isNullStr(endDate)) {
+            startDate = DateUtil.getFirst(new Date());
+            endDate = DateUtil.getLast(new Date());
+        }
+
+        // 如果部门,职务级别, 姓名都为空，默认查询当前登陆人的入井信息
+        if (StringUtil.isNullStr(dept) && StringUtil.isNullStr(zwjb) && StringUtil.isNullStr(name)) {
+            if (session.getAttribute("user") != null) {
+                Map<String, String> userInfo = (Map<String, String>) session.getAttribute("user");
+                String personNumber = userInfo.get("personNumber");
+                list = summaryDao.getRjxxSummary(startDate, endDate, dept, personNumber, start, limit);
+            }
+        } else {
+            list = summaryDao.getRjxxSummary2(startDate, endDate, dept, zwjb, name, start, limit);
+        }
+
+
         if (list != null && list.size() > 0) {
             List<RjxxSummaryVO> resultList = new ArrayList<RjxxSummaryVO>();
 
@@ -188,29 +208,36 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<ZbdbldSummaryVO> getZbdbldSummaryOracleDataSource3(String date) {
-        if (!StringUtil.isNullStr(date)) {
+    public List<ZbdbldSummaryVO> getZbdbldSummaryOracleDataSource3(String date) throws ParseException {
+        String banci = getBanciOracleDataSource3();
 
-            List<Object[]> list = summaryDao.getZbdbldSummary(date);
+        // 如果banci为空，默认为中班
+        if (StringUtil.isNullStr(banci)) {
+            banci = "中班";
+        }
 
-            if (list != null && list.size() > 0) {
+        // 如果date为空，默认为当前日期
+        if (StringUtil.isNullStr(date)) {
+            date = DateUtil.dateToString(new Date(), "yyyy-MM-dd");
+        }
 
-                List<ZbdbldSummaryVO> resultList = new ArrayList<ZbdbldSummaryVO>();
+        List<Object[]> list = summaryDao.getZbdbldSummary(date, banci);
 
-                for (Object[] o : list) {
-                    ZbdbldSummaryVO vo = new ZbdbldSummaryVO();
+        if (list != null && list.size() > 0) {
 
-                    vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[0])));
-                    vo.setDetail(StringUtil.processNullStr(String.valueOf(o[1])));
-                    vo.setYb(StringUtil.processNullStr(String.valueOf(o[2])));
-                    vo.setZb(StringUtil.processNullStr(String.valueOf(o[3])));
-                    vo.setZhb(StringUtil.processNullStr(String.valueOf(o[4])));
+            List<ZbdbldSummaryVO> resultList = new ArrayList<ZbdbldSummaryVO>();
 
-                    resultList.add(vo);
-                }
+            for (Object[] o : list) {
+                ZbdbldSummaryVO vo = new ZbdbldSummaryVO();
 
-                return resultList;
+                vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[0])));
+                vo.setZb(StringUtil.processNullStr(String.valueOf(o[1])));
+                vo.setDb(StringUtil.processNullStr(String.valueOf(o[2])));
+
+                resultList.add(vo);
             }
+
+            return resultList;
         }
 
         return null;
@@ -523,6 +550,63 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
             return resultList;
         }
         return null;
+    }
+
+    @Override
+    public String getBanciOracleDataSource3() throws ParseException {
+        List<BaseBanci> list = summaryDao.getBanci();
+        Calendar c = Calendar.getInstance();
+
+        // 当前日期
+        Date curDate = new Date();
+        c.setTime(curDate);
+        c.add(Calendar.DAY_OF_MONTH, -1);
+
+        // 前一天
+        Date preDate = c.getTime();
+
+        // 后一天
+        c.setTime(curDate);
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        Date aftDate = c.getTime();
+
+        // 前一天夜班开始时间
+        String preYbStart = DateUtil.dateToString(preDate, "yyyy-MM-dd") + " " + list.get(0).getStarttime();
+        // 前一天夜班结束时间
+        String preYbEnd = DateUtil.dateToString(curDate, "yyyy-MM-dd") + " " + list.get(0).getEndtime();
+
+        // 后一天夜班开始时间
+        String aftYbStart = DateUtil.dateToString(curDate, "yyyy-MM-dd") + " " + list.get(0).getStarttime();
+        // 后一天夜班结束时间
+        String aftYbEnd = DateUtil.dateToString(aftDate, "yyyy-MM-dd") + " " + list.get(0).getEndtime();
+
+        // 早班开始时间
+        String zbStart = DateUtil.dateToString(curDate, "yyyy-MM-dd") + " " + list.get(1).getStarttime();
+        // 早班结束时间
+        String zbEnd = DateUtil.dateToString(curDate, "yyyy-MM-dd") + " " + list.get(1).getEndtime();
+
+        // 中班开始时间
+        String zhbStart = DateUtil.dateToString(curDate, "yyyy-MM-dd") + " " + list.get(2).getStarttime();
+        // 中班结束时间
+        String zhbEnd = DateUtil.dateToString(curDate, "yyyy-MM-dd") + " " + list.get(2).getEndtime();
+
+        if ((curDate.compareTo(DateUtil.stringToDate(zbStart)) == 0 || curDate.after(DateUtil.stringToDate(zbStart))) && curDate.before(DateUtil.stringToDate(zbEnd))) {
+            return "早班";
+        }
+
+        if ((curDate.compareTo(DateUtil.stringToDate(zhbStart)) == 0 || curDate.after(DateUtil.stringToDate(zhbStart))) && curDate.before(DateUtil.stringToDate(zhbEnd))) {
+            return "中班";
+        }
+
+        if ((curDate.compareTo(DateUtil.stringToDate(preYbStart)) == 0 || curDate.after(DateUtil.stringToDate(preYbStart))) && curDate.before(DateUtil.stringToDate(preYbEnd))) {
+            return "夜班";
+        }
+
+        if ((curDate.compareTo(DateUtil.stringToDate(aftYbStart)) == 0 || curDate.after(DateUtil.stringToDate(aftYbStart))) && curDate.before(DateUtil.stringToDate(aftYbEnd))) {
+            return "夜班";
+        }
+
+        return "";
     }
 
 }

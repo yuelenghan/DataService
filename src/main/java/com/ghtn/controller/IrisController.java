@@ -34,7 +34,7 @@ public class IrisController extends BaseController {
     public JSONPObject getIrisData(@PathVariable String personNumber, @RequestParam String callback,
                                    HttpSession session) {
         try {
-            return new JSONPObject(callback, irisManager.getIrisDataMysqlDataSource5(personNumber, session));
+            return new JSONPObject(callback, irisManager.getIrisDataSqlServerDataSource5(personNumber, session));
         } catch (Exception e) {
             log.error("Message : " + e.getMessage());
             log.error("Caused by : " + e.getCause());

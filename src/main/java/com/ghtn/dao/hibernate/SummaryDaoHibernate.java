@@ -1,6 +1,7 @@
 package com.ghtn.dao.hibernate;
 
 import com.ghtn.dao.SummaryDao;
+import com.ghtn.model.oracle.BaseBanci;
 import com.ghtn.model.oracle.Gethangtag;
 import com.ghtn.util.DateUtil;
 import com.ghtn.util.StringUtil;
@@ -60,9 +61,9 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
     }
 
     @Override
-    public List<Object[]> getRjxxSummary(String startDate, String endDate, String dept, Integer start, Integer limit) {
+    public List<Object[]> getRjxxSummary(String startDate, String endDate, String dept, String personNumber, Integer start, Integer limit) {
         String sql = "select D.DEPTNAME ,p.name, k.downtime";
-        sql += " from department d, person p, kq_record k";
+        sql += " from view_department d, person p, kq_record k";
         sql += " where k.KQPNUMBER=p.PERSONNUMBER and k.KQDEPT=d.DEPTNUMBER";
 
         if (!StringUtil.isNullStr(startDate)) {
@@ -72,8 +73,40 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
             sql += " and k.downtime <= to_date('" + endDate + "', 'yyyy-mm-dd')";
         }
         if (!StringUtil.isNullStr(dept)) {
-            sql += " and d.deptname like '%" + dept + "%'";
+            sql += " and d.deptnumber ='" + dept + "'";
         }
+        if (!StringUtil.isNullStr(personNumber)) {
+            sql += " and p.personnumber = '" + personNumber + "'";
+        }
+
+        sql += " order by k.downtime desc";
+
+        return querySql(sql, start, limit);
+    }
+
+    @Override
+    public List<Object[]> getRjxxSummary2(String startDate, String endDate, String dept, String zwjb, String name, Integer start, Integer limit) {
+        String sql = "select D.DEPTNAME ,p.name, k.downtime";
+        sql += " from view_department d, person p, kq_record k";
+        sql += " where k.KQPNUMBER=p.PERSONNUMBER and k.KQDEPT=d.DEPTNUMBER";
+
+        if (!StringUtil.isNullStr(startDate)) {
+            sql += " and k.downtime >= to_date('" + startDate + "', 'yyyy-mm-dd')";
+        }
+        if (!StringUtil.isNullStr(endDate)) {
+            sql += " and k.downtime <= to_date('" + endDate + "', 'yyyy-mm-dd')";
+        }
+        if (!StringUtil.isNullStr(dept)) {
+            sql += " and d.deptnumber ='" + dept + "'";
+        }
+        if (!StringUtil.isNullStr(zwjb)) {
+            sql += " and p.zwjb ='" + zwjb + "'";
+        }
+        if (!StringUtil.isNullStr(name)) {
+            sql += " and (p.name like '%" + name + "%' or p.pinyin like '%" + name.toUpperCase() + "%')";
+        }
+
+        sql += " order by k.downtime desc";
 
         return querySql(sql, start, limit);
     }
@@ -128,6 +161,14 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
         return querySql(sql, start, limit);
     }
 
+    @Override
+    public List<BaseBanci> getBanci() {
+        return getSession().createCriteria(BaseBanci.class)
+                .add(Restrictions.eq("btype", "rjbc"))
+                .add(Restrictions.eq("maindept", "010102"))
+                .addOrder(Order.asc("id")).list();
+    }
+
 
     @Override
     public List<Gethangtag> getGpxxSummary(Integer start, Integer limit) {
@@ -171,29 +212,51 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
     }
 
     @Override
-    public List<Object[]> getZbdbldSummary(String date) {
-        String sql = "SELECT nvl(x.DEPTNAME,y.CREATEDEPT) DEPTNAME,x.DETAIL,y.YB,y.ZB,y.ZHB ";
+    public List<Object[]> getZbdbldSummary(String date, String banci) {
+//        String sql = "SELECT nvl(x.DEPTNAME,y.CREATEDEPT) DEPTNAME,x.DETAIL,y.YB,y.ZB,y.ZHB ";
+//        sql += " FROM ";
+//        sql += " (SELECT t.DUTYDATE,WMSYS.WM_CONCAT(t.PNAME) DETAIL,t.MIANDEPT,d.DEPTNAME ";
+//        sql += " FROM SHIFTSTABLE t INNER JOIN V_PERSON v ON t.DUTYPERSON=v.PERSONNUMBER ";
+//        sql += " INNER JOIN DEPARTMENT d ON t.MIANDEPT=d.DEPTNUMBER ";
+//        sql += " WHERE v.ZWLEVEL<=4";
+//
+//        sql += " AND t.DUTYDATE=to_date('" + date + "','YYYY-MM-DD')";
+//
+//        sql += " GROUP BY t.DUTYDATE,t.MIANDEPT,d.DEPTNAME ) x ";
+//        sql += " FULL JOIN (SELECT a.DEPTNUMBER,a.CREATEDEPT,WMSYS.WM_CONCAT(decode(a.BANCI,'夜班',DETAIL,'')) YB,";
+//        sql += " WMSYS.WM_CONCAT(decode(a.BANCI,'早班',DETAIL,'')) ZB,WMSYS.WM_CONCAT(decode(a.BANCI,'中班',DETAIL,'')) ZHB ";
+//        sql += " FROM (SELECT d.DEPTNUMBER,t.CREATEDEPT,decode(t.Status,'发布',t.BANCI,c.BANCI) BANCI,WMSYS.WM_CONCAT(v.NAME) DETAIL";
+//        sql += " FROM TP_PLAN t INNER JOIN V_PERSON v ON t.PLANPERSONID=v.PERSONNUMBER";
+//        sql += " INNER JOIN DEPARTMENT d ON t.CREATEDEPT=d.DEPTNAME";
+//        sql += " LEFT JOIN TP_CHANGE_LAST c ON t.ID=c.PLANID WHERE (t.STATUS='发布' or t.status='调班' or t.status='换班')";
+//
+//        sql += " AND decode(t.Status,'发布',t.DOWNMINEDATE,c.DOWNMINEDATE)=to_date('" + date + "','YYYY-MM-DD')";
+//
+//        sql += " AND v.ZWLEVEL<=4 GROUP BY d.DEPTNUMBER,t.CREATEDEPT,d.DEPTNUMBER,decode(t.Status,'发布',t.BANCI,c.BANCI)) a";
+//        sql += " GROUP BY a.CREATEDEPT,a.DEPTNUMBER) y ON x.MIANDEPT=y.DEPTNUMBER INNER JOIN VIEW_DEPARTMENT zz ON nvl(x.MIANDEPT,y.DEPTNUMBER)=zz.DEPTNUMBER ";
+//        sql += " ORDER BY zz.DLEVEL,zz.DSORT";
+
+        String sql = "SELECT nvl(a.DEPTNAME,b.DEPTNAME) DEPTNAME,a.DETAIL ZB,b.DETAIL DB";
         sql += " FROM ";
-        sql += " (SELECT t.DUTYDATE,WMSYS.WM_CONCAT(t.PNAME) DETAIL,t.MIANDEPT,d.DEPTNAME ";
-        sql += " FROM SHIFTSTABLE t INNER JOIN V_PERSON v ON t.DUTYPERSON=v.PERSONNUMBER ";
-        sql += " INNER JOIN DEPARTMENT d ON t.MIANDEPT=d.DEPTNUMBER ";
-        sql += " WHERE v.ZWLEVEL<=4";
-
-        sql += " AND t.DUTYDATE=to_date('" + date + "','YYYY-MM-DD')";
-
-        sql += " GROUP BY t.DUTYDATE,t.MIANDEPT,d.DEPTNAME ) x ";
-        sql += " FULL JOIN (SELECT a.DEPTNUMBER,a.CREATEDEPT,WMSYS.WM_CONCAT(decode(a.BANCI,'夜班',DETAIL,'')) YB,";
-        sql += " WMSYS.WM_CONCAT(decode(a.BANCI,'早班',DETAIL,'')) ZB,WMSYS.WM_CONCAT(decode(a.BANCI,'中班',DETAIL,'')) ZHB ";
-        sql += " FROM (SELECT d.DEPTNUMBER,t.CREATEDEPT,decode(t.Status,'发布',t.BANCI,c.BANCI) BANCI,WMSYS.WM_CONCAT(v.NAME) DETAIL";
-        sql += " FROM TP_PLAN t INNER JOIN V_PERSON v ON t.PLANPERSONID=v.PERSONNUMBER";
-        sql += " INNER JOIN DEPARTMENT d ON t.CREATEDEPT=d.DEPTNAME";
-        sql += " LEFT JOIN TP_CHANGE_LAST c ON t.ID=c.PLANID WHERE (t.STATUS='发布' or t.status='调班' or t.status='换班')";
-
+        sql += " (SELECT d.DEPTNUMBER,WMSYS.WM_CONCAT(t.PNAME) DETAIL,d.DEPTNAME";
+        sql += " FROM SHIFTSTABLE t";
+        sql += " INNER JOIN V_PERSON v ON t.DUTYPERSON=v.PERSONNUMBER";
+        sql += " INNER JOIN VIEW_DEPARTMENT d ON t.MIANDEPT=d.DEPTNUMBER";
+        sql += " WHERE t.DUTYDATE = to_date('" + date + "','YYYY-MM-DD') AND v.ZWLEVEL<=4";
+        sql += " GROUP BY t.DUTYDATE,d.DEPTNUMBER,d.DEPTNAME,d.DSORT ORDER BY d.DSORT";
+        sql += " ) a full join ";
+        sql += " (SELECT d.DEPTNUMBER,d.DEPTNAME,decode(t.Status,'发布',t.BANCI,c.BANCI) ";
+        sql += " BANCI,WMSYS.WM_CONCAT(v.NAME) DETAIL";
+        sql += " FROM TP_PLAN t";
+        sql += " INNER JOIN V_PERSON v ON t.PLANPERSONID=v.PERSONNUMBER";
+        sql += " INNER JOIN VIEW_DEPARTMENT d ON (t.CREATEDEPT=d.DEPTNAME AND d.DLEVEL=175)";
+        sql += " LEFT JOIN TP_CHANGE_LAST c ON t.ID=c.PLANID";
+        sql += " WHERE (t.STATUS='发布' or t.status='调班' or t.status='换班')";
         sql += " AND decode(t.Status,'发布',t.DOWNMINEDATE,c.DOWNMINEDATE)=to_date('" + date + "','YYYY-MM-DD')";
-
-        sql += " AND v.ZWLEVEL<=4 GROUP BY d.DEPTNUMBER,t.CREATEDEPT,d.DEPTNUMBER,decode(t.Status,'发布',t.BANCI,c.BANCI)) a";
-        sql += " GROUP BY a.CREATEDEPT,a.DEPTNUMBER) y ON x.MIANDEPT=y.DEPTNUMBER INNER JOIN VIEW_DEPARTMENT zz ON nvl(x.MIANDEPT,y.DEPTNUMBER)=zz.DEPTNUMBER ";
-        sql += " ORDER BY zz.DLEVEL,zz.DSORT";
+        sql += " AND decode(t.Status,'发布',t.BANCI,c.BANCI)='" + banci + "' AND v.ZWLEVEL<=4 ";
+        sql += " GROUP BY d.DEPTNAME,d.DSORT,d.DEPTNUMBER,decode(t.Status,'发布',t.BANCI,c.BANCI)";
+        sql += " ORDER BY d.DSORT";
+        sql += " ) b ON a.DEPTNUMBER=b.DEPTNUMBER";
 
         return querySql(sql);
     }

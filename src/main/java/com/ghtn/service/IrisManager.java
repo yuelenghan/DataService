@@ -12,6 +12,6 @@ import java.util.List;
  */
 public interface IrisManager extends GenericManager {
 
-    List<IrisVO> getIrisDataMysqlDataSource5(String personNumber, HttpSession session) throws ParseException;
+    List<IrisVO> getIrisDataSqlServerDataSource5(String personNumber, HttpSession session) throws ParseException;
 
 }

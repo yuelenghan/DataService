@@ -50,4 +50,23 @@ public class DepartmentManagerImpl extends GenericManagerImpl<Department, String
     public String getDeptNameOracleDataSource3(String deptNumber) {
         return departmentDao.getDeptName(deptNumber);
     }
+
+    @Override
+    public List<DepartmentVO> getChildDeptOracleDataSource3(String fDeptNumber) {
+        List<Object[]> list = departmentDao.getChildDept(fDeptNumber);
+        if (list != null && list.size() > 0) {
+            List<DepartmentVO> resultList = new ArrayList<DepartmentVO>();
+
+            for (Object[] o : list) {
+                DepartmentVO vo = new DepartmentVO();
+                vo.setDeptNumber(StringUtil.processNullStr(String.valueOf(o[0])));
+                vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[1])));
+
+                resultList.add(vo);
+            }
+
+            return resultList;
+        }
+        return null;
+    }
 }
