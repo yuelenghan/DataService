@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 
 /**
  * Created by lihe on 14/10/9.
@@ -35,6 +37,18 @@ public class YhcxController extends BaseController {
     @ResponseBody
     public JSONPObject filterPlace(@PathVariable String arg, @RequestParam String callback) {
         return new JSONPObject(callback, yhcxManager.filterPlaceOracleDataSource3(arg));
+    }
+
+    @RequestMapping("/startDate/{startDate}/endDate/{endDate}/dept/{dept}/status/{status}/pcType/{pcType}/type/{type}/place/{place}/zgType/{zgType}/level/{level}/start/{start}/limit/{limit}")
+    @ResponseBody
+    public JSONPObject getYhcxData(@PathVariable String startDate, @PathVariable String endDate,
+                                   @PathVariable String dept, @PathVariable String status,
+                                   @PathVariable Integer pcType, @PathVariable Integer type,
+                                   @PathVariable Integer place, @PathVariable String zgType,
+                                   @PathVariable Integer level,
+                                   @PathVariable Integer start, @PathVariable Integer limit,
+                                   @RequestParam String callback, HttpSession session) throws ParseException {
+        return new JSONPObject(callback, yhcxManager.getYhcxDataOracleDataSource3(startDate, endDate, dept, status, pcType, type, place, zgType, level, start, limit, session));
     }
 
 }
