@@ -68,11 +68,25 @@ public interface SummaryDao extends GenericDao {
     List<Object[]> getFswxxSummary(String startDate, String endDate, String name, Integer start, Integer limit);
 
     /**
-     * 值班带班领导
+     * 值班带班领导(公司层面)
      *
      * @return
      */
     List<Object[]> getZbdbldSummary(String date, String banci);
+
+    /**
+     * 值班领导(矿层面)
+     *
+     * @return
+     */
+    List<Object[]> getZbldSummary(String date, String dept);
+
+    /**
+     * 带班领导(矿层面)
+     *
+     * @return
+     */
+    List<Object[]> getDbldSummary(String date, String banci, String dept);
 
     /**
      * 月度隐患汇总

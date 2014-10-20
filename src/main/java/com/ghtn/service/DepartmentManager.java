@@ -3,6 +3,7 @@ package com.ghtn.service;
 import com.ghtn.model.oracle.Department;
 import com.ghtn.vo.DepartmentVO;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -16,6 +17,6 @@ public interface DepartmentManager extends GenericManager<Department, String> {
 
     String getDeptNameOracleDataSource3(String deptNumber);
 
-    List<DepartmentVO> getChildDeptOracleDataSource3(String fDeptNumber);
+    List<DepartmentVO> getChildDeptOracleDataSource3(String fDeptNumber, HttpSession session);
 
 }

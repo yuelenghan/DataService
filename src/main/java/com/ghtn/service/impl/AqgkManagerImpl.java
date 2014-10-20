@@ -42,27 +42,9 @@ public class AqgkManagerImpl extends GenericManagerImpl implements AqgkManager {
 
                     vo.setMainDeptId(StringUtil.processNullStr(String.valueOf(o[0])));
                     vo.setDeptName(StringUtil.processNullStr(String.valueOf(o[1])));
-
-                    String yhAllStr = StringUtil.processNullStr(String.valueOf(o[2]));
-                    if (yhAllStr.equals("")) {
-                        vo.setYhAll("0");
-                    } else {
-                        vo.setYhAll(yhAllStr);
-                    }
-
-                    String swAllStr = StringUtil.processNullStr(String.valueOf(o[3]));
-                    if (swAllStr.equals("")) {
-                        vo.setSwAll("0");
-                    } else {
-                        vo.setSwAll(swAllStr);
-                    }
-
-                    String gpAllStr = StringUtil.processNullStr(String.valueOf(o[4]));
-                    if (gpAllStr.equals("")) {
-                        vo.setGpAll("0");
-                    } else {
-                        vo.setGpAll(gpAllStr);
-                    }
+                    vo.setYhAll(StringUtil.processNullStr(String.valueOf(o[2])));
+                    vo.setSwAll(StringUtil.processNullStr(String.valueOf(o[3])));
+                    vo.setGpAll(StringUtil.processNullStr(String.valueOf(o[4])));
 
                     resultList.add(vo);
                 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by lihe on 14/9/26.
@@ -26,8 +27,8 @@ public class DepartmentController extends BaseController {
 
     @RequestMapping("/{deptNumber}")
     @ResponseBody
-    public JSONPObject getChildDept(@PathVariable String deptNumber, @RequestParam String callback) {
-        return new JSONPObject(callback, departmentManager.getChildDeptOracleDataSource3(deptNumber));
+    public JSONPObject getChildDept(@PathVariable String deptNumber, @RequestParam String callback, HttpSession session) {
+        return new JSONPObject(callback, departmentManager.getChildDeptOracleDataSource3(deptNumber, session));
     }
 
 }

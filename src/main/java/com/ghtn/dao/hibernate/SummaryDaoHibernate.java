@@ -213,29 +213,6 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
 
     @Override
     public List<Object[]> getZbdbldSummary(String date, String banci) {
-//        String sql = "SELECT nvl(x.DEPTNAME,y.CREATEDEPT) DEPTNAME,x.DETAIL,y.YB,y.ZB,y.ZHB ";
-//        sql += " FROM ";
-//        sql += " (SELECT t.DUTYDATE,WMSYS.WM_CONCAT(t.PNAME) DETAIL,t.MIANDEPT,d.DEPTNAME ";
-//        sql += " FROM SHIFTSTABLE t INNER JOIN V_PERSON v ON t.DUTYPERSON=v.PERSONNUMBER ";
-//        sql += " INNER JOIN DEPARTMENT d ON t.MIANDEPT=d.DEPTNUMBER ";
-//        sql += " WHERE v.ZWLEVEL<=4";
-//
-//        sql += " AND t.DUTYDATE=to_date('" + date + "','YYYY-MM-DD')";
-//
-//        sql += " GROUP BY t.DUTYDATE,t.MIANDEPT,d.DEPTNAME ) x ";
-//        sql += " FULL JOIN (SELECT a.DEPTNUMBER,a.CREATEDEPT,WMSYS.WM_CONCAT(decode(a.BANCI,'夜班',DETAIL,'')) YB,";
-//        sql += " WMSYS.WM_CONCAT(decode(a.BANCI,'早班',DETAIL,'')) ZB,WMSYS.WM_CONCAT(decode(a.BANCI,'中班',DETAIL,'')) ZHB ";
-//        sql += " FROM (SELECT d.DEPTNUMBER,t.CREATEDEPT,decode(t.Status,'发布',t.BANCI,c.BANCI) BANCI,WMSYS.WM_CONCAT(v.NAME) DETAIL";
-//        sql += " FROM TP_PLAN t INNER JOIN V_PERSON v ON t.PLANPERSONID=v.PERSONNUMBER";
-//        sql += " INNER JOIN DEPARTMENT d ON t.CREATEDEPT=d.DEPTNAME";
-//        sql += " LEFT JOIN TP_CHANGE_LAST c ON t.ID=c.PLANID WHERE (t.STATUS='发布' or t.status='调班' or t.status='换班')";
-//
-//        sql += " AND decode(t.Status,'发布',t.DOWNMINEDATE,c.DOWNMINEDATE)=to_date('" + date + "','YYYY-MM-DD')";
-//
-//        sql += " AND v.ZWLEVEL<=4 GROUP BY d.DEPTNUMBER,t.CREATEDEPT,d.DEPTNUMBER,decode(t.Status,'发布',t.BANCI,c.BANCI)) a";
-//        sql += " GROUP BY a.CREATEDEPT,a.DEPTNUMBER) y ON x.MIANDEPT=y.DEPTNUMBER INNER JOIN VIEW_DEPARTMENT zz ON nvl(x.MIANDEPT,y.DEPTNUMBER)=zz.DEPTNUMBER ";
-//        sql += " ORDER BY zz.DLEVEL,zz.DSORT";
-
         String sql = "SELECT nvl(a.DEPTNAME,b.DEPTNAME) DEPTNAME,a.DETAIL ZB,b.DETAIL DB";
         sql += " FROM ";
         sql += " (SELECT d.DEPTNUMBER,WMSYS.WM_CONCAT(t.PNAME) DETAIL,d.DEPTNAME";
@@ -258,6 +235,29 @@ public class SummaryDaoHibernate extends GenericDaoHibernate implements SummaryD
         sql += " ORDER BY d.DSORT";
         sql += " ) b ON a.DEPTNUMBER=b.DEPTNUMBER";
 
+        return querySql(sql);
+    }
+
+    @Override
+    public List<Object[]> getZbldSummary(String date, String dept) {
+        String sql = "SELECT d.DEPTNUMBER,t.PNAME DETAIL,d.DEPTNAME";
+        sql += " FROM SHIFTSTABLE t ";
+        sql += " INNER JOIN V_PERSON v ON t.DUTYPERSON=v.PERSONNUMBER";
+        sql += " INNER JOIN VIEW_DEPARTMENT d ON t.MIANDEPT=d.DEPTNUMBER";
+        sql += " WHERE t.DUTYDATE=to_date('" + date + "','YYYY-MM-DD')  and d.DEPTNUMBER='" + dept + "'";
+        return querySql(sql);
+    }
+
+    @Override
+    public List<Object[]> getDbldSummary(String date, String banci, String dept) {
+        String sql = "SELECT d.DEPTNUMBER,d.DEPTNAME,v.NAME DETAIL";
+        sql += " FROM TP_PLAN t";
+        sql += " INNER JOIN V_PERSON v ON t.PLANPERSONID=v.PERSONNUMBER";
+        sql += " INNER JOIN VIEW_DEPARTMENT d ON (t.CREATEDEPT=d.DEPTNAME AND d.DLEVEL=175)";
+        sql += " LEFT JOIN TP_CHANGE_LAST c ON t.ID=c.PLANID";
+        sql += " WHERE (t.STATUS='发布' or t.status='调班' or t.status='换班') ";
+        sql += " AND decode(t.Status,'发布',t.DOWNMINEDATE,c.DOWNMINEDATE)=to_date('" + date + "','YYYY-MM-DD')";
+        sql += " AND decode(t.Status,'发布',t.BANCI,c.BANCI)='" + banci + "'  and d.DEPTNUMBER='" + dept + "'";
         return querySql(sql);
     }
 

@@ -13,9 +13,9 @@ public class AqgkDaoHibernate extends GenericDaoHibernate implements AqgkDao {
 
     @Override
     public List<Object[]> getAqgk(String startDate, String endDate) {
-        String sql = "select t1.maindeptid, d.deptname, t1.yhall, t2.swall, t3.gpall from";
+        String sql = "select t1.maindeptid, d.deptname, nvl(t1.yhall, 0) yhall, nvl(t2.swall, 0) swall, nvl(t3.gpall, 0) gpall from";
         sql += " (SELECT ny.MAINDEPTID, COUNT (ny.YHPUTINID) YHALL";
-        sql += " FROM GETYHINPUT ny";
+        sql += " FROM NYHINPUT ny";
         sql += " WHERE ny.PCTIME between TO_DATE ('" + startDate + "', 'YYYY-MM-DD')";
         sql += " and to_date('" + endDate + "','YYYY-MM-DD')";
         sql += " AND ny.STATUS NOT IN ('新增', '作废', '提交审批')";

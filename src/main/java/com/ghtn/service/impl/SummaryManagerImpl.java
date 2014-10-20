@@ -208,8 +208,11 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
     }
 
     @Override
-    public List<ZbdbldSummaryVO> getZbdbldSummaryOracleDataSource3(String date) throws ParseException {
-        String banci = getBanciOracleDataSource3();
+    public List<ZbdbldSummaryVO> getZbdbldSummaryOracleDataSource3(String date, String banci) throws ParseException {
+        // 如果前台传进来的banci为null, 从数据库取得当前时间所属的班次
+        if (StringUtil.isNullStr(banci)) {
+            banci = getBanciOracleDataSource3();
+        }
 
         // 如果banci为空，默认为中班
         if (StringUtil.isNullStr(banci)) {
@@ -241,6 +244,47 @@ public class SummaryManagerImpl extends GenericManagerImpl implements SummaryMan
         }
 
         return null;
+    }
+
+    @Override
+    public Map<String, List<String>> getZbdbldSummaryOracleDataSource3(String date, String dept, String banci) throws ParseException {
+        // 如果前台传进来的banci为null, 从数据库取得当前时间所属的班次
+        if (StringUtil.isNullStr(banci)) {
+            banci = getBanciOracleDataSource3();
+        }
+
+        // 如果banci为空，默认为中班
+        if (StringUtil.isNullStr(banci)) {
+            banci = "中班";
+        }
+
+        // 如果date为空，默认为当前日期
+        if (StringUtil.isNullStr(date)) {
+            date = DateUtil.dateToString(new Date(), "yyyy-MM-dd");
+        }
+
+        List<Object[]> zbList = summaryDao.getZbldSummary(date, dept);
+        List<Object[]> dbList = summaryDao.getDbldSummary(date, banci, dept);
+
+        List<String> zbResultList = new ArrayList<>();
+        List<String> dbResultList = new ArrayList<>();
+        if (zbList != null && zbList.size() > 0) {
+            for (Object[] o : zbList) {
+                zbResultList.add(StringUtil.processNullStr(String.valueOf(o[1])));
+            }
+        }
+
+        if (dbList != null && dbList.size() > 0) {
+            for (Object[] o : dbList) {
+                dbResultList.add(StringUtil.processNullStr(String.valueOf(o[2])));
+            }
+        }
+
+        Map<String, List<String>> resultMap = new HashMap<>();
+        resultMap.put("zb", zbResultList);
+        resultMap.put("db", dbResultList);
+
+        return resultMap;
     }
 
     @Override
